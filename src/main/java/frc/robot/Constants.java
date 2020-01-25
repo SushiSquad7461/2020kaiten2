@@ -66,6 +66,4 @@ public final class Constants {
 		public static final double maxSpeed = 1; 
 	}
 
-	// controllers
-
 }
