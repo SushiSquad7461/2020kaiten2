@@ -18,8 +18,29 @@ public final class Constants {
 		public static final int BR_ID = 4;
 		public static final int BL_ID = 8;
 
-		// configuration
+		// encoders
+		public static final int ENCODER_LEFT_A = 11;
+		public static final int ENCODER_LEFT_B = 12;
+		public static final int ENCODER_RIGHT_A = 13;
+		public static final int ENCODER_RIGHT_B = 14;
+
+		// open loop configuration
 		public static final int	CURRENT_LIMIT = 40;
+
+		// pid constants
+		public static final double LEFT_kP = 0;
+		public static final double LEFT_kI = 0;
+		public static final double LEFT_kD = 0;
+
+		public static final double RIGHT_kP = 0;
+		public static final double RIGHT_kI = 0;
+		public static final double RIGHT_kD = 0;
+
+		// closed loop constants
+		public static final double wheelRadius = 0;
+		public static final double trackWidth = 0;
+
+		public static final double encoderResolution = 0;
 
 	}
 

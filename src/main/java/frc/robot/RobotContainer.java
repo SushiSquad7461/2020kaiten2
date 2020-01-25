@@ -33,7 +33,7 @@ public class RobotContainer {
     s_intake = new Intake();
     configureButtonBindings();
 
-    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.curveDrive(
+    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.closedCurveDrive(
             OI.getTriggerOutput(driveController),
             OI.getLeftJoystickAxis(driveController),
             driveController.getXButton()), s_drive)
