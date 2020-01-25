@@ -33,7 +33,7 @@ public final class Constants {
 		// encoders
 		public static final int ENCODER_A = 1234;
 		public static final int ENCODER_B = 4321;
-		public static final boolean reverseEncoder = false;
+		public static final boolean ENCODER_REVERSE_DIRECTION = false;
 
 		// flywheel speed (rotations per minute)
 		public static final double SPEED = 60;
