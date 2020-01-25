@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="LibCu-java-2020.2.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../Public/wpilib/2020/maven/com/cuforge/libcu/LibCu-java/2020.2.1/LibCu-java-2020.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
