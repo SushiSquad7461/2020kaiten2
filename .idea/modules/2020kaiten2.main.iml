@@ -27,5 +27,6 @@
     <orderEntry type="library" name="Gradle: org.ejml:ejml-zdense:0.38" level="project" />
     <orderEntry type="library" name="Gradle: org.ejml:ejml-core:0.38" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" level="project" />
+    <orderEntry type="library" name="SparkMax-java-1.5.1" level="project" />
   </component>
 </module>

@@ -61,6 +61,4 @@ public final class Constants {
 
 	}
 
-	// controllers
-
 }
