@@ -10,8 +10,6 @@ package frc.robot.subsystems.superstructure;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -55,12 +53,6 @@ public class Flywheel extends PIDSubsystem {
     Constants.Flywheel.ENCODER_B, Constants.Flywheel.ENCODER_REVERSE_DIRECTION);
   }
 
-  public void shoot() {
-    // Set the flywheel's speed using the talon's built in PID controller
-    // It requires it to be in ticks per 100 milliseconds
-    flywheelMain.set(ControlMode.Velocity, Constants.Flywheel.SPEED * Constants.Flywheel.TICKS_PER_ROTATION
-       * Constants.Flywheel.SETPOINT_CONSTANT);
-  }
 
   public void stop() {
     flywheelMain.set(ControlMode.Velocity, 0);
@@ -82,6 +74,11 @@ public class Flywheel extends PIDSubsystem {
   @Override
   protected double getMeasurement() {
     return encoderMain.getRate();
+  }
+
+  @Override
+  public void enable() {
+    
   }
 
 }

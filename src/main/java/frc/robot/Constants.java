@@ -61,6 +61,8 @@ public final class Constants {
 
 	}
 
-	// controllers
+	public static final int DRIVE_CONTROLLER_PORT = 0;
+	public static final int OPERATOR_CONTROLLER_PORT = 1;
+
 
 }
