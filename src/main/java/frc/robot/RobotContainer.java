@@ -24,8 +24,8 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
    
   // create joysticks
-  public static final XboxController driveController = new XboxController(Constants.DRIVE_CONTROLLER_PORT);
-  public static final XboxController operatorController = new XboxController(Constants.OPERATOR_CONTROLLER_PORT);
+  public static final XboxController driveController = new XboxController(OI.DRIVE_CONTROLLER);
+  public static final XboxController operatorController = new XboxController(OI.OPERATOR_CONTROLLER);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -33,10 +33,12 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
+
     // flywheel
     new JoystickButton(operatorController, XboxController.Button.kX.value)
-      .whenPressed(new InstantCommand(() -> s_flywheel.enable()))
-      .whenReleased(new InstantCommand(() -> s_flywheel.disable()));
+      .whenPressed(new InstantCommand(s_flywheel::enable))
+      .whenReleased(new InstantCommand(s_flywheel::disable));
+
   }
 
   public Command getAutonomousCommand() {

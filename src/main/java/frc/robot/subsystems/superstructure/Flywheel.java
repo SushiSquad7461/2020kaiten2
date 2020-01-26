@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.Constants;
@@ -23,62 +24,63 @@ import frc.robot.Constants;
 
 public class Flywheel extends PIDSubsystem {
 
-  // define variables
-  private final TalonSRX flywheelMain;
-  private final VictorSPX flywheelSecondary;
-  private final SimpleMotorFeedforward m_MotorFeedforward;
-  private Encoder encoderMain;
+	// define variables
+	private final TalonSRX flywheelMain;
+	private final VictorSPX flywheelSecondary;
+	private final SimpleMotorFeedforward flywheelFeedforward;
+	private Encoder encoderMain;
 
-  public Flywheel() {
-    super(new PIDController(Constants.Flywheel.kP, Constants.Flywheel.kI, Constants.Flywheel.kD));
+	public Flywheel() {
+		super(new PIDController(Constants.Flywheel.kP, Constants.Flywheel.kI, Constants.Flywheel.kD));
 
-    // instantiate motors
-    flywheelMain = new TalonSRX(Constants.Flywheel.MAIN_ID);
-    flywheelSecondary = new VictorSPX(Constants.Flywheel.SECONDARY_ID);
+		// instantiate motors
+		flywheelMain = new TalonSRX(Constants.Flywheel.MAIN_ID);
+		flywheelSecondary = new VictorSPX(Constants.Flywheel.SECONDARY_ID);
 
-    flywheelMain.configFactoryDefault();
+		flywheelMain.configFactoryDefault();
 
-    m_MotorFeedforward = new SimpleMotorFeedforward(Constants.Flywheel.kS, Constants.Flywheel.kV,
-        Constants.Flywheel.kA);
-    /* Config the peak and nominal outputs ([-1, 1] represents [-100, 100]%) */
-    flywheelMain.configNominalOutputForward(0, Constants.Flywheel.CONFIG_TIMEOUT);
-    flywheelMain.configNominalOutputReverse(0, Constants.Flywheel.CONFIG_TIMEOUT);
-    flywheelMain.configPeakOutputForward(1, Constants.Flywheel.CONFIG_TIMEOUT);
-    flywheelMain.configPeakOutputReverse(-1, Constants.Flywheel.CONFIG_TIMEOUT);
+		flywheelFeedforward = new SimpleMotorFeedforward(
+				Constants.Flywheel.kS,
+				Constants.Flywheel.kV,
+				Constants.Flywheel.kA
+		);
 
-    flywheelSecondary.follow(flywheelMain);
+		// config the peak and nominal outputs ([-1, 1] represents [-100, 100]%)
+		flywheelMain.configNominalOutputForward(0, Constants.Flywheel.CONFIG_TIMEOUT);
+		flywheelMain.configNominalOutputReverse(0, Constants.Flywheel.CONFIG_TIMEOUT);
+		flywheelMain.configPeakOutputForward(1, Constants.Flywheel.CONFIG_TIMEOUT);
+		flywheelMain.configPeakOutputReverse(-1, Constants.Flywheel.CONFIG_TIMEOUT);
 
-    // encoder takes 2 ports
-    encoderMain = new Encoder(Constants.Flywheel.ENCODER_A,
-    Constants.Flywheel.ENCODER_B, Constants.Flywheel.ENCODER_REVERSE_DIRECTION);
-  }
+		flywheelSecondary.follow(flywheelMain);
 
+		// encoder takes 2 ports
+		encoderMain = new Encoder(
+				Constants.Flywheel.ENCODER_A,
+				Constants.Flywheel.ENCODER_B,
+				Constants.Flywheel.ENCODER_REVERSE_DIRECTION
+		);
+	}
 
-  public void stop() {
-    flywheelMain.set(ControlMode.Velocity, 0);
-  }
+	public void stop() {
+		flywheelMain.set(ControlMode.Velocity, 0);
+	}
 
-  @Override
-  public void periodic() {
-    // the first number here is a 0 for position tolerance, we want
-    // it to be zero
-    this.getController().setTolerance(0, Constants.Flywheel.ERROR_TOLERANCE);
-    this.setSetpoint(Constants.Flywheel.SPEED);
-  }
+	@Override
+	public void periodic() {
+		// the first number here is a 0 for position tolerance, we want
+		// it to be zero
+		this.getController().setTolerance(0, Constants.Flywheel.ERROR_TOLERANCE);
+		this.setSetpoint(Constants.Flywheel.SPEED);
+	}
 
-  @Override
-  protected void useOutput(double output, double setpoint) {
-    flywheelMain.set(ControlMode.PercentOutput, output + m_MotorFeedforward.calculate(setpoint));
-  }
+	@Override
+	protected void useOutput(double output, double setpoint) {
+		flywheelMain.set(ControlMode.PercentOutput, output + flywheelFeedforward.calculate(setpoint));
+	}
 
-  @Override
-  protected double getMeasurement() {
-    return encoderMain.getRate();
-  }
-
-  @Override
-  public void enable() {
-    
-  }
+	@Override
+	protected double getMeasurement() {
+		return encoderMain.getRate();
+	}
 
 }

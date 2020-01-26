@@ -46,6 +46,7 @@ public final class Constants {
 		public static final double kP = 0;
 		public static final double kI = 0;
 		public static final double kD = 0;
+
 		public static final double kS = 0;
 		public static final double kV = 0;
 		public static final double kA = 0;
@@ -60,9 +61,5 @@ public final class Constants {
 	public static final class Camera {
 
 	}
-
-	public static final int DRIVE_CONTROLLER_PORT = 0;
-	public static final int OPERATOR_CONTROLLER_PORT = 1;
-
 
 }
