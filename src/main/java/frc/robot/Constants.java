@@ -56,6 +56,32 @@ public final class Constants {
 
 	}
 
+	// ramsete
+	public static final class RamseteConstants {
+
+		// ramsete constants
+		public static final double RAMSETE_B = 2;
+		public static final double RAMSETE_ZETA = 0.7;
+
+		public static final double kP_VEL = 42.0;
+
+		public static final double MAX_VOLTAGE_CONSTRAINT = 40;
+
+		// drivetrain constants
+
+		// kS in volts, kV in volts * seconds/meters, kA in volts * seconds^2/meters
+		public static final double kS = 0;
+		public static final double kV = 0;
+		public static final double kA = 0;
+
+		public static final double MAX_METERS_PER_SECOND = 69.69;
+		public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 420.420;
+
+		public static final double TRACK_WIDTH = 0.0;
+		public static final double WHEEL_RADIUS = 0.0;
+
+	}
+
 	// camera
 	public static final class Camera {
 
