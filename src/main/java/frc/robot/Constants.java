@@ -62,7 +62,8 @@ public final class Constants {
 	}
 	// intake
 	public static final class Intake {
-		public static final	double intakeMotor = 0;
+		public static final int intakeMotor = 0;
+		public static final double maxSpeed = 1; 
 	}
 
 	// controllers

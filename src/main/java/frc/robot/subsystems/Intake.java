@@ -10,22 +10,33 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.Constants;
-public class Intake extends SubsystemBase {
-  /**
-   * Creates a new ExampleSubsystem.
-   */
-  private final WPI_VictorSPX intakeMotor;
-  public Intake() {
-    //instantiate motor controllers
-  intakeMotor = new WPI_VictorSPX(Constants.intake);
 
-    //safety
+
+
+public class Intake extends SubsystemBase {
+   
+    //define variables 
+  private final WPI_VictorSPX intakeMotor;
+    
+  //constructor
+  public Intake() {
+    
+  //instantiate motor controllers
+  intakeMotor = new WPI_VictorSPX(Constants.Intake.intakeMotor);
+
+  
+  //safety
   intakeMotor.setSafetyEnabled(false);
 
   }
-  public startEat(){
-    intakeMotor.set(Constants.)
+
+  public void startEat(){
+    intakeMotor.set(Constants.Intake.maxSpeed);
   }
+  public void stopEat(){
+    intakeMotor.set(0);   
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

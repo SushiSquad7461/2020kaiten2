@@ -7,24 +7,38 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.*;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 
 public class RobotContainer {
 
-  // define subsystems and commands
+  // define subsystems 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  public static Intake s_intake;
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  // create commands
+  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem); 
+
+  //create joysticks
+  public static final XboxController driveController = new XboxController(5);
+  public static final XboxController operatorController = new XboxController(5);
+  
 
   public RobotContainer() {
+    s_intake = new Intake();
     configureButtonBindings();
   }
+  
 
   private void configureButtonBindings() {
+    new JoystickButton(driveController, XboxController.Button.kA.value)
+        .whenPressed(s_intake::startEat)
+        .whenReleased(s_intake::stopEat); 
   }
 
   public Command getAutonomousCommand() {
