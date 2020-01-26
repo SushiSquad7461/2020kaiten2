@@ -32,7 +32,7 @@ public class Ramsete extends CommandBase {
     s_drivetrain = subsystem;
   }
 
-  // sets voltage constraint so you dont over accelerate
+  // sets voltage constraint so you don't over accelerate
   DifferentialDriveVoltageConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
           new SimpleMotorFeedforward(RamseteConstants.kS,
           RamseteConstants.kV, RamseteConstants.kA), Drivetrain.driveKinematics,
@@ -42,23 +42,23 @@ public class Ramsete extends CommandBase {
   TrajectoryConfig config =
           new TrajectoryConfig(RamseteConstants.MAX_METERS_PER_SECOND,
                   RamseteConstants.MAX_ACCEL_METERS_PER_SECOND_SQUARED)
-                  // Add kinematics to ensure max speed is actually obeyed
+                  // add kinematics to ensure max speed is actually obeyed
                   .setKinematics(Drivetrain.driveKinematics)
-                  // Apply the voltage constraint
+                  // apply the voltage constraint
                   .addConstraint(voltageConstraint);
 
   // creates a new trajectory
   Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-          // Start at the origin facing the +X direction
+          // start at the origin facing the +X direction
           new Pose2d(0, 0, new Rotation2d(0)),
-          // Pass through these two interior waypoints, making an 's' curve path
+          // pass through these two interior waypoints, making an 's' curve path
           List.of(
                   new Translation2d(1, 1),
                   new Translation2d(2, -1)
           ),
-          // End 3 meters straight ahead of where we started, facing forward
+          // end 3 meters straight ahead of where we started, facing forward
           new Pose2d(3, 0, new Rotation2d(0)),
-          // Pass config
+          // pass config
           config
   );
 
