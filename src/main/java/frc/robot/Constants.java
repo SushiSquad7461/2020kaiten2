@@ -60,6 +60,10 @@ public final class Constants {
 	public static final class Camera {
 
 	}
+	// intake
+	public static final class Intake {
+		public static final	double intakeMotor = 0;
+	}
 
 	// controllers
 
