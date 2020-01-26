@@ -37,7 +37,7 @@ public class Drivetrain extends SubsystemBase {
 	private DifferentialDrive differentialDrive;
 	private DifferentialDriveKinematics driveKinematics;
 	private DifferentialDriveOdometry driveOdometry;
-	private SimpleMotorFeedforward driveFeedforward;
+	private SimpleMotorFeedforward leftFeedforward, rightFeedforward;
 	private PIDController leftController, rightController;
 
 	public Drivetrain() {
@@ -67,6 +67,9 @@ public class Drivetrain extends SubsystemBase {
 		differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 		driveKinematics = new DifferentialDriveKinematics(Constants.Drivetrain.trackWidth);
 		driveOdometry = new DifferentialDriveOdometry(getAngle());
+
+		leftFeedforward = new SimpleMotorFeedforward(Constants.Drivetrain.LEFT_kS, Constants.Drivetrain.LEFT_kV, Constants.Drivetrain.LEFT_kA);
+		rightFeedforward = new SimpleMotorFeedforward(Constants.Drivetrain.RIGHT_kS, Constants.Drivetrain.RIGHT_kV, Constants.Drivetrain.RIGHT_kA);
 
 		leftController = new PIDController(Constants.Drivetrain.LEFT_kP, Constants.Drivetrain.LEFT_kI, Constants.Drivetrain.LEFT_kD);
 		rightController = new PIDController(Constants.Drivetrain.RIGHT_kP, Constants.Drivetrain.RIGHT_kI, Constants.Drivetrain.RIGHT_kD);
@@ -98,20 +101,20 @@ public class Drivetrain extends SubsystemBase {
 		ChassisSpeeds chassisSpeeds;
 		DifferentialDriveWheelSpeeds wheelSpeeds;
 		double leftOutput, rightOutput;
-		double leftFeedforward, rightFeedforward;
+		double leftFeedforwardOutput, rightFeedforwardOutput;
 
 		if (!isQuickTurn) {
 			chassisSpeeds = new ChassisSpeeds(linearVelocity, 0, angularVelocity);
 			wheelSpeeds = driveKinematics.toWheelSpeeds(chassisSpeeds);
 
-			leftFeedforward = driveFeedforward.calculate(wheelSpeeds.leftMetersPerSecond);
-			rightFeedforward = driveFeedforward.calculate(wheelSpeeds.rightMetersPerSecond);
+			leftFeedforwardOutput = leftFeedforward.calculate(wheelSpeeds.leftMetersPerSecond);
+			rightFeedforwardOutput = rightFeedforward.calculate(wheelSpeeds.rightMetersPerSecond);
 
 			leftOutput = leftController.calculate(leftEncoder.getRate(), wheelSpeeds.leftMetersPerSecond);
 			rightOutput = rightController.calculate(rightEncoder.getRate(), wheelSpeeds.rightMetersPerSecond);
 
-			frontLeft.set(leftOutput + leftFeedforward);
-			frontRight.set(rightOutput + rightFeedforward);
+			frontLeft.set(leftOutput + leftFeedforwardOutput);
+			frontRight.set(rightOutput + rightFeedforwardOutput);
 		} else {
 			leftOutput = angularVelocity;
 			rightOutput = -angularVelocity;

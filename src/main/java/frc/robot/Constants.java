@@ -32,9 +32,18 @@ public final class Constants {
 		public static final double LEFT_kI = 0;
 		public static final double LEFT_kD = 0;
 
+		public static final double LEFT_kS = 0;
+		public static final double LEFT_kV = 0;
+		public static final double LEFT_kA = 0;
+
 		public static final double RIGHT_kP = 0;
 		public static final double RIGHT_kI = 0;
 		public static final double RIGHT_kD = 0;
+
+		public static final double RIGHT_kS = 0;
+		public static final double RIGHT_kV = 0;
+		public static final double RIGHT_kA = 0;
+
 
 		// closed loop constants
 		public static final double wheelRadius = 0;
