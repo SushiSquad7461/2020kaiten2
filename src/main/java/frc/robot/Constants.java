@@ -58,7 +58,14 @@ public final class Constants {
 
 	// camera
 	public static final class Camera {
+		//camera constants for connecting to camera
+		public static final int CAMERA1 = 0;
+        public static final int CAMERA2 = 1;
 
+        public static final int CAMERA1_RES_X = 640;
+        public static final int CAMERA1_RES_Y = 480;
+        public static final int CAMERA2_RES_X = 640;
+        public static final int CAMERA2_RES_Y = 480;
 	}
 
 	// controllers
