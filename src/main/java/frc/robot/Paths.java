@@ -6,18 +6,12 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import frc.robot.commands.Ramsete;
 
 import java.util.List;
 
 public class Paths {
-	public static Drivetrain s_drive;
-	public static Ramsete ramsete;
 
-	public Paths() {
-		s_drive = new Drivetrain();
-		ramsete = new Ramsete(s_drive);
-	}
+	public Paths() {  }
 
 	public static Trajectory[] Example() {
 		// configures trajectories
@@ -25,9 +19,9 @@ public class Paths {
 				new TrajectoryConfig(Constants.RamseteConstants.MAX_METERS_PER_SECOND,
 						Constants.RamseteConstants.MAX_ACCEL_METERS_PER_SECOND_SQUARED)
 						// Add kinematics to ensure max speed is actually obeyed
-						.setKinematics(s_drive.driveKinematics)
+						.setKinematics(RobotContainer.s_drive.driveKinematics)
 						// Apply the voltage constraint
-						.addConstraint(ramsete.voltageConstraint);
+						.addConstraint(RamseteCommands.voltageConstraint);
 
 		// creates a new trajectory
 		Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
