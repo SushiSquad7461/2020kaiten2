@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
@@ -28,22 +27,19 @@ public class Climb extends ProfiledPIDSubsystem {
   private double lastError;
   private double error;
   private double diffError;
-  ProfiledPIDController controller;
   private final ElevatorFeedforward climbArmFeedForward;
 
   // constructor
   public Climb()  {
     super(new ProfiledPIDController(ClimbConstants.ARM_kP, ClimbConstants.ARM_kI, ClimbConstants.ARM_kD,
-            new TrapezoidProfile.Constraints(ClimbConstants.MAX_VELOCITY_RAD_PER_SEC, ClimbConstants.MAX_ACCEL)), 0);
-    controller = new ProfiledPIDController(ClimbConstants.ARM_kP, ClimbConstants.ARM_kI, ClimbConstants.ARM_kD,
-            new TrapezoidProfile.Constraints(ClimbConstants.MAX_VELOCITY_RAD_PER_SEC, ClimbConstants.MAX_ACCEL));
+            new TrapezoidProfile.Constraints(ClimbConstants.MAX_VELOCITY_RAD_PER_SEC, ClimbConstants.MAX_ACCEL)), ClimbConstants.ARM_OFFSET);
     // define the motor controllers
     deployTalon = new WPI_TalonSRX(ClimbConstants.DEPLOY_TALON);
     deployVictor = new WPI_VictorSPX(ClimbConstants.DEPLOY_VICTOR);
     winchTalon = new WPI_TalonSRX(ClimbConstants.WINCH_TALON);
     winchVictor = new WPI_VictorSPX(ClimbConstants.WINCH_VICTOR);
 
-    // set victors to follow talons
+    // set victors to follow talonsx
     deployVictor.follow(deployTalon);
     winchVictor.follow(winchTalon);
 
@@ -60,8 +56,6 @@ public class Climb extends ProfiledPIDSubsystem {
     lastError = 0;
     error = 0;
     diffError = 0;
-
-    goToSetpoint(ClimbConstants.ARM_OFFSET);
   }
 
   /* Basic PID loop
@@ -82,9 +76,9 @@ public class Climb extends ProfiledPIDSubsystem {
 
   // theoretically the way to apply the ProfiledPIDController
   public void goToSetpoint(double goalPose) {
-    double calculateChange = controller.calculate(climbArmEncoder.getDistance(), goalPose);
-    double climbFF = climbArmFeedForward.calculate(controller.getSetpoint().position,
-            controller.getSetpoint().velocity);
+    double calculateChange = m_controller.calculate(climbArmEncoder.getDistance(), goalPose);
+    double climbFF = climbArmFeedForward.calculate(m_controller.getSetpoint().position,
+            m_controller.getSetpoint().velocity);
     deployTalon.setVoltage(calculateChange + climbFF);
   }
 
