@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
 import frc.robot.commands.ExampleCommand;
@@ -36,9 +37,11 @@ public class RobotContainer {
   
 
   private void configureButtonBindings() {
+
     new JoystickButton(driveController, XboxController.Button.kA.value)
-        .whenPressed(s_intake::startEat)
-        .whenReleased(s_intake::stopEat); 
+        .whenPressed(new RunCommand(s_intake::startVore))
+        .whenReleased(new RunCommand(s_intake::stopVore));
+
   }
 
   public Command getAutonomousCommand() {
