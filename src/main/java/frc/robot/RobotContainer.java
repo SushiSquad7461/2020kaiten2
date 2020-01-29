@@ -7,6 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -14,7 +19,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 public class RobotContainer {
 	// define subsystems and commands
 	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-	public static final Drivetrain s_drive = new Drivetrain();
+	static Drivetrain s_drive = new Drivetrain();
 
 	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
