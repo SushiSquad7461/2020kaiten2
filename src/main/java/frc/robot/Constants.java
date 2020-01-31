@@ -60,6 +60,7 @@ public final class Constants {
 	public static final class Camera {
 
 	}
+
 	// intake
 	public static final class Intake {
 		public static final int MOTOR_ID = 0;
