@@ -10,19 +10,22 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import java.util.List;
 
 public class Paths {
+	private static RamseteCommands ramsete;
+	private static TrajectoryConfig config;
 
-	public Paths() {  }
-
-	public static Trajectory[] Example() {
+	public Paths() {
+		ramsete = new RamseteCommands();
 		// configures trajectories
-		TrajectoryConfig config =
+		config =
 				new TrajectoryConfig(Constants.RamseteConstants.MAX_METERS_PER_SECOND,
 						Constants.RamseteConstants.MAX_ACCEL_METERS_PER_SECOND_SQUARED)
 						// Add kinematics to ensure max speed is actually obeyed
 						.setKinematics(RobotContainer.s_drive.driveKinematics)
 						// Apply the voltage constraint
-						.addConstraint(RamseteCommands.voltageConstraint);
+						.addConstraint(ramsete.getVoltageConstraint());
+	}
 
+	public static Trajectory[] Example() {
 		// creates a new trajectory
 		Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
 				// Start at the origin facing the +X direction
@@ -40,4 +43,77 @@ public class Paths {
 		Trajectory[] finalPath = { exampleTrajectory };
 		return finalPath;
 	}
+
+	public static Trajectory[] Offensive1() {
+
+		// insert a trajectory here (demonstrated in below webpage):
+		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
+
+		Trajectory[] finalPath = { };
+		return finalPath;
+	}
+
+	public static Trajectory[] Offensive2() {
+
+		// insert a trajectory here (demonstrated in below webpage):
+		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
+
+		Trajectory[] finalPath = { };
+		return finalPath;
+	}
+
+	public static Trajectory[] Defensive1() {
+
+		// insert a trajectory here (demonstrated in below webpage):
+		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
+
+		Trajectory[] finalPath = { };
+		return finalPath;
+	}
+
+	public static Trajectory[] Defensive2() {
+
+		// insert a trajectory here (demonstrated in below webpage):
+		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
+
+		Trajectory[] finalPath = { };
+		return finalPath;
+	}
+
+	public static Trajectory[] Defensive3() {
+
+		// insert a trajectory here (demonstrated in below webpage):
+		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
+
+		Trajectory[] finalPath = { };
+		return finalPath;
+	}
+
+	public static Trajectory[] Defensive4() {
+
+		// insert a trajectory here (demonstrated in below webpage):
+		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
+
+		Trajectory[] finalPath = { };
+		return finalPath;
+	}
+
+	public static Trajectory[] PsuedoDefensive1() {
+
+		// insert a trajectory here (demonstrated in below webpage):
+		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
+
+		Trajectory[] finalPath = { };
+		return finalPath;
+	}
+
+	public static Trajectory[] PsuedoDefensive2() {
+
+		// insert a trajectory here (demonstrated in below webpage):
+		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
+
+		Trajectory[] finalPath = { };
+		return finalPath;
+	}
+
 }

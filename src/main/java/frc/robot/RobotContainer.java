@@ -31,6 +31,6 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		return RamseteCommands.ExamplePath.fullPath();
+		return RamseteCommands.ExamplePath.fullAutoSequence();
 	}
 }

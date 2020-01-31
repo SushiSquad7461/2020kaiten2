@@ -19,16 +19,21 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  public Paths paths;
   private RobotContainer m_robotContainer;
   SendableChooser<SequentialCommandGroup> autoChooser = new SendableChooser<>();
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    paths = new Paths();
-    autoChooser.setDefaultOption("Example path", RamseteCommands.ExamplePath.fullPath());
-    autoChooser.addOption("Offensive 1", RamseteCommands.ExamplePath.fullPath());
+    autoChooser.setDefaultOption("Example path", RamseteCommands.ExamplePath.fullAutoSequence());
+    autoChooser.addOption("o, s8, mTr, 8b", RamseteCommands.Offensive1.fullAutoSequence());
+    autoChooser.addOption("o, s8, mM, 8b", RamseteCommands.Offensive2.fullAutoSequence());
+    autoChooser.addOption("d, s0, oTr/M, 13b", RamseteCommands.Defensive1.fullAutoSequence());
+    autoChooser.addOption("d, s5, oTr, 8b", RamseteCommands.Defensive2.fullAutoSequence());
+    autoChooser.addOption("d, s5, mTr, 8b", RamseteCommands.Defensive3.fullAutoSequence());
+    autoChooser.addOption("d, s5, oM, 8b", RamseteCommands.Defensive4.fullAutoSequence());
+    autoChooser.addOption("pd, s8, oM, 8b", RamseteCommands.PsuedoDefensive1.fullAutoSequence());
+    autoChooser.addOption("pd, s8, oTr, 8b", RamseteCommands.PsuedoDefensive2.fullAutoSequence());
     SmartDashboard.putData("Auto path", autoChooser);
   }
 
