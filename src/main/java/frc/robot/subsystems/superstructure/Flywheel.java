@@ -12,11 +12,13 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 /*
    this will be re-written for the 4th time I'm calling it right now
@@ -71,6 +73,8 @@ public class Flywheel extends PIDSubsystem {
 		// it to be zero
 		this.getController().setTolerance(0, Constants.Flywheel.ERROR_TOLERANCE);
 		this.setSetpoint(Constants.Flywheel.SPEED);
+
+		RobotContainer.operatorController.setRumble(GenericHID.RumbleType.kRightRumble, Math.pow(encoderMain.getRate(), 3));
 	}
 
 	@Override
