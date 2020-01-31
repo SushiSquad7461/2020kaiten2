@@ -56,6 +56,14 @@ public final class Constants {
 
 	}
 
+	// hopper
+	public static final class Hopper {
+		public static final int FAST_ID = 20;
+		public static final int SLOW_ID = 21;
+
+		public static final double MAX_SPEED = 1;
+	}
+
 	// camera
 	public static final class Camera {
 
