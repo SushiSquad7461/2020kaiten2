@@ -38,9 +38,12 @@ public class RobotContainer {
             .whenReleased(s_climb::stopDeployClimbArm);
     new JoystickButton(operatorController, XboxController.Button.kB.value).whenPressed(s_climb::startWinch)
             .whenReleased(s_climb::stopWinch);
-    new JoystickButton(operatorController, operatorController.getPOV(0)).whenPressed(() -> s_climb.calculateInput(5));
-    new JoystickButton(operatorController, operatorController.getPOV(90)).whenPressed(() -> s_climb.calculateInput(4));
-    new JoystickButton(operatorController, operatorController.getPOV(270)).whenPressed(() -> s_climb.calculateInput(3));
+    new JoystickButton(operatorController, operatorController.getPOV(0))
+            .whenPressed(() -> s_climb.calculateInput(Constants.ClimbConstants.MAX_HEIGHT));
+    new JoystickButton(operatorController, operatorController.getPOV(90))
+            .whenPressed(() -> s_climb.calculateInput(Constants.ClimbConstants.MID_HEIGHT));
+    new JoystickButton(operatorController, operatorController.getPOV(270))
+            .whenPressed(() -> s_climb.calculateInput(Constants.ClimbConstants.MIN_HEIGHT));
     new JoystickButton(operatorController, operatorController.getPOV(180)).whenPressed(s_climb::dropElevator);
   }
 

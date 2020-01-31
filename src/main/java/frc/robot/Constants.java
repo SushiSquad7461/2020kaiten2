@@ -91,7 +91,7 @@ public final class Constants {
 		public static final double DISTANCE_PER_PULSE = (2.0 * Math.PI) / PULSES_PER_ROTATION;
 
 		// starting arm position (need to set)
-		public static final double ARM_OFFSET = 0;
+		public static final double BASE_POSE = 0;
 
 		// feedforward constants; kS = volts; kV = volts * sec / radians; kA = volts * sec^2 / radians
 		// (need to characterize)
@@ -99,10 +99,13 @@ public final class Constants {
 		public static final double kV = 0.0;
 		public static final double kA = 0.0;
 
-		// climb arm lengths (please tell me when we know these things)
-		public static final double CLIMB_ARM_LENGTH_1 = 69;
-		public static final double CLIMB_ARM_LENGTH_2 = 420;
+		// elevator linear speed in inches (please tell me when we know these things)
 		public static final double CLIMB_ELEVATOR_DISTANCE_PER_ROTATION = 0;
+
+		// climb heights
+		public static final double MAX_HEIGHT = 78.875;
+		public static final double MID_HEIGHT = 66.0;
+		public static final double MIN_HEIGHT = 50.25;
 
 	}
 

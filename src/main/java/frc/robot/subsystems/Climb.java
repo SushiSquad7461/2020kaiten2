@@ -24,22 +24,19 @@ public class Climb extends ProfiledPIDSubsystem {
   private final WPI_VictorSPX deployVictor;
   private final WPI_VictorSPX winchVictor;
   private final Encoder climbArmEncoder;
-  private double lastError;
-  private double error;
-  private double diffError;
   private final ElevatorFeedforward climbArmFeedForward;
 
   // constructor
   public Climb()  {
     super(new ProfiledPIDController(ClimbConstants.ARM_kP, ClimbConstants.ARM_kI, ClimbConstants.ARM_kD,
-            new TrapezoidProfile.Constraints(ClimbConstants.MAX_VELOCITY_RAD_PER_SEC, ClimbConstants.MAX_ACCEL)), ClimbConstants.ARM_OFFSET);
+            new TrapezoidProfile.Constraints(ClimbConstants.MAX_VELOCITY_RAD_PER_SEC, ClimbConstants.MAX_ACCEL)), ClimbConstants.BASE_POSE);
     // define the motor controllers
     deployTalon = new WPI_TalonSRX(ClimbConstants.DEPLOY_TALON);
     deployVictor = new WPI_VictorSPX(ClimbConstants.DEPLOY_VICTOR);
     winchTalon = new WPI_TalonSRX(ClimbConstants.WINCH_TALON);
     winchVictor = new WPI_VictorSPX(ClimbConstants.WINCH_VICTOR);
 
-    // set victors to follow talonsx
+    // set victors to follow talonsrx
     deployVictor.follow(deployTalon);
     winchVictor.follow(winchTalon);
 
@@ -52,22 +49,7 @@ public class Climb extends ProfiledPIDSubsystem {
     // set dpp of encoder
     climbArmEncoder.setDistancePerPulse(ClimbConstants.DISTANCE_PER_PULSE);
     climbArmEncoder.reset();
-
-    lastError = 0;
-    error = 0;
-    diffError = 0;
   }
-
-  /* Basic PID loop
-  public void climbArmDeployPID(double input) {
-    while(Math.abs(error) > 5) {
-      error = input - climbArmEncoder.get();
-      diffError = error - lastError;
-      double output = Constants.ARM_kP * error + Constants.ARM_kD * diffError + Constants.ARM_kF_GRAV;
-      deployTalon.set(output);
-      lastError = error;
-    }
-  } */
 
   public void calculateInput(double input) {
     double output = (input/ClimbConstants.CLIMB_ELEVATOR_DISTANCE_PER_ROTATION);
@@ -87,10 +69,10 @@ public class Climb extends ProfiledPIDSubsystem {
 
   @Override
   public double getMeasurement() {
-    return climbArmEncoder.getDistance() + ClimbConstants.ARM_OFFSET;
+    return climbArmEncoder.getDistance() + ClimbConstants.BASE_POSE;
   }
 
-  public void dropElevator() { goToSetpoint(ClimbConstants.ARM_OFFSET); }
+  public void dropElevator() { goToSetpoint(ClimbConstants.BASE_POSE); }
 
   public void startDeployClimbArm() {
     deployTalon.set(ClimbConstants.DEPLOY_SPEED);
