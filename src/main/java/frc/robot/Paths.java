@@ -17,16 +17,16 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class Paths {
-	private static TrajectoryConfig config;
-	private static Trajectory toTrench = null;
-	private static Trajectory throughTrench = null;
-	private static Trajectory trenchToMid = null;
-	private static Trajectory throughMid = null;
-	private static Trajectory endMyTrench = null;
-	private static Trajectory trenchToScoring = null;
-	private static Trajectory initToOM = null;
-	private static Trajectory OMToScoring = null;
-
+	public static TrajectoryConfig config;
+	public static Trajectory toTrench = null;
+	public static Trajectory throughTrench = null;
+	public static Trajectory trenchToMid = null;
+	public static Trajectory throughMid = null;
+	public static Trajectory endMyTrench = null;
+	public static Trajectory trenchToScoring = null;
+	public static Trajectory initToOM = null;
+	public static Trajectory OMToScoring = null;
+	public static Trajectory example = null;
 	public Paths() {
 		RamseteCommands ramsete = new RamseteCommands();
 		// configures trajectories
@@ -37,6 +37,20 @@ public class Paths {
 						.setKinematics(RobotContainer.s_drive.driveKinematics)
 						// Apply the voltage constraint
 						.addConstraint(ramsete.getVoltageConstraint());
+
+		example = TrajectoryGenerator.generateTrajectory(
+				// Start at the origin facing the +X direction
+				new Pose2d(0, 0, new Rotation2d(0)),
+				// Pass through these two interior waypoints, making an 's' curve path
+				List.of(
+						new Translation2d(1, 1),
+						new Translation2d(2, -1)
+				),
+				// End 3 meters straight ahead of where we started, facing forward
+				new Pose2d(3, 0, new Rotation2d(0)),
+				// Pass config
+				config
+		);
 
 		String toTrenchJSON = "PathWeaver/Paths/to trench.JSON";
 		String throughTrenchJSON = "PathWeaver/Paths/through trench.JSON";
@@ -66,96 +80,4 @@ public class Paths {
 			OMToScoring = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
 		} catch (IOException ex) {  }
 	}
-
-	public static Trajectory[] Example() {
-		// creates a new trajectory
-		Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-				// Start at the origin facing the +X direction
-				new Pose2d(0, 0, new Rotation2d(0)),
-				// Pass through these two interior waypoints, making an 's' curve path
-				List.of(
-						new Translation2d(1, 1),
-						new Translation2d(2, -1)
-				),
-				// End 3 meters straight ahead of where we started, facing forward
-				new Pose2d(3, 0, new Rotation2d(0)),
-				// Pass config
-				config
-		);
-		Trajectory[] finalPath = { exampleTrajectory };
-		return finalPath;
-	}
-
-	public static Trajectory[] Offensive1() {
-
-		// insert a trajectory here (demonstrated in below webpage):
-		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
-
-		Trajectory[] finalPath = { };
-		return finalPath;
-	}
-
-	public static Trajectory[] Offensive2() {
-
-		// insert a trajectory here (demonstrated in below webpage):
-		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
-
-		Trajectory[] finalPath = { };
-		return finalPath;
-	}
-
-	public static Trajectory[] Defensive1() {
-
-		// insert a trajectory here (demonstrated in below webpage):
-		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
-
-		Trajectory[] finalPath = { toTrench, throughTrench, trenchToMid, throughMid, endMyTrench };
-		return finalPath;
-	}
-
-	public static Trajectory[] Defensive2() {
-
-		// insert a trajectory here (demonstrated in below webpage):
-		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
-
-		Trajectory[] finalPath = { toTrench, throughTrench, trenchToScoring };
-		return finalPath;
-	}
-
-	public static Trajectory[] Defensive3() {
-
-		// insert a trajectory here (demonstrated in below webpage):
-		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
-
-		Trajectory[] finalPath = { initToOM, throughMid, OMToScoring };
-		return finalPath;
-	}
-
-	public static Trajectory[] Defensive4() {
-
-		// insert a trajectory here (demonstrated in below webpage):
-		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
-
-		Trajectory[] finalPath = { };
-		return finalPath;
-	}
-
-	public static Trajectory[] PsuedoDefensive1() {
-
-		// insert a trajectory here (demonstrated in below webpage):
-		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
-
-		Trajectory[] finalPath = { };
-		return finalPath;
-	}
-
-	public static Trajectory[] PsuedoDefensive2() {
-
-		// insert a trajectory here (demonstrated in below webpage):
-		// https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/pathweaver/integrating-robot-program.html#importing-a-pathweaver-json
-
-		Trajectory[] finalPath = { };
-		return finalPath;
-	}
-
 }
