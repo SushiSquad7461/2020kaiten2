@@ -5,36 +5,50 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.superstructure;
+package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 
 public class Hopper extends SubsystemBase {
 
     //  define variables
-    private final WPI_TalonSRX hopperFast;
-    private final WPI_TalonSRX hopperSlow;
+    private final TalonSRX hopperFast;
+    private final TalonSRX hopperSlow;
 
     public Hopper() {
-        // instantiate motors
-        hopperFast = new WPI_TalonSRX(Constants.Hopper.FAST_ID);
-        hopperSlow = new WPI_TalonSRX(Constants.Hopper.SLOW_ID);
+        //  insatiate motors
+        hopperFast = new TalonSRX(Constants.Hopper.FAST_ID);
+        hopperSlow = new TalonSRX(Constants.Hopper.SLOW_ID);
     }
-
     public void startSpit() {
-        // set motor speed
+
+        //  config the peak and the minimum outputs to tell if there was a spike
+        // [-1,1] represents [-100%, 100%]
+        hopperFast.configNominalOutputForward(0, Constants.Hopper.CONFIG_TIMEOUT);
+        hopperFast.configNominalOutputReverse(0, Constants.Hopper.CONFIG_TIMEOUT);
+        hopperFast.configPeakOutputForward(1, Constants.Hopper.CONFIG_TIMEOUT);
+        hopperFast.configPeakOutputReverse(-1, Constants.Hopper.CONFIG_TIMEOUT);
+
+        //  sets the same configs to hopperSlow
+        hopperSlow.follow(hopperFast);
+
+        //  set motor speed
         hopperFast.set(Constants.Hopper.MAX_SPEED);
         hopperSlow.set(0.6 * (Constants.Hopper.MAX_SPEED));
-    }
 
+        //  current spike
+        if (hopperFast.OutputForward == 1 || hopperSlow.OutputForward == 1) {
+            hopperFast.set(0);
+            hopperSlow.set(0);
+        }
+    }
     public void endSpit() {
-        // sets to zero if there is a spike, so no action
+        //  sets to zero if there is a spike, so no action
         hopperFast.set(0);
         hopperSlow.set(0);
     }
-
     @Override
     public void periodic() {
         //  This method will be called once per scheduler run
