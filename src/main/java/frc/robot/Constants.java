@@ -63,7 +63,7 @@ public final class Constants {
 		public static final double RAMSETE_B = 2;
 		public static final double RAMSETE_ZETA = 0.7;
 
-		public static final double kP_VEL = 42.0;
+		public static final double kP_VEL = 0.00001;
 
 		public static final double MAX_VOLTAGE_CONSTRAINT = 40;
 
@@ -74,7 +74,7 @@ public final class Constants {
 		public static final double kV = 0;
 		public static final double kA = 0;
 
-		public static final double MAX_METERS_PER_SECOND = 69.69;
+		public static final double MAX_METERS_PER_SECOND = 5.45592;
 		public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 420.420;
 
 		public static final double TRACK_WIDTH = 0.0;
