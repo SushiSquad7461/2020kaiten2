@@ -65,7 +65,6 @@ public final class Constants {
 	public static final class ClimbConstants {
 		public static final int DEPLOY_TALON = 6;
 		public static final int WINCH_TALON = 7;
-		public static final int DEPLOY_VICTOR = 9;
 		public static final int WINCH_VICTOR = 10;
 
 		// climb motor max speeds
@@ -83,8 +82,8 @@ public final class Constants {
 		public static final int ARM_kD = 0;
 
 		// climb motion profiling constants (need to tune)
-		public static final int MAX_VELOCITY_RAD_PER_SEC = 0;
-		public static final int MAX_ACCEL = 0;
+		public static final int MAX_VELOCITY_RAD_PER_SEC = 69;
+		public static final int MAX_ACCEL = 69;
 
 		// Encoder distance per pulse
 		public static final int PULSES_PER_ROTATION = 4096;

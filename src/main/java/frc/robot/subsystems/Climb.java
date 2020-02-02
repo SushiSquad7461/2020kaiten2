@@ -21,7 +21,6 @@ public class Climb extends ProfiledPIDSubsystem {
   // initialize the motors
   private final WPI_TalonSRX deployTalon;
   private final WPI_TalonSRX winchTalon;
-  private final WPI_VictorSPX deployVictor;
   private final WPI_VictorSPX winchVictor;
   private final Encoder climbArmEncoder;
   private final ElevatorFeedforward climbArmFeedForward;
@@ -32,12 +31,10 @@ public class Climb extends ProfiledPIDSubsystem {
             new TrapezoidProfile.Constraints(ClimbConstants.MAX_VELOCITY_RAD_PER_SEC, ClimbConstants.MAX_ACCEL)), ClimbConstants.BASE_POSE);
     // define the motor controllers
     deployTalon = new WPI_TalonSRX(ClimbConstants.DEPLOY_TALON);
-    deployVictor = new WPI_VictorSPX(ClimbConstants.DEPLOY_VICTOR);
     winchTalon = new WPI_TalonSRX(ClimbConstants.WINCH_TALON);
     winchVictor = new WPI_VictorSPX(ClimbConstants.WINCH_VICTOR);
 
     // set victors to follow talonsrx
-    deployVictor.follow(deployTalon);
     winchVictor.follow(winchTalon);
 
     // initialize encoder
