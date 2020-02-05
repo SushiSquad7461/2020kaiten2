@@ -1,0 +1,4 @@
+om.shoot second.path
+om.shoot first.path
+om.go home.path
+om.collect.path

@@ -26,6 +26,14 @@ public class Paths {
 	public static Trajectory trenchToScoring = null;
 	public static Trajectory initToOM = null;
 	public static Trajectory OMToScoring = null;
+	public static Trajectory initToScoring = null;
+	public static Trajectory scoringToMT = null;
+	public static Trajectory throughMTrench = null;
+	public static Trajectory MTToScoring = null;
+	public static Trajectory scoringToMM = null;
+	public static Trajectory throughMMToScoring = null;
+	public static Trajectory initLineThroughMM = null;
+	public static Trajectory initLineThroughMT = null;
 	public static Trajectory example = null;
 	public Paths() {
 		RamseteCommands ramsete = new RamseteCommands();
@@ -60,6 +68,14 @@ public class Paths {
 		String trenchToScoringJSON = "PathWeaver/Paths/trench to scoring.JSON";
 		String initToOMJSON = "PathWeaver/Paths/init to oM.JSON";
 		String OMToScoringJSON = "PathWeaver/Paths/oM to scoring.JSON";
+		String initToScoringJSON = "PathWeaver/Paths/init to scoring.JSON";
+		String scoringToMTJSON = "PathWeaver/Paths/scoring to trench.JSON";
+		String throughMTTrenchJSON = "PathWeaver/Paths/scoring to trench.JSON";
+		String MTToScoringJSON = "PathWeaver/Paths/own trench to scoring.JSON";
+		String scoringToMMJSON = "PathWeaver/Paths/scoring to own mid.JSON";
+		String throughMMToScoringJSON = "PathWeaver/Paths/through own mid to scoring.JSON";
+		String initLineThroughMMidJSON = "PathWeaver/Paths/init line through mid.JSON";
+		String initLineThroughMTJSON = "PathWeaver/Paths/init line through my trench.JSON";
 
 		try {
 			Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(toTrenchJSON);
@@ -78,6 +94,22 @@ public class Paths {
 			initToOM = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
 			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(OMToScoringJSON);
 			OMToScoring = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(initToScoringJSON);
+			initToScoring = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(scoringToMTJSON);
+			scoringToMT = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(throughMTTrenchJSON);
+			throughMTrench = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(MTToScoringJSON);
+			MTToScoring = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(scoringToMMJSON);
+			scoringToMM = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(throughMMToScoringJSON);
+			throughMMToScoring = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(initLineThroughMMidJSON);
+			initLineThroughMM = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(initLineThroughMTJSON);
+			initLineThroughMT = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
 		} catch (IOException ex) {  }
 	}
 }

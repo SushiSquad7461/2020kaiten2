@@ -1,0 +1,3 @@
+opm shoot first.path
+opm get balls.path
+opm shoot second.path
