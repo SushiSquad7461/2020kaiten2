@@ -17,32 +17,32 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class RobotContainer {
 
-  // define subsystems and commands
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Drivetrain s_drive = new Drivetrain();
+	// define subsystems and commands
+	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+	private final Drivetrain s_drive = new Drivetrain();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  XboxController driveController = new XboxController(OI.DRIVE_CONTROLLER);
-  XboxController operatorController = new XboxController(OI.OPERATOR_CONTROLLER);
+	XboxController driveController = new XboxController(OI.DRIVE_CONTROLLER);
+	XboxController operatorController = new XboxController(OI.OPERATOR_CONTROLLER);
 
-  public RobotContainer() {
+	public RobotContainer() {
 
-    configureButtonBindings();
+		configureButtonBindings();
 
-    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.closedCurveDrive(
-            OI.getTriggerOutput(driveController),
-            OI.getLeftJoystickAxis(driveController),
-            driveController.getXButton()), s_drive)
-    );
+		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.closedCurveDrive(
+				OI.getTriggerOutput(driveController),
+				OI.getLeftJoystickAxis(driveController),
+				driveController.getXButton()), s_drive)
+		);
 
-  }
+	}
 
-  private void configureButtonBindings() {
-  }
+	private void configureButtonBindings() {
+	}
 
-  public Command getAutonomousCommand() {
-    return m_autoCommand;
-  }
+	public Command getAutonomousCommand() {
+		return m_autoCommand;
+	}
 
 }
