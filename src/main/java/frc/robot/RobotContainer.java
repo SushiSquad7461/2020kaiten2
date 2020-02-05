@@ -26,18 +26,18 @@ public class RobotContainer {
   // create commands
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem); 
 
-  XboxController driveController = new XboxController(OI.DRIVE_CONTROLLER);
-  XboxController operatorController = new XboxController(OI.OPERATOR_CONTROLLER);
+	XboxController driveController = new XboxController(OI.DRIVE_CONTROLLER);
+	XboxController operatorController = new XboxController(OI.OPERATOR_CONTROLLER);
 
   public RobotContainer() {
     s_intake = new Intake();
     configureButtonBindings();
 
-    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.closedCurveDrive(
-            OI.getTriggerOutput(driveController),
-            OI.getLeftJoystickAxis(driveController),
-            driveController.getXButton()), s_drive)
-    );
+		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.closedCurveDrive(
+				OI.getTriggerOutput(driveController),
+				OI.getLeftJoystickAxis(driveController),
+				driveController.getXButton()), s_drive)
+		);
 
   }
   
@@ -48,8 +48,8 @@ public class RobotContainer {
         .whenReleased(s_intake::stopEat); 
   }
 
-  public Command getAutonomousCommand() {
-    return m_autoCommand;
-  }
+	public Command getAutonomousCommand() {
+		return m_autoCommand;
+	}
 
 }
