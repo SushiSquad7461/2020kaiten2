@@ -58,7 +58,8 @@ public final class Constants {
 
 	// camera
 	public static final class Camera {
-		//camera constants for connecting to camera
+
+		// camera constants
 		public static final int CAMERA1 = 0;
         public static final int CAMERA2 = 1;
 
@@ -66,6 +67,14 @@ public final class Constants {
         public static final int CAMERA1_RES_Y = 480;
         public static final int CAMERA2_RES_X = 640;
         public static final int CAMERA2_RES_Y = 480;
+
+        public static final String NETWORK_TABLE = "chameleon-vision";
+        public static final String SUBTABLE1 = "big-brain-camera";
+
+		public static final double TARGET_ALIGN_kP = 0.00;
+		public static final double TARGET_ALIGN_FORWARD = 0.00;
+		public static final double TARGET_ALIGN_ANGULAR = 0.00;
+
 	}
 
 	// controllers
