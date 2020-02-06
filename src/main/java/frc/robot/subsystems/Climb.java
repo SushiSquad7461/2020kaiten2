@@ -43,8 +43,9 @@ public class Climb extends ProfiledPIDSubsystem {
     // initialize feedforward
     climbArmFeedForward = new ElevatorFeedforward(ClimbConstants.kS, ClimbConstants.kV, ClimbConstants.kA);
 
-    // set dpp of encoder
+    // set dpp
     climbArmEncoder.setDistancePerPulse(ClimbConstants.DISTANCE_PER_PULSE);
+
     climbArmEncoder.reset();
   }
 
