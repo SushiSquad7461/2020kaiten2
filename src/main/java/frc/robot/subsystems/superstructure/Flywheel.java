@@ -10,6 +10,7 @@ package frc.robot.subsystems.superstructure;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -27,7 +28,7 @@ public class Flywheel extends PIDSubsystem {
   private final TalonSRX flywheelMain;
   private final VictorSPX flywheelSecondary;
   private final SimpleMotorFeedforward m_MotorFeedforward;
-  private Encoder encoderMain;
+  private CANCoder encoderMain;
 
   public Flywheel() {
     super(new PIDController(Constants.Flywheel.kP, Constants.Flywheel.kI, Constants.Flywheel.kD));
@@ -49,8 +50,7 @@ public class Flywheel extends PIDSubsystem {
     flywheelSecondary.follow(flywheelMain);
 
     // encoder takes 2 ports
-    encoderMain = new Encoder(Constants.Flywheel.ENCODER_A,
-    Constants.Flywheel.ENCODER_B, Constants.Flywheel.ENCODER_REVERSE_DIRECTION);
+    encoderMain = new CANCoder(Constants.Flywheel.ENCODER);
   }
 
 
@@ -73,7 +73,7 @@ public class Flywheel extends PIDSubsystem {
 
   @Override
   protected double getMeasurement() {
-    return encoderMain.getRate();
+    return encoderMain.getVelocity();
   }
 
   @Override
