@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.superstructure.*;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -28,8 +29,9 @@ public class RobotContainer {
   public static final XboxController operatorController = new XboxController(OI.OPERATOR_CONTROLLER);
 
   public RobotContainer() {
-    configureButtonBindings();
     s_flywheel = new Flywheel();
+
+    configureButtonBindings();
   }
 
   private void configureButtonBindings() {

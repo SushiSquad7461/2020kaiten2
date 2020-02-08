@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.XboxController;
 public class OI {
 
 	// controllers
-	public static final int DRIVE_CONTROLLER = 1;
-	public static final int OPERATOR_CONTROLLER = 2;
+	public static final int DRIVE_CONTROLLER = 0;
+	public static final int OPERATOR_CONTROLLER = 1;
 
 	// cubed -1 to 1 output from trigger controllers
 	public static double getTriggerOutput(XboxController controller) {
