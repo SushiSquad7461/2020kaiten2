@@ -52,4 +52,19 @@ public class RobotContainer {
 		return m_autoCommand;
 	}
 
+		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.closedCurveDrive(
+				OI.getTriggerOutput(driveController),
+				OI.getLeftJoystickAxis(driveController),
+				driveController.getXButton()), s_drive)
+		);
+
+	}
+
+	private void configureButtonBindings() {
+	}
+
+	public Command getAutonomousCommand() {
+		return m_autoCommand;
+	}
+
 }
