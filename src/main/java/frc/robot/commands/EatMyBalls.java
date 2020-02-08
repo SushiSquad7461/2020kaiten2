@@ -8,13 +8,18 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.Chassis.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.networktables.*;
 
 // haha penis joke
 public class EatMyBalls extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drivetrain dt;
+  private NetworkTableInstance inst;
+  private NetworkTable data, camera;
+  private NetworkTableEntry pitch;
 
   public EatMyBalls(Drivetrain dt) {
     this.dt = dt;
@@ -25,22 +30,30 @@ public class EatMyBalls extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    inst = NetworkTableInstance.getDefault();
+    data = inst.getTable("chameleon-vision");
+    camera = data.getSubTable(Constants.Camera.NAME);
+    inst.startClientTeam(7461);
+    inst.startDSClient();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double pitch = camera.getEntry("targetPitch").getDouble(0);
+    // TODO: Actually run the intake motor
+    dt.closedCurveDrive(Constants.BallFinder.DRIVE_SPEED, -pitch, false);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+      dt.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return camera.getEntry("isValid").getBoolean(false);
   }
 }

@@ -9,6 +9,7 @@ package frc.robot;
 
 public final class Constants {
 
+	public static final int TEAM_NUMBER = 7461;
 	// drivetrain
 	public static final class Drivetrain {
 
@@ -49,9 +50,11 @@ public final class Constants {
 		public static final double trackWidth = 0;
 
 		public static final double encoderResolution = 0;
-
 	}
 
+	public static final class BallFinder {
+		public static final double DRIVE_SPEED = 0.5;
+	}
 	// flywheel
 	public static final class Flywheel {
 
@@ -87,7 +90,7 @@ public final class Constants {
 
 	// camera
 	public static final class Camera {
-
+		public static final String NAME = "camera";
 	}
 	// intake
 	public static final class Intake {
