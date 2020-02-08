@@ -10,6 +10,7 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.Chassis.*;
+import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.networktables.*;
 
@@ -17,14 +18,16 @@ import edu.wpi.first.networktables.*;
 public class EatMyBalls extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drivetrain dt;
+  private final Intake intake;
   private NetworkTableInstance inst;
   private NetworkTable data, camera;
   private NetworkTableEntry pitch;
 
-  public EatMyBalls(Drivetrain dt) {
+  public EatMyBalls(Drivetrain dt, Intake intake) {
     this.dt = dt;
+    this.intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(dt);
+    addRequirements(dt, intake);
   }
 
   // Called when the command is initially scheduled.
@@ -41,7 +44,7 @@ public class EatMyBalls extends CommandBase {
   @Override
   public void execute() {
     double pitch = camera.getEntry("targetPitch").getDouble(0);
-    // TODO: Actually run the intake motor
+    intake.startEat();
     dt.closedCurveDrive(Constants.BallFinder.DRIVE_SPEED, -pitch, false);
   }
 
@@ -49,6 +52,7 @@ public class EatMyBalls extends CommandBase {
   @Override
   public void end(boolean interrupted) {
       dt.stop();
+      intake.stopEat();
   }
 
   // Returns true when the command should end.
