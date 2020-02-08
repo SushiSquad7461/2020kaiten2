@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import edu.wpi.first.wpilibj.Encoder;
+import com.ctre.phoenix.sensors.CANCoder;
 import edu.wpi.first.wpilibj.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
@@ -22,7 +22,7 @@ public class Climb extends ProfiledPIDSubsystem {
   private final WPI_TalonSRX deployTalon;
   private final WPI_TalonSRX winchTalon;
   private final WPI_VictorSPX winchVictor;
-  private final Encoder climbArmEncoder;
+  private final CANCoder climbArmEncoder;
   private final ElevatorFeedforward climbArmFeedForward;
 
   // constructor
@@ -38,15 +38,10 @@ public class Climb extends ProfiledPIDSubsystem {
     winchVictor.follow(winchTalon);
 
     // initialize encoder
-    climbArmEncoder = new Encoder(ClimbConstants.CLIMB_DEPLOY_DIO, ClimbConstants.CLIMB_DEPLOY_DIO2);
+    climbArmEncoder = new CANCoder(ClimbConstants.CLIMB_CAN_ID);
 
     // initialize feedforward
     climbArmFeedForward = new ElevatorFeedforward(ClimbConstants.kS, ClimbConstants.kV, ClimbConstants.kA);
-
-    // set dpp
-    climbArmEncoder.setDistancePerPulse(ClimbConstants.DISTANCE_PER_PULSE);
-
-    climbArmEncoder.reset();
   }
 
   public void calculateInput(double input) {
@@ -56,7 +51,7 @@ public class Climb extends ProfiledPIDSubsystem {
 
   // theoretically the way to apply the ProfiledPIDController
   public void goToSetpoint(double goalPose) {
-    double calculateChange = m_controller.calculate(climbArmEncoder.getDistance(), goalPose);
+    double calculateChange = m_controller.calculate(climbArmEncoder.getAbsolutePosition(), goalPose);
     double climbFF = climbArmFeedForward.calculate(m_controller.getSetpoint().position,
             m_controller.getSetpoint().velocity);
     deployTalon.setVoltage(calculateChange + climbFF);
@@ -67,7 +62,7 @@ public class Climb extends ProfiledPIDSubsystem {
 
   @Override
   public double getMeasurement() {
-    return climbArmEncoder.getDistance() + ClimbConstants.BASE_POSE;
+    return climbArmEncoder.getAbsolutePosition() + ClimbConstants.BASE_POSE;
   }
 
   public void dropElevator() { goToSetpoint(ClimbConstants.BASE_POSE); }

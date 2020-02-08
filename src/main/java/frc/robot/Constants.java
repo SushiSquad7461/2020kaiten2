@@ -71,9 +71,8 @@ public final class Constants {
 		public static final int DEPLOY_SPEED = 1;
 		public static final int WINCH_SPEED = 1;
 
-		// climb encoders
-		public static final int CLIMB_DEPLOY_DIO = 1;
-		public static final int CLIMB_DEPLOY_DIO2 = 2;
+		// climb encoder CAN ID
+		public static final int CLIMB_CAN_ID = 42;
 
 		// climb PID constants (need to tune)
 		public static final int ARM_kF_GRAV = 0;
