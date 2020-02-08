@@ -75,7 +75,6 @@ public final class Constants {
 		public static final int CLIMB_CAN_ID = 42;
 
 		// climb PID constants (need to tune)
-		public static final int ARM_kF_GRAV = 0;
 		public static final int ARM_kP = 0;
 		public static final int ARM_kI = 0;
 		public static final int ARM_kD = 0;
@@ -94,6 +93,7 @@ public final class Constants {
 		// feedforward constants; kS = volts; kV = volts * sec / radians; kA = volts * sec^2 / radians
 		// (need to characterize)
 		public static final double kS = 0.0;
+		public static final double kG = 0.0;
 		public static final double kV = 0.0;
 		public static final double kA = 0.0;
 

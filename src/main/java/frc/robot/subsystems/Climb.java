@@ -41,7 +41,7 @@ public class Climb extends ProfiledPIDSubsystem {
 		climbArmEncoder = new CANCoder(ClimbConstants.CLIMB_CAN_ID);
 
 		// initialize feedforward
-		climbArmFeedForward = new ElevatorFeedforward(ClimbConstants.kS, ClimbConstants.kV, ClimbConstants.kA);
+		climbArmFeedForward = new ElevatorFeedforward(ClimbConstants.kS, ClimbConstants.kG, ClimbConstants.kV, ClimbConstants.kA);
 	}
 
 	public void calculateInput(double input) {
