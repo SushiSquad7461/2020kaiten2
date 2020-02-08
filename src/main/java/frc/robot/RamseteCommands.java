@@ -3,29 +3,30 @@ package frc.robot;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class RamseteCommands {
 	private DifferentialDriveVoltageConstraint voltageConstraint;
-	private static RamseteCommand exampleCommand;
-	private static RamseteCommand toTrench;
-	private static RamseteCommand throughTrench;
-	private static RamseteCommand trenchToMid;
-	private static RamseteCommand throughMid;
-	private static RamseteCommand midToMyTrench;
-	private static RamseteCommand trenchToScoring;
-	private static RamseteCommand initToOM;
-	private static RamseteCommand OMToScoring;
-	private static RamseteCommand initToScoring;
-	private static RamseteCommand scoringToMT;
-	private static RamseteCommand throughMT;
-	private static RamseteCommand MTToScoring;
-	private static RamseteCommand scoringToMM;
-	private static RamseteCommand throughMMToScoring;
-	private static RamseteCommand initLineThroughMM;
-	private static RamseteCommand initLineThroughMT;
+	private static RamseteCommand exampleCommand,
+	toTrench,
+	throughTrench,
+	trenchToMid,
+	throughMid,
+	midToMyTrench,
+	trenchToScoring,
+	initToOM,
+	OMToScoring,
+	initToScoring,
+	scoringToMT,
+	throughMT,
+	MTToScoring,
+	scoringToMM,
+	throughMMToScoring,
+	initLineThroughMM,
+	initLineThroughMT;
 
 	public RamseteCommands() {
 		// sets voltage constraint so you dont over accelerate
@@ -34,8 +35,46 @@ public class RamseteCommands {
 						Constants.RamseteConstants.kV, Constants.RamseteConstants.kA), RobotContainer.s_drive.driveKinematics,
 				Constants.RamseteConstants.MAX_VOLTAGE_CONSTRAINT);
 
-		exampleCommand = new RamseteCommand(
-				Paths.example,
+		exampleCommand = defineRamseteCommand(Paths.example);
+
+		toTrench = defineRamseteCommand(Paths.toTrench);
+
+		throughTrench = defineRamseteCommand(Paths.throughTrench);
+
+		trenchToMid = defineRamseteCommand(Paths.trenchToMid);
+
+		throughMid = defineRamseteCommand(Paths.throughMid);
+
+		midToMyTrench = defineRamseteCommand(Paths.endMyTrench);
+
+		trenchToScoring = defineRamseteCommand(Paths.trenchToScoring);
+
+		initToOM = defineRamseteCommand(Paths.initToOM);
+
+		OMToScoring = defineRamseteCommand(Paths.OMToScoring);
+
+		initToScoring = defineRamseteCommand(Paths.initToScoring);
+
+		scoringToMT = defineRamseteCommand(Paths.scoringToMT);
+
+		throughMT = defineRamseteCommand(Paths.throughMTrench);
+
+		MTToScoring = defineRamseteCommand(Paths.MTToScoring);
+
+		scoringToMM = defineRamseteCommand(Paths.scoringToMM);
+
+		throughMMToScoring = defineRamseteCommand(Paths.throughMMToScoring);
+
+		initLineThroughMM = defineRamseteCommand(Paths.initLineThroughMM);
+
+		initLineThroughMT = defineRamseteCommand(Paths.initLineThroughMT);
+
+	}
+
+	public RamseteCommand defineRamseteCommand(Trajectory traj) {
+
+		return new RamseteCommand(
+				traj,
 				RobotContainer.s_drive::getPose,
 				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
 				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
@@ -47,231 +86,6 @@ public class RamseteCommands {
 				RobotContainer.s_drive::tankDriveVolts,
 				RobotContainer.s_drive
 		);
-
-		toTrench = new RamseteCommand(
-				Paths.toTrench,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		throughTrench = new RamseteCommand(
-				Paths.throughTrench,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		trenchToMid = new RamseteCommand(
-				Paths.trenchToMid,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		throughMid = new RamseteCommand(
-				Paths.throughMid,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		midToMyTrench = new RamseteCommand(
-				Paths.endMyTrench,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		trenchToScoring = new RamseteCommand(
-				Paths.trenchToScoring,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		initToOM = new RamseteCommand(
-				Paths.initToOM,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		OMToScoring = new RamseteCommand(
-				Paths.OMToScoring,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		initToScoring = new RamseteCommand(
-				Paths.initToScoring,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		scoringToMT = new RamseteCommand(
-				Paths.scoringToMT,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		throughMT = new RamseteCommand(
-				Paths.throughMTrench,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		MTToScoring = new RamseteCommand(
-				Paths.MTToScoring,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		scoringToMM = new RamseteCommand(
-				Paths.scoringToMM,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		throughMMToScoring = new RamseteCommand(
-				Paths.throughMMToScoring,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		initLineThroughMM = new RamseteCommand(
-				Paths.initLineThroughMM,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
-		initLineThroughMT = new RamseteCommand(
-				Paths.initLineThroughMT,
-				RobotContainer.s_drive::getPose,
-				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
-				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
-		);
-
 	}
 
 	DifferentialDriveVoltageConstraint getVoltageConstraint() {

@@ -18,23 +18,23 @@ import java.util.List;
 
 public class Paths {
 	public static TrajectoryConfig config;
-	public static Trajectory toTrench = null;
-	public static Trajectory throughTrench = null;
-	public static Trajectory trenchToMid = null;
-	public static Trajectory throughMid = null;
-	public static Trajectory endMyTrench = null;
-	public static Trajectory trenchToScoring = null;
-	public static Trajectory initToOM = null;
-	public static Trajectory OMToScoring = null;
-	public static Trajectory initToScoring = null;
-	public static Trajectory scoringToMT = null;
-	public static Trajectory throughMTrench = null;
-	public static Trajectory MTToScoring = null;
-	public static Trajectory scoringToMM = null;
-	public static Trajectory throughMMToScoring = null;
-	public static Trajectory initLineThroughMM = null;
-	public static Trajectory initLineThroughMT = null;
-	public static Trajectory example = null;
+	public static Trajectory toTrench,
+	throughTrench,
+	trenchToMid,
+	throughMid,
+	endMyTrench,
+	trenchToScoring,
+	initToOM,
+	OMToScoring,
+	initToScoring,
+	scoringToMT,
+	throughMTrench,
+	MTToScoring,
+	scoringToMM,
+	throughMMToScoring,
+	initLineThroughMM,
+	initLineThroughMT,
+	example = null;
 	public Paths() {
 		RamseteCommands ramsete = new RamseteCommands();
 		// configures trajectories
