@@ -1,21 +1,31 @@
+/*
+    This command will pick up all the balls it sees until it's done running.
+    It starts with the ball closest to the middle of the vision.
+    That might be a bad way to do it if we want to get all the balls in sight, 
+    someone smarter than me might want to think about that once this is all
+    up and working.
+*/
+
 package frc.robot.commands;
 
-import frc.robot.subsystems.
+import frc.robot.subsystems.Chassis.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+// haha penis joke
 public class EatMyBalls extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final EatMyBalls m_subsystem;
+  private final Drivetrain dt;
 
-  public EatMyBalls() {
-    m_subsystem = subsystem;
+  public EatMyBalls(Drivetrain dt) {
+    this.dt = dt;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(dt);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
