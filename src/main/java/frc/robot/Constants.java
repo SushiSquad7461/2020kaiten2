@@ -76,10 +76,6 @@ public final class Constants {
 
 		public static final double MAX_METERS_PER_SECOND = 5.45592;
 		public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 420.420;
-
-		public static final double TRACK_WIDTH = 0.0;
-		public static final double WHEEL_RADIUS = 0.0;
-
 	}
 
 	// camera

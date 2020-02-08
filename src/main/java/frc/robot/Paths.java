@@ -34,6 +34,8 @@ public class Paths {
 	throughMMToScoring,
 	initLineThroughMM,
 	initLineThroughMT,
+	scoringToOT,
+	scoringToOM,
 	example = null;
 	public Paths() {
 		RamseteCommands ramsete = new RamseteCommands();
@@ -76,6 +78,8 @@ public class Paths {
 		String throughMMToScoringJSON = "PathWeaver/Paths/through own mid to scoring.JSON";
 		String initLineThroughMMidJSON = "PathWeaver/Paths/init line through mid.JSON";
 		String initLineThroughMTJSON = "PathWeaver/Paths/init line through my trench.JSON";
+		String scoringToOTJSON = "PathWeaver/Paths/scoring to other trench.JSON";
+		String scoringToOMJSON = "PathWeaver/Paths/scoring to other mid.JSON";
 
 		try {
 			Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(toTrenchJSON);
@@ -110,6 +114,10 @@ public class Paths {
 			initLineThroughMM = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
 			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(initLineThroughMTJSON);
 			initLineThroughMT = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(scoringToOTJSON);
+			scoringToOT = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(scoringToOMJSON);
+			scoringToOM = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
 		} catch (IOException ex) {  }
 	}
 }

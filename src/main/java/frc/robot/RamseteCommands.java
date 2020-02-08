@@ -26,7 +26,9 @@ public class RamseteCommands {
 	scoringToMM,
 	throughMMToScoring,
 	initLineThroughMM,
-	initLineThroughMT;
+	initLineThroughMT,
+	scoringToOT,
+	scoringToOM;
 
 	public RamseteCommands() {
 		// sets voltage constraint so you dont over accelerate
@@ -68,6 +70,10 @@ public class RamseteCommands {
 		initLineThroughMM = defineRamseteCommand(Paths.initLineThroughMM);
 
 		initLineThroughMT = defineRamseteCommand(Paths.initLineThroughMT);
+
+		scoringToOT = defineRamseteCommand(Paths.scoringToOT);
+
+		scoringToOM = defineRamseteCommand(Paths.scoringToOM);
 
 	}
 
@@ -145,13 +151,13 @@ public class RamseteCommands {
 
 	static class PseudoOffensive1 {
 		static SequentialCommandGroup fullAutoSequence() {
-			return new SequentialCommandGroup( exampleCommand );
+			return new SequentialCommandGroup( initToScoring, scoringToOT, throughTrench, trenchToScoring );
 		}
 	}
 
 	static class PseudoOffensive2 {
 		static SequentialCommandGroup fullAutoSequence() {
-			return new SequentialCommandGroup( exampleCommand );
+			return new SequentialCommandGroup( initToScoring, scoringToOM, throughMid, OMToScoring );
 		}
 	}
 
