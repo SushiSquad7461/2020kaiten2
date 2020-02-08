@@ -96,6 +96,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	// closed loop drive method
+	// Set quickturn to true if you want to drive in place.
 	public void closedCurveDrive(double linearVelocity, double angularVelocity, boolean isQuickTurn) {
 
 		ChassisSpeeds chassisSpeeds;
@@ -128,6 +129,10 @@ public class Drivetrain extends SubsystemBase {
 	// get angle from gyro
 	public Rotation2d getAngle() {
 		return Rotation2d.fromDegrees(-nav.getAngle());
+	}
+
+	public void stop() {
+		this.curveDrive(0, 0, false);
 	}
 
 	@Override
