@@ -62,6 +62,11 @@ public final class Constants {
 		public static final int SLOW_ID = 21;
 
 		public static final double MAX_SPEED = 1;
+		public static final double SLOW_SPEED = 0.6;
+		public static final double REVERSE_SPEED = -0.8;
+
+		public static final int CONFIG_TIMEOUT = 30;
+		public static final int CURRENT_SPIKE = 70;
 	}
 
 	// camera

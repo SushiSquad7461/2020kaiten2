@@ -5,52 +5,76 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.superstructure;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 
+import javax.naming.ldap.Control;
+
 public class Hopper extends SubsystemBase {
 
-    //  define variables
-    private final TalonSRX hopperFast;
-    private final TalonSRX hopperSlow;
+	//  define variables
+	private final TalonSRX hopperFast;
+	private final TalonSRX hopperSlow;
 
-    public Hopper() {
-        //  insatiate motors
-        hopperFast = new TalonSRX(Constants.Hopper.FAST_ID);
-        hopperSlow = new TalonSRX(Constants.Hopper.SLOW_ID);
-    }
-    public void startSpit() {
+	public boolean currentSpike;
 
-        //  config the peak and the minimum outputs to tell if there was a spike
-        // [-1,1] represents [-100%, 100%]
-        hopperFast.configNominalOutputForward(0, Constants.Hopper.CONFIG_TIMEOUT);
-        hopperFast.configNominalOutputReverse(0, Constants.Hopper.CONFIG_TIMEOUT);
-        hopperFast.configPeakOutputForward(1, Constants.Hopper.CONFIG_TIMEOUT);
-        hopperFast.configPeakOutputReverse(-1, Constants.Hopper.CONFIG_TIMEOUT);
+	public Hopper() {
 
-        //  sets the same configs to hopperSlow
-        hopperSlow.follow(hopperFast);
+		//  instantiate motors
+		hopperFast = new TalonSRX(Constants.Hopper.FAST_ID);
+		hopperSlow = new TalonSRX(Constants.Hopper.SLOW_ID);
 
-        //  set motor speed
-        hopperFast.set(Constants.Hopper.MAX_SPEED);
-        hopperSlow.set(0.6 * (Constants.Hopper.MAX_SPEED));
+		//  config the peak and the minimum outputs to tell if there was a spike
+		// [-1,1] represents [-100%, 100%]
+		hopperFast.configNominalOutputForward(0, Constants.Hopper.CONFIG_TIMEOUT);
+		hopperFast.configNominalOutputReverse(0, Constants.Hopper.CONFIG_TIMEOUT);
+		hopperFast.configPeakOutputForward(1, Constants.Hopper.CONFIG_TIMEOUT);
+		hopperFast.configPeakOutputReverse(-1, Constants.Hopper.CONFIG_TIMEOUT);
 
-        //  current spike
-        if (hopperFast.OutputForward == 1 || hopperSlow.OutputForward == 1) {
-            hopperFast.set(0);
-            hopperSlow.set(0);
-        }
-    }
-    public void endSpit() {
-        //  sets to zero if there is a spike, so no action
-        hopperFast.set(0);
-        hopperSlow.set(0);
-    }
-    @Override
-    public void periodic() {
-        //  This method will be called once per scheduler run
-    }
+		//  sets the same configs to hopperSlow
+		hopperSlow.follow(hopperFast);
+
+		currentSpike = false;
+
+	}
+
+	public void startSpit() {
+
+		//  set motor speed
+		hopperFast.set(ControlMode.PercentOutput, Constants.Hopper.MAX_SPEED);
+		hopperSlow.set(ControlMode.PercentOutput, Constants.Hopper.SLOW_SPEED);
+
+	}
+
+	public void reverseSpit() {
+
+		hopperFast.set(ControlMode.PercentOutput, Constants.Hopper.REVERSE_SPEED);
+		hopperSlow.set(ControlMode.PercentOutput, Constants.Hopper.REVERSE_SPEED);
+
+	}
+
+	public void endSpit() {
+
+		//  sets to zero
+		hopperFast.set(ControlMode.PercentOutput, 0);
+		hopperSlow.set(ControlMode.PercentOutput, 0);
+
+	}
+
+	public boolean isCurrentSpiked() {
+		if (hopperFast.getSupplyCurrent() >= Constants.Hopper.CURRENT_SPIKE || hopperSlow.getSupplyCurrent() >= Constants.Hopper.CURRENT_SPIKE) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public void periodic() {
+		currentSpike = isCurrentSpiked();
+	}
 }
