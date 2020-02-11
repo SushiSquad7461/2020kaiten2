@@ -43,7 +43,7 @@ public class RobotContainer {
 						),
 						s_hopper::isCurrentSpiked)
 				)
-				.whenReleased(new RunCommand(s_hopper::endSpit))l
+				.whenReleased(new RunCommand(s_hopper::endSpit));
 
 	}
 
