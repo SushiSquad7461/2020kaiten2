@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
 import frc.robot.commands.ExampleCommand;
@@ -21,23 +22,25 @@ public class RobotContainer {
   // define subsystems 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static Intake s_intake;
-  private final Drivetrain s_drive = new Drivetrain();
+  private final Drivetrain s_drive;
 
   // create commands
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem); 
 
-	XboxController driveController = new XboxController(OI.DRIVE_CONTROLLER);
-	XboxController operatorController = new XboxController(OI.OPERATOR_CONTROLLER);
+  XboxController driveController = new XboxController(OI.DRIVE_CONTROLLER);
+  XboxController operatorController = new XboxController(OI.OPERATOR_CONTROLLER);
 
   public RobotContainer() {
-    s_intake = new Intake();
+
+  	s_intake = new Intake();
+  	s_drive = new Drivetrain();
     configureButtonBindings();
 
-		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.closedCurveDrive(
+    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.closedCurveDrive(
 				OI.getTriggerOutput(driveController),
 				OI.getLeftJoystickAxis(driveController),
 				driveController.getXButton()), s_drive)
-		);
+	);
 
   }
   
@@ -48,23 +51,10 @@ public class RobotContainer {
         .whenReleased(s_intake::stopEat); 
   }
 
-	public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {
+
 		return m_autoCommand;
-	}
 
-		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.closedCurveDrive(
-				OI.getTriggerOutput(driveController),
-				OI.getLeftJoystickAxis(driveController),
-				driveController.getXButton()), s_drive)
-		);
-
-	}
-
-	private void configureButtonBindings() {
-	}
-
-	public Command getAutonomousCommand() {
-		return m_autoCommand;
-	}
+  }
 
 }
