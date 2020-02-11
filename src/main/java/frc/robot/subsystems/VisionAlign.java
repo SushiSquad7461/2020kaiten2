@@ -49,7 +49,7 @@ public class VisionAlign extends SubsystemBase {
 	}
 
 	public void cancelAlign() {
-		RobotContainer.s_drive.closedCurveDrive(0, 0, true);
+		RobotContainer.s_drive.closedCurveDrive(0, 0, false);
 	}
 
 	@Override

@@ -25,6 +25,10 @@ public class RobotContainer {
 
 	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+	// create joysticks
+	public static final XboxController driveController = new XboxController(OI.DRIVE_CONTROLLER);
+	public static final XboxController operatorController = new XboxController(OI.OPERATOR_CONTROLLER);
+
 	public RobotContainer() {
 		s_visionAlign = new VisionAlign();
 
