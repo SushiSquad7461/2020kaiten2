@@ -61,6 +61,8 @@ public final class Constants {
 
 	}
 
-	// controllers
+	public static final class Lasershark {
+		public static final int DIO = 0;
+	}
 
 }
