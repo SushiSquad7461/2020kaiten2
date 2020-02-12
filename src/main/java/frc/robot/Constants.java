@@ -74,6 +74,7 @@ public final class Constants {
 		public static final double TARGET_ALIGN_kP = 0.00;
 		public static final double TARGET_ALIGN_FORWARD = 0.75;
 		public static final double TARGET_ALIGN_ANGULAR = 0.00;
+		public static final double ADJACENCY_THRESHOLD = 1.00;
 
 	}
 

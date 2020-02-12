@@ -9,12 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.VisionAlign;
 
 public class RobotContainer {
@@ -38,8 +36,27 @@ public class RobotContainer {
 	private void configureButtonBindings() {
 
 		new JoystickButton(driveController, XboxController.Button.kBumperLeft.value)
-				.whenPressed(new RunCommand(s_visionAlign::alignRobot))
-				.whenReleased(new InstantCommand(s_visionAlign::cancelAlign));
+				.whenPressed(new ParallelCommandGroup(
+						new RunCommand(s_visionAlign::alignRobot),
+						new ConditionalCommand(
+								new ConditionalCommand(
+										new ConditionalCommand(
+												new RunCommand(s_hopper::startSpit),
+												new SequentialCommandGroup(
+														new RunCommand(s_hopper::reverseSpit),
+														new WaitCommand(0.5)
+												),
+												s_hopper::isCurrentSpiked
+										),
+										new InstantCommand(s_hopper::endSpit),
+										s_visionAlign::checkAdjacent
+								)
+						)
+				))
+				.whenReleased(new ParallelCommandGroup(
+						new InstantCommand(s_visionAlign::cancelAlign),
+						new InstantCommand(s_hopper::endSpit)
+				));
 
 	}
 

@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.cuforge.libcu.Lasershark;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -24,6 +25,9 @@ public class VisionAlign extends SubsystemBase {
 
 	private double kP;
 
+	public static boolean adjacentToWall;
+	public static Lasershark lasershark;
+
 	// constructor
 	public VisionAlign() {
 		table = NetworkTableInstance.getDefault();
@@ -31,6 +35,8 @@ public class VisionAlign extends SubsystemBase {
 		yaw = cameraTable.getEntry("yaw");
 
 		kP = Constants.Camera.TARGET_ALIGN_kP;
+
+		adjacentToWall = false;
 	}
 
 	// find angular error
@@ -45,11 +51,21 @@ public class VisionAlign extends SubsystemBase {
 	// align the robot to the vision target
 	public void alignRobot() {
 		//RobotContainer.s_drive.curveDrive(); // open loop drive
-		RobotContainer.s_drive.closedCurveDrive(Constants.Camera.TARGET_ALIGN_FORWARD, calculateOutput() * Constants.Camera.TARGET_ALIGN_ANGULAR, true); // closed loop drive
+		RobotContainer.s_drive.curveDrive(Constants.Camera.TARGET_ALIGN_FORWARD, calculateOutput() * Constants.Camera.TARGET_ALIGN_ANGULAR, true); // closed loop drive
 	}
 
 	public void cancelAlign() {
-		RobotContainer.s_drive.closedCurveDrive(0, 0, false);
+		RobotContainer.s_drive.curveDrive(0, 0, false);
+	}
+
+	public boolean checkAdjacent() {
+		if (lasershark.getDistanceInches() < Constants.Camera.ADJACENCY_THRESHOLD) {
+			adjacentToWall = true;
+		} else {
+			adjacentToWall = false;
+		}
+
+		return adjacentToWall;
 	}
 
 	@Override
