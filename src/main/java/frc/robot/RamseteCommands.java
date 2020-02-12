@@ -10,25 +10,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class RamseteCommands {
 	private DifferentialDriveVoltageConstraint voltageConstraint;
-	private static RamseteCommand exampleCommand,
-	toTrench,
-	throughTrench,
-	trenchToMid,
-	throughMid,
-	midToMyTrench,
-	trenchToScoring,
-	initToOM,
-	OMToScoring,
-	initToScoring,
-	scoringToMT,
-	throughMT,
-	MTToScoring,
-	scoringToMM,
-	throughMMToScoring,
-	initLineThroughMM,
-	initLineThroughMT,
-	scoringToOT,
-	scoringToOM;
+	private static RamseteCommand exampleCommand, toTrench, throughTrench, trenchToMid, throughMid, midToMyTrench,
+	trenchToScoring, initToOM, OMToScoring, initToScoring, scoringToMT, throughMT, MTToScoring, scoringToMM,
+	throughMMToScoring, initLineThroughMM, initLineThroughMT, scoringToOT, scoringToOM;
 
 	public RamseteCommands() {
 		// sets voltage constraint so you dont over accelerate

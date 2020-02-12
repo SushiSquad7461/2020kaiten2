@@ -18,24 +18,9 @@ import java.util.List;
 
 public class Paths {
 	public static TrajectoryConfig config;
-	public static Trajectory toTrench,
-	throughTrench,
-	trenchToMid,
-	throughMid,
-	endMyTrench,
-	trenchToScoring,
-	initToOM,
-	OMToScoring,
-	initToScoring,
-	scoringToMT,
-	throughMTrench,
-	MTToScoring,
-	scoringToMM,
-	throughMMToScoring,
-	initLineThroughMM,
-	initLineThroughMT,
-	scoringToOT,
-	scoringToOM,
+	public static Trajectory toTrench, throughTrench, trenchToMid, throughMid, endMyTrench, trenchToScoring,
+	initToOM, OMToScoring, initToScoring, scoringToMT, throughMTrench, MTToScoring, scoringToMM,
+	throughMMToScoring, initLineThroughMM, initLineThroughMT, scoringToOT, scoringToOM,
 	example = null;
 	public Paths() {
 		RamseteCommands ramsete = new RamseteCommands();
