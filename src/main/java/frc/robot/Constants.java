@@ -68,8 +68,12 @@ public final class Constants {
 		public static final int WINCH_VICTOR = 10;
 
 		// climb motor max speeds
-		public static final int DEPLOY_SPEED = 1;
-		public static final int WINCH_SPEED = 1;
+		public static final int LIFT_SPEED = 1;
+		public static final int WINCH_SPEED = -1;
+
+		// climb motor inverted
+		public static final boolean TALON_INVERTED = false;
+		public static final boolean VICTOR_INVERTED = true;
 
 		// climb encoder CAN ID
 		public static final int CLIMB_CAN_ID = 42;
@@ -90,7 +94,7 @@ public final class Constants {
 		// starting arm position (need to set)
 		public static final double BASE_POSE = 0;
 
-		// feedforward constants; kS = volts; kV = volts * sec / radians; kA = volts * sec^2 / radians
+		// feedforward constants; kS = volts; kG = volts (counteracts gravity); kV = volts * sec / radians; kA = volts * sec^2 / radians
 		// (need to characterize)
 		public static final double kS = 0.0;
 		public static final double kG = 0.0;
