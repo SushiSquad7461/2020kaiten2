@@ -30,13 +30,16 @@ public final class Constants {
 		public static final int MAIN_ID = 11;
 		public static final int SECONDARY_ID = 10;
 
+		public static final boolean MAIN_INVERTED = false;
+		public static final boolean SECONDARY_INVERTED = true;
+
 		// encoders
 		public static final int ENCODER_A = 60;
 		public static final int ENCODER_B = 4321;
 		public static final boolean ENCODER_REVERSE_DIRECTION = false;
 
 		// flywheel speed (rotations per minute)
-		public static final double SPEED = 600;
+		public static final double SPEED = 6000;
 
 		// don't tune these--documentation stated constants for entering rpm
 		public static final int TICKS_PER_ROTATION = 4096; // ticks per one encoder rotation

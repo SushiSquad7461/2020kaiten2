@@ -42,6 +42,9 @@ public class Flywheel extends PIDSubsystem {
 
 		flywheelMain.configFactoryDefault();
 
+		flywheelMain.setInverted(Constants.Flywheel.MAIN_INVERTED);
+		flywheelSecondary.setInverted(Constants.Flywheel.SECONDARY_INVERTED);
+
 		flywheelFeedforward = new SimpleMotorFeedforward(
 				Constants.Flywheel.kS,
 				Constants.Flywheel.kV,
@@ -73,16 +76,25 @@ public class Flywheel extends PIDSubsystem {
 		// the first number here is a 0 for position tolerance, we want
 		// it to be zero
 		this.getController().setTolerance(0, Constants.Flywheel.ERROR_TOLERANCE);
-		this.setSetpoint(Constants.Flywheel.SPEED);
+		this.getController().setSetpoint(Constants.Flywheel.SPEED);
 
 		RobotContainer.operatorController.setRumble(GenericHID.RumbleType.kRightRumble, Math.pow(encoderMain.getVelocity(), 3));
-
-		SmartDashboard.putNumber("flywheel rpm", encoderMain.getVelocity());
 	}
 
 	@Override
 	protected void useOutput(double output, double setpoint) {
 		flywheelMain.set(ControlMode.PercentOutput, output + flywheelFeedforward.calculate(setpoint));
+	}
+
+	public void enableController() {
+		double output = m_controller.calculate(encoderMain.getVelocity(), Constants.Flywheel.SPEED);
+		double feedForward = flywheelFeedforward.calculate(Constants.Flywheel.SPEED);
+
+		flywheelMain.set(ControlMode.PercentOutput, output);
+
+		SmartDashboard.putNumber("controller output", output);
+		SmartDashboard.putNumber("flywheel rpm", encoderMain.getVelocity());
+		SmartDashboard.putNumber("flywheel rpm 2", encoderMain.getVelocity());
 	}
 
 	@Override
