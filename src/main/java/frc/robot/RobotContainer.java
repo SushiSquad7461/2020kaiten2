@@ -35,7 +35,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // flywheel
     new JoystickButton(operatorController, XboxController.Button.kX.value)
-      .whenPressed(new InstantCommand(() -> s_flywheel.enable()))
+      .whenPressed(new InstantCommand(() -> s_flywheel.enable(Flywheel.Mode.LINED_UP)))
+      .whenReleased(new InstantCommand(() -> s_flywheel.disable()));
+
+    new JoystickButton(operatorController, XboxController.Button.kY.value)
+      .whenPressed(new InstantCommand(() -> s_flywheel.enable(Flywheel.Mode.PASSING)));
       .whenReleased(new InstantCommand(() -> s_flywheel.disable()));
   }
 
