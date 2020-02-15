@@ -33,10 +33,10 @@ public class RobotContainer {
 	public RobotContainer() {
 		s_hopper = new Hopper();
 		s_flywheel = new Flywheel();
+		s_intake = new Intake();
+
 		configureButtonBindings();
 	}
-
-  private void configureButtonBindings() {
 
     // flywheel
     new JoystickButton(driveController, XboxController.Button.kX.value)
