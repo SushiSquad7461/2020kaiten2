@@ -46,7 +46,7 @@ public final class Constants {
 		public static final double SETPOINT_CONSTANT = 0.001667; // 100 ms / 1 min
 
 		// pid constants
-		public static final double kP = 0.0002;
+		public static final double kP = 0.00002;
 		public static final double kI = 0;
 		public static final double kD = 0;
 

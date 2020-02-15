@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.CANCoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -28,8 +30,8 @@ import frc.robot.RobotContainer;
 public class Flywheel extends PIDSubsystem {
 
 	// define variables
-	private final TalonSRX flywheelMain;
-	private final VictorSPX flywheelSecondary;
+	private final WPI_TalonSRX flywheelMain;
+	private final WPI_VictorSPX flywheelSecondary;
 	private final SimpleMotorFeedforward flywheelFeedforward;
 	private CANCoder encoderMain;
 
@@ -37,8 +39,8 @@ public class Flywheel extends PIDSubsystem {
 		super(new PIDController(Constants.Flywheel.kP, Constants.Flywheel.kI, Constants.Flywheel.kD));
 
 		// instantiate motors
-		flywheelMain = new TalonSRX(Constants.Flywheel.MAIN_ID);
-		flywheelSecondary = new VictorSPX(Constants.Flywheel.SECONDARY_ID);
+		flywheelMain = new WPI_TalonSRX(Constants.Flywheel.MAIN_ID);
+		flywheelSecondary = new WPI_VictorSPX(Constants.Flywheel.SECONDARY_ID);
 
 		flywheelMain.configFactoryDefault();
 
@@ -78,21 +80,21 @@ public class Flywheel extends PIDSubsystem {
 		this.getController().setTolerance(0, Constants.Flywheel.ERROR_TOLERANCE);
 		this.getController().setSetpoint(Constants.Flywheel.SPEED);
 
-		RobotContainer.operatorController.setRumble(GenericHID.RumbleType.kRightRumble, Math.pow(encoderMain.getVelocity(), 3));
+		RobotContainer.operatorController.setRumble(GenericHID.RumbleType.kRightRumble, Math.pow(encoderMain.getVelocity() / 12000, 3));
 	}
 
 	@Override
 	protected void useOutput(double output, double setpoint) {
-		flywheelMain.set(ControlMode.PercentOutput, output + flywheelFeedforward.calculate(setpoint));
+		//flywheelMain.set(ControlMode.PercentOutput, output + flywheelFeedforward.calculate(setpoint));
 	}
 
 	public void enableController() {
 		double output = m_controller.calculate(encoderMain.getVelocity(), Constants.Flywheel.SPEED);
 		double feedForward = flywheelFeedforward.calculate(Constants.Flywheel.SPEED);
 
-		flywheelMain.set(ControlMode.PercentOutput, output);
+		flywheelMain.setVoltage(output + feedForward);
 
-		SmartDashboard.putNumber("controller output", output);
+		SmartDashboard.putNumber("controller output", output + feedForward);
 		SmartDashboard.putNumber("flywheel rpm", encoderMain.getVelocity());
 		SmartDashboard.putNumber("flywheel rpm 2", encoderMain.getVelocity());
 	}
