@@ -25,7 +25,7 @@ public final class Constants {
 		public static final int ENCODER_RIGHT_B = 14;
 
 		// open loop configuration
-		public static final int	CURRENT_LIMIT = 40;
+		public static final int	CURRENT_LIMIT = 60;
 
 		// pid constants
 		public static final double LEFT_kP = 0;

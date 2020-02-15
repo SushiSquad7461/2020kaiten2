@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -64,7 +65,7 @@ public class Drivetrain extends SubsystemBase {
 		//nav = new AHRS(SPI.Port.kMXP);
 		//nav.reset();
 
-		differentialDrive = new DifferentialDrive(backLeft, backRight);
+		differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 		/*driveKinematics = new DifferentialDriveKinematics(Constants.Drivetrain.trackWidth);
 		driveOdometry = new DifferentialDriveOdometry(getAngle());*/
 
@@ -75,8 +76,8 @@ public class Drivetrain extends SubsystemBase {
 		rightController = new PIDController(Constants.Drivetrain.RIGHT_kP, Constants.Drivetrain.RIGHT_kI, Constants.Drivetrain.RIGHT_kD);
 
 		// configure motor controllers
-		//backLeft.follow(frontLeft);
-		//backRight.follow(frontRight);
+		backLeft.follow(frontLeft);
+		backRight.follow(frontRight);
 
 		frontLeft.setInverted(driveInverted);
 		frontRight.setInverted(driveInverted);
@@ -132,7 +133,7 @@ public class Drivetrain extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-
+		frontLeft.set(0.5);
 	}
 
 }
