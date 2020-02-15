@@ -71,7 +71,7 @@ public class Flywheel extends PIDSubsystem {
 	}
 
 	public void stop() {
-		flywheelMain.set(ControlMode.Velocity, 0);
+		flywheelMain.set(ControlMode.PercentOutput, 0);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class Flywheel extends PIDSubsystem {
 		this.getController().setTolerance(0, Constants.Flywheel.ERROR_TOLERANCE);
 		this.getController().setSetpoint(Constants.Flywheel.SPEED);
 
-		RobotContainer.operatorController.setRumble(GenericHID.RumbleType.kRightRumble, Math.pow(encoderMain.getVelocity() / 12000, 3));
+		//RobotContainer.operatorController.setRumble(GenericHID.RumbleType.kRightRumble, Math.pow(encoderMain.getVelocity() / 12000, 3));
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class Flywheel extends PIDSubsystem {
 		double output = m_controller.calculate(encoderMain.getVelocity(), Constants.Flywheel.SPEED);
 		double feedForward = flywheelFeedforward.calculate(Constants.Flywheel.SPEED);
 
-		flywheelMain.set(0.2);
+		flywheelMain.set(ControlMode.PercentOutput, 1);
 
 		SmartDashboard.putNumber("controller output", output + feedForward);
 		SmartDashboard.putNumber("flywheel rpm", encoderMain.getVelocity());

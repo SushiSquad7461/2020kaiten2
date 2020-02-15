@@ -39,9 +39,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // flywheel
-    new JoystickButton(operatorController, XboxController.Button.kX.value)
+    new JoystickButton(driveController, XboxController.Button.kX.value)
 			.whenPressed(new InstantCommand(() -> s_flywheel.enableController()))
-			.whenReleased(new InstantCommand(() -> s_flywheel.disable()));
+			.whenReleased(new InstantCommand(() -> s_flywheel.stop()));
 
 	new JoystickButton(driveController, XboxController.Button.kA.value)
 			.whenPressed(new ConditionalCommand(
