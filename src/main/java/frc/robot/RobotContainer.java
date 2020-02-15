@@ -23,6 +23,7 @@ public class RobotContainer {
 	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 	private final Hopper s_hopper;
 	private final Flywheel s_flywheel;
+	private final Intake s_intake;
 
 	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -37,6 +38,12 @@ public class RobotContainer {
 
 		configureButtonBindings();
 	}
+
+	private void configureButtonBindings() {
+
+		new JoystickButton(driveController, XboxController.Button.kB.value)
+				.whenPressed(new RunCommand(s_intake::startVore, s_intake))
+				.whenReleased(new RunCommand(s_intake::stopVore, s_intake));
 
     // flywheel
     new JoystickButton(driveController, XboxController.Button.kX.value)
