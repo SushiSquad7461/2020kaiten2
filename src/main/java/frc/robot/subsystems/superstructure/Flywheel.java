@@ -12,11 +12,17 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.sensors.CANCoder;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.sensors.CANCoder;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 /*
    this will be re-written for the 4th time I'm calling it right now
@@ -24,61 +30,79 @@ import frc.robot.Constants;
 
 public class Flywheel extends PIDSubsystem {
 
-  // define variables
-  private final TalonSRX flywheelMain;
-  private final VictorSPX flywheelSecondary;
-  private final SimpleMotorFeedforward m_MotorFeedforward;
-  private CANCoder encoderMain;
+	// define variables
+	private final WPI_TalonSRX flywheelMain;
+	private final WPI_VictorSPX flywheelSecondary;
+	private final SimpleMotorFeedforward flywheelFeedforward;
+	private CANCoder encoderMain;
 
-  public Flywheel() {
-    super(new PIDController(Constants.Flywheel.kP, Constants.Flywheel.kI, Constants.Flywheel.kD));
+	public Flywheel() {
+		super(new PIDController(Constants.Flywheel.kP, Constants.Flywheel.kI, Constants.Flywheel.kD));
 
-    // instantiate motors
-    flywheelMain = new TalonSRX(Constants.Flywheel.MAIN_ID);
-    flywheelSecondary = new VictorSPX(Constants.Flywheel.SECONDARY_ID);
+		// instantiate motors
+		flywheelMain = new WPI_TalonSRX(Constants.Flywheel.MAIN_ID);
+		flywheelSecondary = new WPI_VictorSPX(Constants.Flywheel.SECONDARY_ID);
 
-    flywheelMain.configFactoryDefault();
+		flywheelMain.configFactoryDefault();
 
-    m_MotorFeedforward = new SimpleMotorFeedforward(Constants.Flywheel.kS, Constants.Flywheel.kV,
-        Constants.Flywheel.kA);
-    /* Config the peak and nominal outputs ([-1, 1] represents [-100, 100]%) */
-    flywheelMain.configNominalOutputForward(0, Constants.Flywheel.CONFIG_TIMEOUT);
-    flywheelMain.configNominalOutputReverse(0, Constants.Flywheel.CONFIG_TIMEOUT);
-    flywheelMain.configPeakOutputForward(1, Constants.Flywheel.CONFIG_TIMEOUT);
-    flywheelMain.configPeakOutputReverse(-1, Constants.Flywheel.CONFIG_TIMEOUT);
+		flywheelMain.setInverted(Constants.Flywheel.MAIN_INVERTED);
+		flywheelSecondary.setInverted(Constants.Flywheel.SECONDARY_INVERTED);
 
-    flywheelSecondary.follow(flywheelMain);
+		flywheelFeedforward = new SimpleMotorFeedforward(
+				Constants.Flywheel.kS,
+				Constants.Flywheel.kV,
+				Constants.Flywheel.kA
+		);
 
-    // encoder takes 2 ports
-    encoderMain = new CANCoder(Constants.Flywheel.ENCODER);
-  }
+		// config the peak and nominal outputs ([-1, 1] represents [-100, 100]%)
+		flywheelMain.configNominalOutputForward(0, Constants.Flywheel.CONFIG_TIMEOUT);
+		flywheelMain.configNominalOutputReverse(0, Constants.Flywheel.CONFIG_TIMEOUT);
+		flywheelMain.configPeakOutputForward(1, Constants.Flywheel.CONFIG_TIMEOUT);
+		flywheelMain.configPeakOutputReverse(-1, Constants.Flywheel.CONFIG_TIMEOUT);
 
+		flywheelSecondary.follow(flywheelMain);
 
-  public void stop() {
-    flywheelMain.set(ControlMode.Velocity, 0);
-  }
+		// encoder takes 2 ports
+		encoderMain = new CANCoder(
+				Constants.Flywheel.ENCODER_A
+				//Constants.Flywheel.ENCODER_B,
+				//Constants.Flywheel.ENCODER_REVERSE_DIRECTION
+		);
+	}
 
-  @Override
-  public void periodic() {
-    // the first number here is a 0 for position tolerance, we want
-    // it to be zero
-    this.getController().setTolerance(0, Constants.Flywheel.ERROR_TOLERANCE);
-    this.setSetpoint(Constants.Flywheel.SPEED);
-  }
+	public void stop() {
+		flywheelMain.set(ControlMode.Velocity, 0);
+	}
 
-  @Override
-  protected void useOutput(double output, double setpoint) {
-    flywheelMain.set(ControlMode.PercentOutput, output + m_MotorFeedforward.calculate(setpoint));
-  }
+	@Override
+	public void periodic() {
+		// the first number here is a 0 for position tolerance, we want
+		// it to be zero
+		this.getController().setTolerance(0, Constants.Flywheel.ERROR_TOLERANCE);
+		this.getController().setSetpoint(Constants.Flywheel.SPEED);
 
-  @Override
-  protected double getMeasurement() {
-    return encoderMain.getVelocity();
-  }
+		RobotContainer.operatorController.setRumble(GenericHID.RumbleType.kRightRumble, Math.pow(encoderMain.getVelocity() / 12000, 3));
+	}
 
-  @Override
-  public void enable() {
-    
-  }
+	@Override
+	protected void useOutput(double output, double setpoint) {
+		//flywheelMain.set(ControlMode.PercentOutput, output + flywheelFeedforward.calculate(setpoint));
+	}
+
+	public void enableController() {
+		double output = m_controller.calculate(encoderMain.getVelocity(), Constants.Flywheel.SPEED);
+		double feedForward = flywheelFeedforward.calculate(Constants.Flywheel.SPEED);
+
+		flywheelMain.setVoltage(output + feedForward);
+
+		SmartDashboard.putNumber("controller output", output + feedForward);
+		SmartDashboard.putNumber("flywheel rpm", encoderMain.getVelocity());
+		SmartDashboard.putNumber("flywheel rpm 2", encoderMain.getVelocity());
+	}
+
+	@Override
+	protected double getMeasurement() {
+		return encoderMain.getVelocity();
+	}
 
 }
