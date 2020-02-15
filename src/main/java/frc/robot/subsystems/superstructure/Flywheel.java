@@ -93,7 +93,7 @@ public class Flywheel extends PIDSubsystem {
 		double output = m_controller.calculate(encoderMain.getVelocity(), Constants.Flywheel.SPEED);
 		double feedForward = flywheelFeedforward.calculate(Constants.Flywheel.SPEED);
 
-		flywheelMain.setVoltage(output + feedForward);
+		flywheelMain.set(0.2);
 
 		SmartDashboard.putNumber("controller output", output + feedForward);
 		SmartDashboard.putNumber("flywheel rpm", encoderMain.getVelocity());
