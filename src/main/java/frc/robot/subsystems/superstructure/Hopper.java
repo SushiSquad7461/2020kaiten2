@@ -8,6 +8,9 @@
 package frc.robot.subsystems.superstructure;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
@@ -17,16 +20,16 @@ import javax.naming.ldap.Control;
 public class Hopper extends SubsystemBase {
 
 	//  define variables
-	private final TalonSRX hopperFast;
-	private final TalonSRX hopperSlow;
+	private final WPI_TalonSRX hopperFast;
+	private final WPI_VictorSPX hopperSlow;
 
 	public boolean currentSpike;
 
 	public Hopper() {
 
 		//  instantiate motors
-		hopperFast = new TalonSRX(Constants.Hopper.FAST_ID);
-		hopperSlow = new TalonSRX(Constants.Hopper.SLOW_ID);
+		hopperFast = new WPI_TalonSRX(Constants.Hopper.FAST_ID);
+		hopperSlow = new WPI_VictorSPX(Constants.Hopper.SLOW_ID);
 
 		//  config the peak and the minimum outputs to tell if there was a spike
 		// [-1,1] represents [-100%, 100%]
@@ -66,11 +69,13 @@ public class Hopper extends SubsystemBase {
 	}
 
 	public boolean isCurrentSpiked() {
-		if (hopperFast.getSupplyCurrent() >= Constants.Hopper.CURRENT_SPIKE || hopperSlow.getSupplyCurrent() >= Constants.Hopper.CURRENT_SPIKE) {
+		/*if (hopperFast.getSupplyCurrent() >= Constants.Hopper.CURRENT_SPIKE) {
 			return true;
 		} else {
 			return false;
-		}
+		}*/
+		SmartDashboard.putNumber("hopper current", hopperFast.getSupplyCurrent());
+		return false;
 	}
 
 	@Override
