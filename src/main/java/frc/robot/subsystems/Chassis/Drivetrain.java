@@ -31,7 +31,7 @@ public class Drivetrain extends SubsystemBase {
 	// define variables
 	private CANSparkMax frontLeft, frontRight, backLeft, backRight;
 	private Encoder leftEncoder, rightEncoder;
-	private AHRS nav;
+	//private AHRS nav;
 
 	private boolean driveInverted;
 	private DifferentialDrive differentialDrive;
@@ -43,7 +43,6 @@ public class Drivetrain extends SubsystemBase {
 	public Drivetrain() {
 
 		// configuration
-		nav.reset();
 		CANSparkMaxLowLevel.MotorType brushless = CANSparkMaxLowLevel.MotorType.kBrushless;
 		driveInverted = false;
 
@@ -62,11 +61,12 @@ public class Drivetrain extends SubsystemBase {
 		leftEncoder.setDistancePerPulse(2 * Math.PI * wheelRadius / encoderResolution);
 		rightEncoder.setDistancePerPulse(2 * Math.PI * wheelRadius / encoderResolution);
 
-		nav = new AHRS(SPI.Port.kMXP);
+		//nav = new AHRS(SPI.Port.kMXP);
+		//nav.reset();
 
-		differentialDrive = new DifferentialDrive(frontLeft, frontRight);
-		driveKinematics = new DifferentialDriveKinematics(Constants.Drivetrain.trackWidth);
-		driveOdometry = new DifferentialDriveOdometry(getAngle());
+		differentialDrive = new DifferentialDrive(backLeft, backRight);
+		/*driveKinematics = new DifferentialDriveKinematics(Constants.Drivetrain.trackWidth);
+		driveOdometry = new DifferentialDriveOdometry(getAngle());*/
 
 		leftFeedforward = new SimpleMotorFeedforward(Constants.Drivetrain.LEFT_kS, Constants.Drivetrain.LEFT_kV, Constants.Drivetrain.LEFT_kA);
 		rightFeedforward = new SimpleMotorFeedforward(Constants.Drivetrain.RIGHT_kS, Constants.Drivetrain.RIGHT_kV, Constants.Drivetrain.RIGHT_kA);
@@ -75,8 +75,8 @@ public class Drivetrain extends SubsystemBase {
 		rightController = new PIDController(Constants.Drivetrain.RIGHT_kP, Constants.Drivetrain.RIGHT_kI, Constants.Drivetrain.RIGHT_kD);
 
 		// configure motor controllers
-		backLeft.follow(frontLeft);
-		backRight.follow(frontRight);
+		//backLeft.follow(frontLeft);
+		//backRight.follow(frontRight);
 
 		frontLeft.setInverted(driveInverted);
 		frontRight.setInverted(driveInverted);
@@ -96,7 +96,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	// closed loop drive method
-	public void closedCurveDrive(double linearVelocity, double angularVelocity, boolean isQuickTurn) {
+	/*public void closedCurveDrive(double linearVelocity, double angularVelocity, boolean isQuickTurn) {
 
 		ChassisSpeeds chassisSpeeds;
 		DifferentialDriveWheelSpeeds wheelSpeeds;
@@ -123,11 +123,11 @@ public class Drivetrain extends SubsystemBase {
 			frontRight.set(rightOutput);
 		}
 
-	}
+	}*/
 
 	// get angle from gyro
 	public Rotation2d getAngle() {
-		return Rotation2d.fromDegrees(-nav.getAngle());
+		return Rotation2d.fromDegrees(35);
 	}
 
 	@Override

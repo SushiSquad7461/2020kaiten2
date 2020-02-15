@@ -19,7 +19,7 @@ public class RobotContainer {
 
 	// define subsystems and commands
 	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-	private final Drivetrain s_drive = new Drivetrain();
+	private final Drivetrain s_drive;
 
 	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -28,13 +28,15 @@ public class RobotContainer {
 
 	public RobotContainer() {
 
-		configureButtonBindings();
+		s_drive = new Drivetrain();
 
-		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.closedCurveDrive(
+		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.curveDrive(
 				OI.getTriggerOutput(driveController),
 				OI.getLeftJoystickAxis(driveController),
 				driveController.getXButton()), s_drive)
 		);
+
+		configureButtonBindings();
 
 	}
 

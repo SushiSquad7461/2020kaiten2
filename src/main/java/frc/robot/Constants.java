@@ -13,10 +13,10 @@ public final class Constants {
 	public static final class Drivetrain {
 
 		// motors
-		public static final int FL_ID = 1;
-		public static final int FR_ID = 9;
-		public static final int BR_ID = 4;
-		public static final int BL_ID = 8;
+		public static final int FL_ID = 25;
+		public static final int FR_ID = 22;
+		public static final int BR_ID = 23;
+		public static final int BL_ID = 24;
 
 		// encoders
 		public static final int ENCODER_LEFT_A = 11;
