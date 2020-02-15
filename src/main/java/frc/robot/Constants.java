@@ -84,7 +84,7 @@ public final class Constants {
 	// intake
 	public static final class Intake {
 		public static final int MOTOR_ID = 2;
-		public static final double MAX_SPEED = -1;
+		public static final double MAX_SPEED = -0.7461;
 	}
 
 	// controllers
