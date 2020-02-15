@@ -27,13 +27,11 @@ public final class Constants {
 	public static final class Flywheel {
 
 		// motors
-		public static final int MAIN_ID = 2;
-		public static final int SECONDARY_ID = 3;
+		public static final int MAIN_ID = 11;
+		public static final int SECONDARY_ID = 10;
 
 		// encoders
-		public static final int ENCODER_A = 1234;
-		public static final int ENCODER_B = 4321;
-		public static final boolean reverseEncoder = false;
+		public static final int ENCODER = 60;
 
 		// flywheel speed (rotations per minute)
 		public static final double SPEED = 60;
@@ -74,6 +72,8 @@ public final class Constants {
 
 	}
 
-	// controllers
+	public static final int DRIVE_CONTROLLER_PORT = 0;
+	public static final int OPERATOR_CONTROLLER_PORT = 1;
+
 
 }
