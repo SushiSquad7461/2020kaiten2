@@ -18,7 +18,7 @@ public class OI {
 
 	// joystick left-hand x axis
 	public static double getLeftJoystickAxis(XboxController controller) {
-		return controller.getX(GenericHID.Hand.kLeft);
+		return Math.pow(controller.getX(GenericHID.Hand.kLeft), 3);
 	}
 
 	// joystick right-hand x axis

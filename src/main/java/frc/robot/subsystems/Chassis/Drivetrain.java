@@ -56,6 +56,11 @@ public class Drivetrain extends SubsystemBase {
 		backLeft = new CANSparkMax(Constants.Drivetrain.BL_ID, brushless);
 		backRight = new CANSparkMax(Constants.Drivetrain.BR_ID, brushless);
 
+		frontLeft.restoreFactoryDefaults();
+		frontRight.restoreFactoryDefaults();
+		backLeft.restoreFactoryDefaults();
+		backRight.restoreFactoryDefaults();
+
 		leftEncoder = new Encoder(Constants.Drivetrain.ENCODER_LEFT_A, Constants.Drivetrain.ENCODER_LEFT_B);
 		rightEncoder = new Encoder(Constants.Drivetrain.ENCODER_RIGHT_A, Constants.Drivetrain.ENCODER_RIGHT_B);
 
@@ -133,7 +138,7 @@ public class Drivetrain extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		frontLeft.set(0.5);
+
 	}
 
 }
