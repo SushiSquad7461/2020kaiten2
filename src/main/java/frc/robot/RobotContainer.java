@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.superstructure.*;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.Chassis.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.superstructure.Flywheel;
 import frc.robot.subsystems.superstructure.Hopper;
@@ -24,6 +26,7 @@ public class RobotContainer {
 	private final Hopper s_hopper;
 	private final Flywheel s_flywheel;
 	private final Intake s_intake;
+	private final Drive s_drive;
 
 	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -35,6 +38,12 @@ public class RobotContainer {
 		s_hopper = new Hopper();
 		s_flywheel = new Flywheel();
 		s_intake = new Intake();
+		s_drive = new Drive();
+
+		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.curveDrive(
+				OI.getTriggerOutput(driveController),
+				OI.getLeftJoystickAxis(driveController),
+				driveController.getXButton()), s_drive)
 
 		configureButtonBindings();
 	}
@@ -60,8 +69,6 @@ public class RobotContainer {
 						s_hopper::isCurrentSpiked)
 				)
 				.whenReleased(new RunCommand(s_hopper::endSpit, s_hopper));
-
-	}
 
 	public Command getAutonomousCommand() {
 		return m_autoCommand;

@@ -166,3 +166,4 @@ imgui.ini
 .idea/modules.xml
 .idea/vcs.xml
 .idea/uiDesigner.xml
+*.xml

@@ -13,13 +13,42 @@ public final class Constants {
 	public static final class Drivetrain {
 
 		// motors
-		public static final int FL_ID = 5;
-		public static final int FR_ID = 1;
-		public static final int BR_ID = 4;
-		public static final int BL_ID = 8;
+		public static final int FL_ID = 21;
+		public static final int FR_ID = 22;
+		public static final int BR_ID = 23;
+		public static final int BL_ID = 24;
 
-		// configuration
-		public static final int	CURRENT_LIMIT = 40;
+		// encoders
+		public static final int ENCODER_LEFT_A = 11;
+		public static final int ENCODER_LEFT_B = 12;
+		public static final int ENCODER_RIGHT_A = 13;
+		public static final int ENCODER_RIGHT_B = 14;
+
+		// open loop configuration
+		public static final int	CURRENT_LIMIT = 60;
+
+		// pid constants
+		public static final double LEFT_kP = 0;
+		public static final double LEFT_kI = 0;
+		public static final double LEFT_kD = 0;
+
+		public static final double LEFT_kS = 0;
+		public static final double LEFT_kV = 0;
+		public static final double LEFT_kA = 0;
+
+		public static final double RIGHT_kP = 0;
+		public static final double RIGHT_kI = 0;
+		public static final double RIGHT_kD = 0;
+
+		public static final double RIGHT_kS = 0;
+		public static final double RIGHT_kV = 0;
+		public static final double RIGHT_kA = 0;
+
+		// closed loop constants
+		public static final double wheelRadius = 0;
+		public static final double trackWidth = 0;
+
+		public static final double encoderResolution = 0;
 
 	}
 
@@ -81,7 +110,5 @@ public final class Constants {
 		public static final int MOTOR_ID = 2;
 		public static final double MAX_SPEED = -0.7461;
 	}
-
-	// controllers
 
 }
