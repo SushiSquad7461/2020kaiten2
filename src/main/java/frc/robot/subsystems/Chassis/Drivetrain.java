@@ -158,6 +158,11 @@ public class Drivetrain extends SubsystemBase {
 		return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
 	}
 
+	public void tankDriveVolts(double leftVolts, double rightVolts) {
+		frontLeft.setVoltage(leftVolts);
+		frontRight.setVoltage(-rightVolts);
+	}
+
 	@Override
 	public void periodic() {
 		SmartDashboard.putNumber("front left current draw", frontLeft.getOutputCurrent());
