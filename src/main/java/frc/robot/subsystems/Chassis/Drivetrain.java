@@ -34,7 +34,7 @@ public class Drivetrain extends SubsystemBase {
 	private Encoder leftEncoder, rightEncoder;
 	//private AHRS nav;
 
-	private boolean driveInverted;
+	private boolean driveInverted, slowMode;
 	private DifferentialDrive differentialDrive;
 	private DifferentialDriveKinematics driveKinematics;
 	private DifferentialDriveOdometry driveOdometry;
@@ -46,6 +46,7 @@ public class Drivetrain extends SubsystemBase {
 		// configuration
 		CANSparkMaxLowLevel.MotorType brushless = CANSparkMaxLowLevel.MotorType.kBrushless;
 		driveInverted = false;
+		slowMode = false;
 
 		double wheelRadius = Constants.Drivetrain.wheelRadius;
 		double encoderResolution = Constants.Drivetrain.encoderResolution;
@@ -55,11 +56,6 @@ public class Drivetrain extends SubsystemBase {
 		frontRight = new CANSparkMax(Constants.Drivetrain.FR_ID, brushless);
 		backLeft = new CANSparkMax(Constants.Drivetrain.BL_ID, brushless);
 		backRight = new CANSparkMax(Constants.Drivetrain.BR_ID, brushless);
-
-		frontLeft.restoreFactoryDefaults();
-		frontRight.restoreFactoryDefaults();
-		backLeft.restoreFactoryDefaults();
-		backRight.restoreFactoryDefaults();
 
 		leftEncoder = new Encoder(Constants.Drivetrain.ENCODER_LEFT_A, Constants.Drivetrain.ENCODER_LEFT_B);
 		rightEncoder = new Encoder(Constants.Drivetrain.ENCODER_RIGHT_A, Constants.Drivetrain.ENCODER_RIGHT_B);
@@ -89,6 +85,11 @@ public class Drivetrain extends SubsystemBase {
 		backLeft.setInverted(driveInverted);
 		backRight.setInverted(driveInverted);
 
+		frontLeft.setOpenLoopRampRate(Constants.Drivetrain.OPEN_LOOP_RAMP);
+		frontRight.setOpenLoopRampRate(Constants.Drivetrain.OPEN_LOOP_RAMP);
+		backLeft.setOpenLoopRampRate(Constants.Drivetrain.OPEN_LOOP_RAMP);
+		backRight.setOpenLoopRampRate(Constants.Drivetrain.OPEN_LOOP_RAMP);
+
 		frontLeft.setSmartCurrentLimit(Constants.Drivetrain.CURRENT_LIMIT);
 		frontRight.setSmartCurrentLimit(Constants.Drivetrain.CURRENT_LIMIT);
 		backLeft.setSmartCurrentLimit(Constants.Drivetrain.CURRENT_LIMIT);
@@ -96,9 +97,17 @@ public class Drivetrain extends SubsystemBase {
 
 	}
 
+	public void toggleSlow() {
+		slowMode = !slowMode;
+	}
+
 	// open loop curve drive method
 	public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickTurn) {
-		differentialDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickTurn);
+		if (slowMode) {
+			differentialDrive.curvatureDrive(linearVelocity * Constants.Drivetrain.SLOW_SPEED, angularVelocity, isQuickTurn);
+		} else {
+			differentialDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickTurn);
+		}
 	}
 
 	// closed loop drive method
@@ -138,7 +147,10 @@ public class Drivetrain extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-
+		SmartDashboard.putNumber("front left current draw", frontLeft.getOutputCurrent());
+		SmartDashboard.putNumber("front right current draw", frontRight.getOutputCurrent());
+		SmartDashboard.putNumber("back left current draw", backLeft.getOutputCurrent());
+		SmartDashboard.putNumber("back right current draw", backRight.getOutputCurrent());
 	}
 
 }

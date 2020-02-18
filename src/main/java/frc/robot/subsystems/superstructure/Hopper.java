@@ -31,15 +31,15 @@ public class Hopper extends SubsystemBase {
 		hopperFast = new WPI_TalonSRX(Constants.Hopper.FAST_ID);
 		hopperSlow = new WPI_VictorSPX(Constants.Hopper.SLOW_ID);
 
+		hopperFast.configFactoryDefault();
+		hopperSlow.configFactoryDefault();
+
 		//  config the peak and the minimum outputs to tell if there was a spike
 		// [-1,1] represents [-100%, 100%]
 		hopperFast.configNominalOutputForward(0, Constants.Hopper.CONFIG_TIMEOUT);
 		hopperFast.configNominalOutputReverse(0, Constants.Hopper.CONFIG_TIMEOUT);
 		hopperFast.configPeakOutputForward(1, Constants.Hopper.CONFIG_TIMEOUT);
 		hopperFast.configPeakOutputReverse(-1, Constants.Hopper.CONFIG_TIMEOUT);
-
-		//  sets the same configs to hopperSlow
-		hopperSlow.follow(hopperFast);
 
 		currentSpike = false;
 
@@ -63,8 +63,8 @@ public class Hopper extends SubsystemBase {
 	public void endSpit() {
 
 		//  sets to zero
-		hopperFast.set(ControlMode.PercentOutput, 0);
-		hopperSlow.set(ControlMode.PercentOutput, 0);
+		hopperFast.set(ControlMode.PercentOutput, Constants.Hopper.STOP_SPEED);
+		hopperSlow.set(ControlMode.PercentOutput, Constants.Hopper.STOP_SPEED);
 
 	}
 
@@ -74,7 +74,7 @@ public class Hopper extends SubsystemBase {
 		} else {
 			return false;
 		}*/
-		SmartDashboard.putNumber("hopper current", hopperFast.getSupplyCurrent());
+		SmartDashboard.putBoolean("hopper spiked", (hopperFast.getSupplyCurrent() >= Constants.Hopper.CURRENT_SPIKE));
 		return false;
 	}
 

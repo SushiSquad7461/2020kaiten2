@@ -80,6 +80,13 @@ public class Flywheel extends PIDSubsystem {
 		this.getController().setSetpoint(Constants.Flywheel.SPEED);
 
 		SmartDashboard.putNumber("flywheel rpm", encoderMain.getVelocity());
+		SmartDashboard.putNumber("flywheel rpm 2", encoderMain.getVelocity());
+
+		if (encoderMain.getVelocity() > Constants.Flywheel.SPEED - 100) {
+			SmartDashboard.putBoolean("flywheel at speed", true);
+		} else {
+			SmartDashboard.putBoolean("flywheel at speed", false);
+		}
 
 		//RobotContainer.operatorController.setRumble(GenericHID.RumbleType.kRightRumble, Math.pow(encoderMain.getVelocity() / 12000, 3));
 	}
@@ -93,15 +100,22 @@ public class Flywheel extends PIDSubsystem {
 		double output = m_controller.calculate(encoderMain.getVelocity(), Constants.Flywheel.SPEED);
 		double feedForward = flywheelFeedforward.calculate(Constants.Flywheel.SPEED);
 
-		//flywheelMain.set(ControlMode.PercentOutput, 0.78461);
+		flywheelMain.setVoltage(output + feedForward);
 
 		SmartDashboard.putNumber("controller output", output + feedForward);
-		SmartDashboard.putNumber("flywheel rpm", encoderMain.getVelocity());
 	}
 
 	@Override
 	protected double getMeasurement() {
 		return encoderMain.getVelocity();
+	}
+
+	public boolean isAtSpeed() {
+		if (encoderMain.getVelocity() >= Constants.Flywheel.SPEED - 25) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

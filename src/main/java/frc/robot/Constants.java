@@ -25,7 +25,8 @@ public final class Constants {
 		public static final int ENCODER_RIGHT_B = 14;
 
 		// open loop configuration
-		public static final int	CURRENT_LIMIT = 60;
+		public static final int	CURRENT_LIMIT = 35;
+		public static final int OPEN_LOOP_RAMP = 0;
 
 		// pid constants
 		public static final double LEFT_kP = 0;
@@ -50,6 +51,8 @@ public final class Constants {
 
 		public static final double encoderResolution = 0;
 
+		public static final double SLOW_SPEED = 0.1;
+
 	}
 
 	// flywheel
@@ -66,7 +69,7 @@ public final class Constants {
 		public static final int ENCODER_A = 60;
 
 		// flywheel speed (rotations per minute)
-		public static final double SPEED = 4400;
+		public static final double SPEED = 4000.7461;
 
 		// don't tune these--documentation stated constants for entering rpm
 		public static final int TICKS_PER_ROTATION = 4096; // ticks per one encoder rotation
@@ -92,9 +95,10 @@ public final class Constants {
 		public static final int FAST_ID = 1;
 		public static final int SLOW_ID = 6;
 
-		public static final double MAX_SPEED = -0.6;
-		public static final double SLOW_SPEED = -0.2;
-		public static final double REVERSE_SPEED = 0.6;
+		public static final double MAX_SPEED = 0.9;
+		public static final double SLOW_SPEED = 0.4;
+		public static final double REVERSE_SPEED = -0.6;
+		public static final double STOP_SPEED = -0.1;
 
 		public static final int CONFIG_TIMEOUT = 30;
 		public static final int CURRENT_SPIKE = 70;
@@ -108,7 +112,7 @@ public final class Constants {
 	// intake
 	public static final class Intake {
 		public static final int MOTOR_ID = 2;
-		public static final double MAX_SPEED = -0.7461;
+		public static final double MAX_SPEED = -0.55;
 	}
 
 }
