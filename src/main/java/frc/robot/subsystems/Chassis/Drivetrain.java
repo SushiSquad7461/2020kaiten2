@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
@@ -32,7 +33,7 @@ public class Drivetrain extends SubsystemBase {
 	// define variables
 	private CANSparkMax frontLeft, frontRight, backLeft, backRight;
 	private Encoder leftEncoder, rightEncoder;
-	//private AHRS nav;
+	private AHRS nav;
 
 	private boolean driveInverted, slowMode;
 	private DifferentialDrive differentialDrive;
@@ -63,8 +64,8 @@ public class Drivetrain extends SubsystemBase {
 		leftEncoder.setDistancePerPulse(2 * Math.PI * wheelRadius / encoderResolution);
 		rightEncoder.setDistancePerPulse(2 * Math.PI * wheelRadius / encoderResolution);
 
-		//nav = new AHRS(SPI.Port.kMXP);
-		//nav.reset();
+		nav = new AHRS(SPI.Port.kMXP);
+		nav.reset();
 
 		differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 		driveKinematics = new DifferentialDriveKinematics(Constants.Drivetrain.trackWidth);
@@ -111,7 +112,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	// closed loop drive method
-	/*public void closedCurveDrive(double linearVelocity, double angularVelocity, boolean isQuickTurn) {
+	public void closedCurveDrive(double linearVelocity, double angularVelocity, boolean isQuickTurn) {
 
 		ChassisSpeeds chassisSpeeds;
 		DifferentialDriveWheelSpeeds wheelSpeeds;
@@ -138,11 +139,23 @@ public class Drivetrain extends SubsystemBase {
 			frontRight.set(rightOutput);
 		}
 
-	}*/
+	}
 
 	// get angle from gyro
 	public Rotation2d getAngle() {
 		return Rotation2d.fromDegrees(35);
+	}
+
+	public void updateOdometry() {
+		driveOdometry.update(getAngle(), leftEncoder.getDistance(), rightEncoder.getDistance());
+	}
+
+	public Pose2d getPose() {
+		return driveOdometry.getPoseMeters();
+	}
+
+	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+		return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
 	}
 
 	@Override
