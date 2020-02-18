@@ -106,30 +106,45 @@ public class RamseteCommands {
 	}
 
 	public SequentialCommandGroup Defensive1() {
-			return new SequentialCommandGroup( toTrench, throughTrench , trenchToMid , throughMid, midToMyTrench );
+			return new SequentialCommandGroup( container.c_shoot.withTimeout(2), toTrench,
+					new ParallelCommandGroup(throughTrench, new RunCommand(container.s_intake::startVore).withTimeout(3)),
+					container.c_shoot.withTimeout(2),
+					new ParallelCommandGroup(throughMid, new RunCommand(container.s_intake::startVore).withTimeout(2)),
+					midToMyTrench );
 	}
 
 	public SequentialCommandGroup Defensive2() {
-			return new SequentialCommandGroup( toTrench, throughTrench, trenchToScoring );
+			return new SequentialCommandGroup( container.c_shoot.withTimeout(2), toTrench,
+					new ParallelCommandGroup(throughTrench, new RunCommand(container.s_intake::startVore).withTimeout(2)),
+					trenchToScoring, container.c_shoot );
 	}
 
 	public SequentialCommandGroup Defensive3() {
-			return new SequentialCommandGroup( initToOM, throughMid, OMToScoring );
+			return new SequentialCommandGroup( container.c_shoot.withTimeout(2), initToOM,
+					new ParallelCommandGroup(throughMid, new RunCommand(container.s_intake::startVore).withTimeout(2)),
+					OMToScoring, container.c_shoot );
 	}
 
 	public SequentialCommandGroup CounterDefensive1() {
-			return new SequentialCommandGroup( initLineThroughMM, throughMMToScoring );
+			return new SequentialCommandGroup( container.c_shoot.withTimeout(2), initLineThroughMM,
+					throughMMToScoring, container.c_shoot );
 	}
 
 	public SequentialCommandGroup CounterDefensive2() {
-			return new SequentialCommandGroup( initLineThroughMT, MTToScoring );
+			return new SequentialCommandGroup( container.c_shoot.withTimeout(2),
+					new ParallelCommandGroup(initLineThroughMT, new RunCommand(container.s_intake::startVore).withTimeout(2)),
+					MTToScoring, container.c_shoot );
 	}
 
 	public SequentialCommandGroup PseudoOffensive1() {
-			return new SequentialCommandGroup( initToScoring, scoringToOT, throughTrench, trenchToScoring );
+			return new SequentialCommandGroup( initToScoring, container.c_shoot.withTimeout(2),
+					scoringToOT, new ParallelCommandGroup(throughTrench, new RunCommand(container.s_intake::startVore).withTimeout(2)),
+					trenchToScoring, container.c_shoot );
 	}
 
 	public SequentialCommandGroup PseudoOffensive2() {
-			return new SequentialCommandGroup( initToScoring, scoringToOM, throughMid, OMToScoring );
+			return new SequentialCommandGroup( initToScoring, container.c_shoot.withTimeout(2), scoringToOM,
+					new ParallelCommandGroup(throughMid, new RunCommand(container.s_intake::startVore).withTimeout(2)),
+					OMToScoring, container.c_shoot );
 	}
 }
