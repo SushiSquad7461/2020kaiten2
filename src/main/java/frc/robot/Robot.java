@@ -15,27 +15,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.Flywheel;
 
 public class Robot extends TimedRobot {
+  private RamseteCommands ramsete;
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
   SendableChooser<SequentialCommandGroup> autoChooser = new SendableChooser<>();
 
   @Override
   public void robotInit() {
+    ramsete = new RamseteCommands();
     m_robotContainer = new RobotContainer();
-    autoChooser.setDefaultOption("Example path", RamseteCommands.ExamplePath.fullAutoSequence());
-    autoChooser.addOption("o, s8, mTr, 8b", RamseteCommands.Offensive1.fullAutoSequence());
-    autoChooser.addOption("o, s8, mM, 8b", RamseteCommands.Offensive2.fullAutoSequence());
-    autoChooser.addOption("d, s0, oTr/M, 13b", RamseteCommands.Defensive1.fullAutoSequence());
-    autoChooser.addOption("d, s5, oTr, 8b", RamseteCommands.Defensive2.fullAutoSequence());
-    autoChooser.addOption("d, s5, mTr, 8b", RamseteCommands.Defensive3.fullAutoSequence());
-    autoChooser.addOption("pd, s5, oM, 8b", RamseteCommands.CounterDefensive1.fullAutoSequence());
-    autoChooser.addOption("pd, s5, oTr, 8b", RamseteCommands.CounterDefensive2.fullAutoSequence());
-    autoChooser.addOption("po, s8, oTr, 8b", RamseteCommands.PseudoOffensive1.fullAutoSequence());
-    autoChooser.addOption("po, s8, oM, 8b", RamseteCommands.PseudoOffensive2.fullAutoSequence());
+    autoChooser.setDefaultOption("Example path", ramsete.ExampleAuto());
+    autoChooser.addOption("o, s8, mTr, 8b", ramsete.Offensive1());
+    autoChooser.addOption("o, s8, mM, 8b", ramsete.Offensive2());
+    autoChooser.addOption("d, s0, oTr/M, 13b", ramsete.Defensive1());
+    autoChooser.addOption("d, s5, oTr, 8b", ramsete.Defensive2());
+    autoChooser.addOption("d, s5, mTr, 8b", ramsete.Defensive3());
+    autoChooser.addOption("pd, s5, oM, 8b", ramsete.CounterDefensive1());
+    autoChooser.addOption("pd, s5, oTr, 8b", ramsete.CounterDefensive2());
+    autoChooser.addOption("po, s8, oTr, 8b", ramsete.PseudoOffensive1());
+    autoChooser.addOption("po, s8, oM, 8b", ramsete.PseudoOffensive2());
     SmartDashboard.putData("Auto path", autoChooser);
   }
 

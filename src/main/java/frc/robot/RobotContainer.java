@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.Shoot;
 import frc.robot.subsystems.superstructure.*;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Chassis.Drivetrain;
@@ -24,10 +25,14 @@ import frc.robot.subsystems.ExampleSubsystem;
 public class RobotContainer {
 	// define subsystems and commands
 	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-	private final Hopper s_hopper;
+	public final Hopper s_hopper;
 	public final Flywheel s_flywheel;
-	private final Intake s_intake;
-	private final Drivetrain s_drive;
+	public final Intake s_intake;
+	public final Drivetrain s_drive;
+
+	private final RamseteCommands ramsete;
+
+	public final Shoot c_shoot;
 
 	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -37,9 +42,13 @@ public class RobotContainer {
 
 	public RobotContainer() {
 		s_hopper = new Hopper();
-		s_flywheel = new Flywheel();
 		s_intake = new Intake();
 		s_drive = new Drivetrain();
+		s_flywheel = new Flywheel();
+
+		ramsete = new RamseteCommands();
+
+		c_shoot = new Shoot(s_flywheel, s_hopper);
 
 		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.curveDrive(
 				OI.getTriggerOutput(driveController),
@@ -95,6 +104,6 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		return RamseteCommands.ExamplePath.fullAutoSequence();
+		return ramsete.ExampleAuto();
 	}
 }

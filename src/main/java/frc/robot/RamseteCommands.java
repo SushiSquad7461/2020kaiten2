@@ -5,59 +5,63 @@ import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.Shoot;
 
 public class RamseteCommands {
+	private final RobotContainer container;
+	private final Paths path;
 	private DifferentialDriveVoltageConstraint voltageConstraint;
-	private static RamseteCommand exampleCommand, toTrench, throughTrench, trenchToMid, throughMid, midToMyTrench,
+	private RamseteCommand exampleCommand, toTrench, throughTrench, trenchToMid, throughMid, midToMyTrench,
 	trenchToScoring, initToOM, OMToScoring, initToScoring, scoringToMT, throughMT, MTToScoring, scoringToMM,
 	throughMMToScoring, initLineThroughMM, initLineThroughMT, scoringToOT, scoringToOM;
 
 	public RamseteCommands() {
+		container = new RobotContainer();
+		path = new Paths();
 		// sets voltage constraint so you dont over accelerate
 		voltageConstraint = new DifferentialDriveVoltageConstraint(
 				new SimpleMotorFeedforward(Constants.RamseteConstants.kS,
-						Constants.RamseteConstants.kV, Constants.RamseteConstants.kA), RobotContainer.s_drive.driveKinematics,
+						Constants.RamseteConstants.kV, Constants.RamseteConstants.kA), container.s_drive.driveKinematics,
 				Constants.RamseteConstants.MAX_VOLTAGE_CONSTRAINT);
 
-		exampleCommand = defineRamseteCommand(Paths.example);
+		exampleCommand = defineRamseteCommand(path.example);
 
-		toTrench = defineRamseteCommand(Paths.toTrench);
+		toTrench = defineRamseteCommand(path.toTrench);
 
-		throughTrench = defineRamseteCommand(Paths.throughTrench);
+		throughTrench = defineRamseteCommand(path.throughTrench);
 
-		trenchToMid = defineRamseteCommand(Paths.trenchToMid);
+		trenchToMid = defineRamseteCommand(path.trenchToMid);
 
-		throughMid = defineRamseteCommand(Paths.throughMid);
+		throughMid = defineRamseteCommand(path.throughMid);
 
-		midToMyTrench = defineRamseteCommand(Paths.endMyTrench);
+		midToMyTrench = defineRamseteCommand(path.endMyTrench);
 
-		trenchToScoring = defineRamseteCommand(Paths.trenchToScoring);
+		trenchToScoring = defineRamseteCommand(path.trenchToScoring);
 
-		initToOM = defineRamseteCommand(Paths.initToOM);
+		initToOM = defineRamseteCommand(path.initToOM);
 
-		OMToScoring = defineRamseteCommand(Paths.OMToScoring);
+		OMToScoring = defineRamseteCommand(path.OMToScoring);
 
-		initToScoring = defineRamseteCommand(Paths.initToScoring);
+		initToScoring = defineRamseteCommand(path.initToScoring);
 
-		scoringToMT = defineRamseteCommand(Paths.scoringToMT);
+		scoringToMT = defineRamseteCommand(path.scoringToMT);
 
-		throughMT = defineRamseteCommand(Paths.throughMTrench);
+		throughMT = defineRamseteCommand(path.throughMTrench);
 
-		MTToScoring = defineRamseteCommand(Paths.MTToScoring);
+		MTToScoring = defineRamseteCommand(path.MTToScoring);
 
-		scoringToMM = defineRamseteCommand(Paths.scoringToMM);
+		scoringToMM = defineRamseteCommand(path.scoringToMM);
 
-		throughMMToScoring = defineRamseteCommand(Paths.throughMMToScoring);
+		throughMMToScoring = defineRamseteCommand(path.throughMMToScoring);
 
-		initLineThroughMM = defineRamseteCommand(Paths.initLineThroughMM);
+		initLineThroughMM = defineRamseteCommand(path.initLineThroughMM);
 
-		initLineThroughMT = defineRamseteCommand(Paths.initLineThroughMT);
+		initLineThroughMT = defineRamseteCommand(path.initLineThroughMT);
 
-		scoringToOT = defineRamseteCommand(Paths.scoringToOT);
+		scoringToOT = defineRamseteCommand(path.scoringToOT);
 
-		scoringToOM = defineRamseteCommand(Paths.scoringToOM);
+		scoringToOM = defineRamseteCommand(path.scoringToOM);
 
 	}
 
@@ -65,16 +69,16 @@ public class RamseteCommands {
 
 		return new RamseteCommand(
 				traj,
-				RobotContainer.s_drive::getPose,
+				container.s_drive::getPose,
 				new RamseteController(Constants.RamseteConstants.RAMSETE_B, Constants.RamseteConstants.RAMSETE_ZETA),
 				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
-				RobotContainer.s_drive.driveKinematics,
-				RobotContainer.s_drive::getWheelSpeeds,
+				container.s_drive.driveKinematics,
+				container.s_drive::getWheelSpeeds,
 				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
 				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
 				// return the volts
-				RobotContainer.s_drive::tankDriveVolts,
-				RobotContainer.s_drive
+				container.s_drive::tankDriveVolts,
+				container.s_drive
 		);
 	}
 
@@ -83,66 +87,49 @@ public class RamseteCommands {
 	}
 
 	// this class is the entire path/sequence
-	static class ExamplePath {
+	public SequentialCommandGroup ExampleAuto() {
 		// returns the SequentialCommandGroup used in auto
-		static SequentialCommandGroup fullAutoSequence() {
-
 			return new SequentialCommandGroup(exampleCommand);
-		}
 	}
 
-	static class Offensive1 {
-		static SequentialCommandGroup fullAutoSequence() {
-			return new SequentialCommandGroup( initToScoring, scoringToMT, throughMT, MTToScoring );
-		}
+	public SequentialCommandGroup Offensive1() {
+			return new SequentialCommandGroup(
+					initToScoring, container.c_shoot.withTimeout(2), scoringToMT,
+					new ParallelCommandGroup(throughMT, new RunCommand(container.s_intake::startVore).withTimeout(2)),
+					MTToScoring, container.c_shoot);
 	}
 
-	static class Offensive2 {
-		static SequentialCommandGroup fullAutoSequence() {
-			return new SequentialCommandGroup( initToScoring, scoringToMM, throughMMToScoring );
-		}
+	public SequentialCommandGroup Offensive2() {
+			return new SequentialCommandGroup( initToScoring, container.c_shoot.withTimeout(2), scoringToMM,
+					new ParallelCommandGroup(throughMMToScoring, new RunCommand(container.s_intake::startVore)).withTimeout(3),
+					container.c_shoot);
 	}
 
-	static class Defensive1 {
-		static SequentialCommandGroup fullAutoSequence() {
+	public SequentialCommandGroup Defensive1() {
 			return new SequentialCommandGroup( toTrench, throughTrench , trenchToMid , throughMid, midToMyTrench );
-		}
 	}
 
-	static class Defensive2 {
-		static SequentialCommandGroup fullAutoSequence() {
+	public SequentialCommandGroup Defensive2() {
 			return new SequentialCommandGroup( toTrench, throughTrench, trenchToScoring );
-		}
 	}
 
-	static class Defensive3 {
-		 static SequentialCommandGroup fullAutoSequence() {
+	public SequentialCommandGroup Defensive3() {
 			return new SequentialCommandGroup( initToOM, throughMid, OMToScoring );
-		}
 	}
 
-	static class CounterDefensive1 {
-		static SequentialCommandGroup fullAutoSequence() {
+	public SequentialCommandGroup CounterDefensive1() {
 			return new SequentialCommandGroup( initLineThroughMM, throughMMToScoring );
-		}
 	}
 
-	static class CounterDefensive2 {
-		static SequentialCommandGroup fullAutoSequence() {
+	public SequentialCommandGroup CounterDefensive2() {
 			return new SequentialCommandGroup( initLineThroughMT, MTToScoring );
-		}
 	}
 
-	static class PseudoOffensive1 {
-		static SequentialCommandGroup fullAutoSequence() {
+	public SequentialCommandGroup PseudoOffensive1() {
 			return new SequentialCommandGroup( initToScoring, scoringToOT, throughTrench, trenchToScoring );
-		}
 	}
 
-	static class PseudoOffensive2 {
-		static SequentialCommandGroup fullAutoSequence() {
+	public SequentialCommandGroup PseudoOffensive2() {
 			return new SequentialCommandGroup( initToScoring, scoringToOM, throughMid, OMToScoring );
-		}
 	}
-
 }

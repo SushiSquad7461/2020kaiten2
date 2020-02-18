@@ -17,19 +17,21 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class Paths {
-	public static TrajectoryConfig config;
-	public static Trajectory toTrench, throughTrench, trenchToMid, throughMid, endMyTrench, trenchToScoring,
+	private final RobotContainer container;
+	private TrajectoryConfig config;
+	public Trajectory toTrench, throughTrench, trenchToMid, throughMid, endMyTrench, trenchToScoring,
 	initToOM, OMToScoring, initToScoring, scoringToMT, throughMTrench, MTToScoring, scoringToMM,
 	throughMMToScoring, initLineThroughMM, initLineThroughMT, scoringToOT, scoringToOM,
 	example = null;
 	public Paths() {
+		container = new RobotContainer();
 		RamseteCommands ramsete = new RamseteCommands();
 		// configures trajectories
 		config =
 				new TrajectoryConfig(Constants.RamseteConstants.MAX_METERS_PER_SECOND,
 						Constants.RamseteConstants.MAX_ACCEL_METERS_PER_SECOND_SQUARED)
 						// Add kinematics to ensure max speed is actually obeyed
-						.setKinematics(RobotContainer.s_drive.driveKinematics)
+						.setKinematics(container.s_drive.driveKinematics)
 						// Apply the voltage constraint
 						.addConstraint(ramsete.getVoltageConstraint());
 

@@ -36,7 +36,7 @@ public class Drivetrain extends SubsystemBase {
 
 	private boolean driveInverted, slowMode;
 	private DifferentialDrive differentialDrive;
-	private DifferentialDriveKinematics driveKinematics;
+	public DifferentialDriveKinematics driveKinematics;
 	private DifferentialDriveOdometry driveOdometry;
 	private SimpleMotorFeedforward leftFeedforward, rightFeedforward;
 	private PIDController leftController, rightController;
@@ -67,8 +67,8 @@ public class Drivetrain extends SubsystemBase {
 		//nav.reset();
 
 		differentialDrive = new DifferentialDrive(frontLeft, frontRight);
-		/*driveKinematics = new DifferentialDriveKinematics(Constants.Drivetrain.trackWidth);
-		driveOdometry = new DifferentialDriveOdometry(getAngle());*/
+		driveKinematics = new DifferentialDriveKinematics(Constants.Drivetrain.trackWidth);
+		driveOdometry = new DifferentialDriveOdometry(getAngle());
 
 		leftFeedforward = new SimpleMotorFeedforward(Constants.Drivetrain.LEFT_kS, Constants.Drivetrain.LEFT_kV, Constants.Drivetrain.LEFT_kA);
 		rightFeedforward = new SimpleMotorFeedforward(Constants.Drivetrain.RIGHT_kS, Constants.Drivetrain.RIGHT_kV, Constants.Drivetrain.RIGHT_kA);
