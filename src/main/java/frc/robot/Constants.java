@@ -64,7 +64,25 @@ public final class Constants {
 	// intake
 	public static final class Intake {
 		public static final int MOTOR_ID = 2;
+		public static final int ARM_MOTOR_ID = 11;
+		public static final int ENCODER_ID = 12;
+
 		public static final double MAX_SPEED = -0.85;
+
+		// intake PID constants
+		public static final double kP = 0.0;
+		public static final double kI = 0.0;
+		public static final double kD = 0.0;
+
+		public static final double kS = 0.0;
+		public static final double kV = 0.0;
+		public static final double kA = 0.0;
+
+		public static final double MAX_ACCEL = 0.0;
+		public static final double MAX_VEL = 0.0;
+
+		public static final double GOAL_POSE = 0.0;
+		public static final double START_POSE = 0.0;
 	}
 
 	// controllers
