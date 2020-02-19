@@ -25,6 +25,7 @@ public class Shoot extends CommandBase {
    * Creates a new ExampleCommand.
    *
    * @param flywheel The subsystem used by this command.
+   * @param hopper The subsystem used by this command.
    */
   public Shoot(Flywheel flywheel, Hopper hopper) {
     this.flywheel = flywheel;
