@@ -74,8 +74,8 @@ public class RamseteCommands {
 				new SimpleMotorFeedforward(Constants.RamseteConstants.kS, Constants.RamseteConstants.kV, Constants.RamseteConstants.kA),
 				container.s_drive.driveKinematics,
 				container.s_drive::getWheelSpeeds,
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
-				new PIDController(Constants.RamseteConstants.kP_VEL, 0, 0),
+				new PIDController(Constants.RamseteConstants.kP_VEL_LEFT, 0, 0),
+				new PIDController(Constants.RamseteConstants.kP_VEL_RIGHT, 0, 0),
 				// return the volts
 				container.s_drive::tankDriveVolts,
 				container.s_drive
@@ -96,17 +96,17 @@ public class RamseteCommands {
 			return new SequentialCommandGroup(
 					initToScoring, container.c_shoot.withTimeout(2), scoringToMT,
 					new ParallelCommandGroup(throughMT, new RunCommand(container.s_intake::startVore).withTimeout(2)),
-					MTToScoring, container.c_shoot);
+					new RunCommand(container.s_intake::stopVore), MTToScoring, container.c_shoot);
 	}
 
 	public SequentialCommandGroup Offensive2() {
 			return new SequentialCommandGroup( initToScoring, container.c_shoot.withTimeout(2), scoringToMM,
 					new ParallelCommandGroup(throughMMToScoring, new RunCommand(container.s_intake::startVore)).withTimeout(3),
-					container.c_shoot);
+					new RunCommand(container.s_intake::stopVore), container.c_shoot);
 	}
 
 	public SequentialCommandGroup Defensive1() {
-			return new SequentialCommandGroup( container.c_shoot.withTimeout(2), toTrench,
+			return new SequentialCommandGroup( container.c_shoot.withTimeout(1.5), toTrench,
 					new ParallelCommandGroup(throughTrench, new RunCommand(container.s_intake::startVore).withTimeout(3)),
 					container.c_shoot.withTimeout(2),
 					new ParallelCommandGroup(throughMid, new RunCommand(container.s_intake::startVore).withTimeout(2)),

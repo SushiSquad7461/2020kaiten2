@@ -97,7 +97,8 @@ public final class Constants {
 		public static final double RAMSETE_B = 2;
 		public static final double RAMSETE_ZETA = 0.7;
 
-		public static final double kP_VEL = 0.00001;
+		public static final double kP_VEL_LEFT = 0.00001;
+		public static final double kP_VEL_RIGHT = 0.00001;
 
 		public static final double MAX_VOLTAGE_CONSTRAINT = 40;
 

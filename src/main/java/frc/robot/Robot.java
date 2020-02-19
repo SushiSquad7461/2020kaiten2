@@ -23,10 +23,11 @@ public class Robot extends TimedRobot {
   private RamseteCommands ramsete;
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-  SendableChooser<SequentialCommandGroup> autoChooser = new SendableChooser<>();
+  private SendableChooser<SequentialCommandGroup> autoChooser;
 
   @Override
   public void robotInit() {
+    autoChooser = new SendableChooser<>();
     ramsete = new RamseteCommands();
     m_robotContainer = new RobotContainer();
     autoChooser.setDefaultOption("Example path", ramsete.ExampleAuto());
