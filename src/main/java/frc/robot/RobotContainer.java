@@ -64,8 +64,8 @@ public class RobotContainer {
 
 		// flywheel
 		new JoystickButton(operatorController, XboxController.Button.kA.value)
-				.whenPressed(new InstantCommand(() -> s_flywheel.enableController()))
-				.whenReleased(new InstantCommand(() -> s_flywheel.stop()));
+				.whenPressed(new RunCommand(() -> s_flywheel.enableController(), s_flywheel))
+				.whenReleased(new RunCommand(() -> s_flywheel.stop(), s_flywheel));
 
 		/*new JoystickButton(driveController, XboxController.Button.kA.value)
 				.whenPressed(new RunCommand(s_hopper::startSpit, s_hopper))

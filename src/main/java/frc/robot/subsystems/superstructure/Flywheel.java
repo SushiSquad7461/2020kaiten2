@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 /*
@@ -35,6 +36,8 @@ public class Flywheel extends PIDSubsystem {
 	private final WPI_VictorSPX flywheelSecondary;
 	private final SimpleMotorFeedforward flywheelFeedforward;
 	private CANCoder encoderMain;
+
+	private double controllerOutput = 0;
 
 	public Flywheel() {
 		super(new PIDController(Constants.Flywheel.kP, Constants.Flywheel.kI, Constants.Flywheel.kD));
@@ -88,7 +91,7 @@ public class Flywheel extends PIDSubsystem {
 			SmartDashboard.putBoolean("flywheel at speed", false);
 		}
 
-		//RobotContainer.operatorController.setRumble(GenericHID.RumbleType.kRightRumble, Math.pow(encoderMain.getVelocity() / 12000, 3));
+		SmartDashboard.putNumber("controller output", controllerOutput);
 	}
 
 	@Override
@@ -101,6 +104,7 @@ public class Flywheel extends PIDSubsystem {
 		double feedForward = flywheelFeedforward.calculate(Constants.Flywheel.SPEED);
 
 		flywheelMain.setVoltage(output + feedForward);
+		controllerOutput = output + feedForward;
 
 		SmartDashboard.putNumber("controller output", output + feedForward);
 	}
