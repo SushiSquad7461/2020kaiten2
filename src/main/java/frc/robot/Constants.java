@@ -98,7 +98,7 @@ public final class Constants {
 		public static final double MAX_SPEED = 0.9;
 		public static final double SLOW_SPEED = 0.4;
 		public static final double REVERSE_SPEED = -0.6;
-		public static final double STOP_SPEED = -0.1;
+		public static final double STOP_SPEED = 0;
 
 		public static final int CONFIG_TIMEOUT = 30;
 		public static final int CURRENT_SPIKE = 70;
