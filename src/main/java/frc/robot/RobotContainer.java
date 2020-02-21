@@ -25,8 +25,6 @@ public class RobotContainer {
 	public final Intake s_intake;
 	public final Drivetrain s_drive;
 
-	private final RamseteCommands ramsete;
-
 	public final Shoot c_shoot;
 
 	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -40,8 +38,6 @@ public class RobotContainer {
 		s_intake = new Intake();
 		s_drive = new Drivetrain();
 		s_flywheel = new Flywheel();
-
-		ramsete = new RamseteCommands();
 
 		c_shoot = new Shoot(s_flywheel, s_hopper);
 
@@ -99,6 +95,6 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		return ramsete.ExampleAuto();
+		return null;
 	}
 }

@@ -22,13 +22,13 @@ import frc.robot.Constants.Flywheel;
 public class Robot extends TimedRobot {
   private RamseteCommands ramsete;
   private Command m_autonomousCommand;
-  private RobotContainer m_robotContainer;
+  public RobotContainer m_robotContainer;
   private SendableChooser<SequentialCommandGroup> autoChooser;
 
   @Override
   public void robotInit() {
     autoChooser = new SendableChooser<>();
-    ramsete = new RamseteCommands();
+    ramsete = new RamseteCommands(m_robotContainer);
     m_robotContainer = new RobotContainer();
     autoChooser.setDefaultOption("Example path", ramsete.ExampleAuto());
     autoChooser.addOption("o, s8, mTr, 8b", ramsete.Offensive1());

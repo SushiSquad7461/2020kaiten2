@@ -17,15 +17,15 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class Paths {
-	private final RobotContainer container;
+	private final RobotContainer m_container;
 	private TrajectoryConfig config;
 	public Trajectory toTrench, throughTrench, trenchToMid, throughMid, endMyTrench, trenchToScoring,
 	initToOM, OMToScoring, initToScoring, scoringToMT, throughMTrench, MTToScoring, scoringToMM,
 	throughMMToScoring, initLineThroughMM, initLineThroughMT, scoringToOT, scoringToOM,
 	example = null;
-	public Paths() {
-		container = new RobotContainer();
-		RamseteCommands ramsete = new RamseteCommands();
+	public Paths(RobotContainer container) {
+		m_container = container;
+		RamseteCommands ramsete = new RamseteCommands(container);
 		// configures trajectories
 		config =
 				new TrajectoryConfig(Constants.RamseteConstants.MAX_METERS_PER_SECOND,
