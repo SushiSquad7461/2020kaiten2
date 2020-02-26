@@ -16,8 +16,7 @@ import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import frc.robot.Constants.ClimbConstants;
 
-public class Climb
-	//	extends ProfiledPIDSubsystem
+public class Climb // extends ProfiledPIDSubsystem
 	{
 
 	// initialize the motors
