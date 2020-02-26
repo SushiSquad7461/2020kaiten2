@@ -64,16 +64,9 @@ public final class Constants {
 	// climb
 	public static final class ClimbConstants {
 		public static final int DEPLOY_TALON = 6;
-		public static final int WINCH_TALON = 7;
-		public static final int WINCH_VICTOR = 10;
-
-		// climb motor max speeds
-		public static final int LIFT_SPEED = 1;
-		public static final int WINCH_SPEED = -1;
 
 		// climb motor inverted
 		public static final boolean TALON_INVERTED = false;
-		public static final boolean VICTOR_INVERTED = true;
 
 		// climb encoder CAN ID
 		public static final int CLIMB_CAN_ID = 42;
@@ -104,10 +97,10 @@ public final class Constants {
 		// elevator linear speed in inches (please tell me when we know these things)
 		public static final double CLIMB_ELEVATOR_DISTANCE_PER_ROTATION = 0;
 
+		public static final double CLIMB_SPEED = 1;
+
 		// climb heights
-		public static final double MAX_HEIGHT = 78.875;
-		public static final double MID_HEIGHT = 66.0;
-		public static final double MIN_HEIGHT = 50.25;
+		public static final double MAX_SPRING_HEIGHT = 10;
 
 	}
 

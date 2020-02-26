@@ -34,19 +34,8 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    // new JoystickButton(operatorController, XboxController.Button.kA.value).whenPressed(s_climb::startDeployClimbArm)
-    //        .whenReleased(s_climb::stopDeployClimbArm);
-    new JoystickButton(operatorController, XboxController.Button.kB.value).whenPressed(s_climb::startLift)
-            .whenReleased(s_climb::stopLift);
-    new JoystickButton(operatorController, XboxController.Button.kA.value).whenPressed(s_climb::dropLift)
-            .whenReleased(s_climb::stopLift);
-    // new JoystickButton(operatorController, operatorController.getPOV(0))
-    //        .whenPressed(() -> s_climb.calculateInput(Constants.ClimbConstants.MAX_HEIGHT));
-    // new JoystickButton(operatorController, operatorController.getPOV(90))
-    //        .whenPressed(() -> s_climb.calculateInput(Constants.ClimbConstants.MID_HEIGHT));
-    // new JoystickButton(operatorController, operatorController.getPOV(270))
-    //        .whenPressed(() -> s_climb.calculateInput(Constants.ClimbConstants.MIN_HEIGHT));
-    // new JoystickButton(operatorController, operatorController.getPOV(180)).whenPressed(s_climb::dropElevator);
+    new JoystickButton(operatorController, XboxController.Button.kA.value)
+            .whenPressed(() -> s_climb.goToSetpoint(Constants.ClimbConstants.MAX_SPRING_HEIGHT));
   }
 
   public Command getAutonomousCommand() {
