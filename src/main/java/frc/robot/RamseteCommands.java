@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.*;
@@ -99,6 +100,7 @@ public class RamseteCommands {
 				new RunCommand(m_container.s_intake::stopVore, m_container.s_intake), MTToScoring);*/
 
 		public SequentialCommandGroup Offensive1() {
+			m_container.s_drive.driveOdometry.resetPosition(path.initToScoring.getInitialPose(), m_container.s_drive.getAngle());
 			return new SequentialCommandGroup(
 					initToScoring, m_container.c_shoot.withTimeout(2), scoringToMT,
 					new ParallelCommandGroup(throughMT, new RunCommand(m_container.s_intake::startVore, m_container.s_intake).withTimeout(2)),

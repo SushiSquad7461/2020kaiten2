@@ -35,7 +35,7 @@ public class Drivetrain extends SubsystemBase {
 	private boolean driveInverted, slowMode;
 	private DifferentialDrive differentialDrive;
 	public DifferentialDriveKinematics driveKinematics;
-	private DifferentialDriveOdometry driveOdometry;
+	public DifferentialDriveOdometry driveOdometry;
 	private SimpleMotorFeedforward leftFeedforward, rightFeedforward;
 	private PIDController leftController, rightController;
 
@@ -188,6 +188,8 @@ public class Drivetrain extends SubsystemBase {
 				leftEncoder.getVelocity(),
 				rightEncoder.getVelocity()
 		);
+
+		SmartDashboard.putNumber("robot heading", getAngle().getDegrees());
 	}
 
 }
