@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.Shoot;
 import frc.robot.subsystems.superstructure.*;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.Chassis.Drivetrain;
+import frc.robot.subsystems.chassis.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 
 public class RobotContainer {
@@ -41,7 +41,7 @@ public class RobotContainer {
 
 		c_shoot = new Shoot(s_flywheel, s_hopper);
 
-		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.curveDrive(
+		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.closedCurveDrive(
 				OI.getTriggerOutput(driveController),
 				OI.getLeftJoystickAxis(driveController),
 				driveController.getXButton()), s_drive));
