@@ -58,6 +58,7 @@ public class Drivetrain extends SubsystemBase {
 		leftEncoder = new CANCoder(Constants.Drivetrain.ENCODER_LEFT);
 		rightEncoder = new CANCoder(Constants.Drivetrain.ENCODER_RIGHT);
 
+		resetEncoders();
 		nav = new AHRS(SPI.Port.kMXP);
 		nav.reset();
 
@@ -159,9 +160,21 @@ public class Drivetrain extends SubsystemBase {
 		nav.reset();
 	}
 
+	// reset the encoders
+	public void resetEncoders() {
+		leftEncoder.setPosition(0);
+		rightEncoder.setPosition(0);
+	}
+
 	// update drive odometry
 	public void updateOdometry() {
 		driveOdometry.update(getAngle(), leftEncoder.getPosition(), rightEncoder.getPosition());
+	}
+
+	// reset odometry
+	public void resetOdometry() {
+		resetEncoders();
+		driveOdometry.resetPosition(getPose(), getAngle());
 	}
 
 	// get pose from odometry
