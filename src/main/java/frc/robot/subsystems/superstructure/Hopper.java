@@ -60,7 +60,6 @@ public class Hopper extends SubsystemBase {
 	// set to zero
 	public void endSpit() {
 
-		//  sets to zero
 		hopperFast.set(ControlMode.PercentOutput, 0);
 		hopperSlow.set(ControlMode.PercentOutput, 0);
 
