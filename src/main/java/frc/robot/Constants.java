@@ -29,6 +29,7 @@ public final class Constants {
 
 		public static final double CONTROLLER_LINEAR_SCALING = 75;
 		public static final double CONTROLLER_ANGULAR_SCALING = 100;
+		public static final double CONTROLLER_QUICKTURN_SCALING = 400;
 
 		// pid constants
 		public static final double LEFT_kP = 0.356;

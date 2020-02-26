@@ -116,7 +116,7 @@ public class Drivetrain extends SubsystemBase {
 		double leftOutput, rightOutput;
 		double leftFeedforwardOutput, rightFeedforwardOutput;
 
-		if (!isQuickTurn) {
+		if (!isQuickTurn && linearVelocity > 0.02) {
 			chassisSpeeds = new ChassisSpeeds(linearVelocity * Constants.Drivetrain.CONTROLLER_LINEAR_SCALING, 0, angularVelocity * Constants.Drivetrain.CONTROLLER_ANGULAR_SCALING);
 			wheelSpeeds = driveKinematics.toWheelSpeeds(chassisSpeeds);
 
@@ -129,11 +129,17 @@ public class Drivetrain extends SubsystemBase {
 			frontLeft.setVoltage(leftOutput + leftFeedforwardOutput);
 			frontRight.setVoltage(rightOutput + rightFeedforwardOutput);
 		} else {
-			leftOutput = angularVelocity;
-			rightOutput = -angularVelocity;
+			chassisSpeeds = new ChassisSpeeds(0, 0, angularVelocity * Constants.Drivetrain.CONTROLLER_QUICKTURN_SCALING);
+			wheelSpeeds = driveKinematics.toWheelSpeeds(chassisSpeeds);
 
-			frontLeft.set(leftOutput);
-			frontRight.set(rightOutput);
+			leftFeedforwardOutput = leftFeedforward.calculate(wheelSpeeds.leftMetersPerSecond);
+			rightFeedforwardOutput = rightFeedforward.calculate(wheelSpeeds.rightMetersPerSecond);
+
+			leftOutput = leftController.calculate(leftEncoder.getVelocity(), wheelSpeeds.leftMetersPerSecond);
+			rightOutput = rightController.calculate(rightEncoder.getVelocity(), wheelSpeeds.rightMetersPerSecond);
+
+			frontLeft.setVoltage(leftOutput + leftFeedforwardOutput);
+			frontRight.setVoltage(rightOutput + rightFeedforwardOutput);
 		}
 
 	}
