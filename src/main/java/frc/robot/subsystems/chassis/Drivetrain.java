@@ -155,6 +155,11 @@ public class Drivetrain extends SubsystemBase {
 		return Rotation2d.fromDegrees(nav.getAngle());
 	}
 
+	// zero the navx
+	public void zeroAngle() {
+		nav.reset();
+	}
+
 	// update drive odometry
 	public void updateOdometry() {
 		driveOdometry.update(getAngle(), leftEncoder.getPosition(), rightEncoder.getPosition());
@@ -178,10 +183,11 @@ public class Drivetrain extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("front left current draw", frontLeft.getOutputCurrent());
-		SmartDashboard.putNumber("front right current draw", frontRight.getOutputCurrent());
-		SmartDashboard.putNumber("back left current draw", backLeft.getOutputCurrent());
-		SmartDashboard.putNumber("back right current draw", backRight.getOutputCurrent());
+		driveOdometry.update(
+				getAngle(),
+				leftEncoder.getVelocity(),
+				rightEncoder.getVelocity()
+		);
 	}
 
 }
