@@ -119,29 +119,20 @@ public class Drivetrain extends SubsystemBase {
 
 		if (!isQuickTurn && linearVelocity > 0.02) {
 			chassisSpeeds = new ChassisSpeeds(linearVelocity * Constants.Drivetrain.CONTROLLER_LINEAR_SCALING, 0, angularVelocity * Constants.Drivetrain.CONTROLLER_ANGULAR_SCALING);
-			wheelSpeeds = driveKinematics.toWheelSpeeds(chassisSpeeds);
-
-			leftFeedforwardOutput = leftFeedforward.calculate(wheelSpeeds.leftMetersPerSecond);
-			rightFeedforwardOutput = rightFeedforward.calculate(wheelSpeeds.rightMetersPerSecond);
-
-			leftOutput = leftController.calculate(leftEncoder.getVelocity(), wheelSpeeds.leftMetersPerSecond);
-			rightOutput = rightController.calculate(rightEncoder.getVelocity(), wheelSpeeds.rightMetersPerSecond);
-
-			frontLeft.setVoltage(leftOutput + leftFeedforwardOutput);
-			frontRight.setVoltage(rightOutput + rightFeedforwardOutput);
 		} else {
 			chassisSpeeds = new ChassisSpeeds(0, 0, angularVelocity * Constants.Drivetrain.CONTROLLER_QUICKTURN_SCALING);
-			wheelSpeeds = driveKinematics.toWheelSpeeds(chassisSpeeds);
-
-			leftFeedforwardOutput = leftFeedforward.calculate(wheelSpeeds.leftMetersPerSecond);
-			rightFeedforwardOutput = rightFeedforward.calculate(wheelSpeeds.rightMetersPerSecond);
-
-			leftOutput = leftController.calculate(leftEncoder.getVelocity(), wheelSpeeds.leftMetersPerSecond);
-			rightOutput = rightController.calculate(rightEncoder.getVelocity(), wheelSpeeds.rightMetersPerSecond);
-
-			frontLeft.setVoltage(leftOutput + leftFeedforwardOutput);
-			frontRight.setVoltage(rightOutput + rightFeedforwardOutput);
 		}
+
+		wheelSpeeds = driveKinematics.toWheelSpeeds(chassisSpeeds);
+
+		leftFeedforwardOutput = leftFeedforward.calculate(wheelSpeeds.leftMetersPerSecond);
+		rightFeedforwardOutput = rightFeedforward.calculate(wheelSpeeds.rightMetersPerSecond);
+
+		leftOutput = leftController.calculate(leftEncoder.getVelocity(), wheelSpeeds.leftMetersPerSecond);
+		rightOutput = rightController.calculate(rightEncoder.getVelocity(), wheelSpeeds.rightMetersPerSecond);
+
+		frontLeft.setVoltage(leftOutput + leftFeedforwardOutput);
+		frontRight.setVoltage(rightOutput + rightFeedforwardOutput);
 
 	}
 
