@@ -18,13 +18,13 @@ public class RamseteCommands {
 
 	public RamseteCommands(RobotContainer container) {
 		m_container = container;
-		path = new Paths(container);
+		//path = new Paths(container);
 		// sets voltage constraint so you dont over accelerate
 		voltageConstraint = new DifferentialDriveVoltageConstraint(
 				new SimpleMotorFeedforward(Constants.RamseteConstants.kS,
 						Constants.RamseteConstants.kV, Constants.RamseteConstants.kA), m_container.s_drive.driveKinematics,
 				Constants.RamseteConstants.MAX_VOLTAGE_CONSTRAINT);
-
+		path = new Paths(container, voltageConstraint);
 		exampleCommand = defineRamseteCommand(path.example);
 
 		toTrench = defineRamseteCommand(path.toTrench);
@@ -92,13 +92,19 @@ public class RamseteCommands {
 			return new SequentialCommandGroup(exampleCommand);
 	}
 
-	public SequentialCommandGroup Offensive1() {
+	/*public SequentialCommandGroup Offensive1() {
+		return new SequentialCo            mmandGroup(
+				initToScoring, m_container.c_shoot.withTimeout(2), scoringToMT,
+				new ParallelCommandGroup(throughMT, new RunCommand(m_container.s_intake::startVore, m_container.s_intake).withTimeout(2)),
+				new RunCommand(m_container.s_intake::stopVore, m_container.s_intake), MTToScoring);*/
+
+		public SequentialCommandGroup Offensive1() {
 			return new SequentialCommandGroup(
 					initToScoring, m_container.c_shoot.withTimeout(2), scoringToMT,
-					new ParallelCommandGroup(throughMT, new RunCommand(m_container.s_intake::startVore).withTimeout(2)),
-					new RunCommand(m_container.s_intake::stopVore), MTToScoring, m_container.c_shoot);
+					new ParallelCommandGroup(throughMT, new RunCommand(m_container.s_intake::startVore, m_container.s_intake).withTimeout(2)),
+					new RunCommand(m_container.s_intake::stopVore, m_container.s_intake), MTToScoring);
 	}
-
+/*
 	public SequentialCommandGroup Offensive2() {
 			return new SequentialCommandGroup( initToScoring, m_container.c_shoot.withTimeout(2), scoringToMM,
 					new ParallelCommandGroup(throughMMToScoring, new RunCommand(m_container.s_intake::startVore)).withTimeout(3),
@@ -146,5 +152,5 @@ public class RamseteCommands {
 			return new SequentialCommandGroup( initToScoring, m_container.c_shoot.withTimeout(2), scoringToOM,
 					new ParallelCommandGroup(throughMid, new RunCommand(m_container.s_intake::startVore).withTimeout(2)),
 					OMToScoring, m_container.c_shoot );
-	}
+	} */
 }

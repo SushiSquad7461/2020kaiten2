@@ -44,11 +44,6 @@ public final class Constants {
 		public static final double RIGHT_kI = 0;
 		public static final double RIGHT_kD = 0;
 
-		public static final double RIGHT_kS = 0;
-		public static final double RIGHT_kV = 0;
-		public static final double RIGHT_kA = 0;
-
-
 		public static final double RIGHT_kS = 0.166;
 		public static final double RIGHT_kV = 0.0315;
 		public static final double RIGHT_kA = 0.00743;
@@ -58,8 +53,6 @@ public final class Constants {
 		public static final double trackWidth = 0.6420;
 
 		public static final double encoderResolution = 0;
-
-		public static final double SLOW_SPEED = 0.1;
 
 	}
 
@@ -105,20 +98,20 @@ public final class Constants {
 		public static final double RAMSETE_B = 2;
 		public static final double RAMSETE_ZETA = 0.7;
 
-		public static final double kP_VEL_LEFT = 0.00001;
-		public static final double kP_VEL_RIGHT = 0.00001;
+		public static final double kP_VEL_LEFT = 0.1;
+		public static final double kP_VEL_RIGHT = 0.1;
 
 		public static final double MAX_VOLTAGE_CONSTRAINT = 40;
 
 		// drivetrain constants
 
 		// kS in volts, kV in volts * seconds/meters, kA in volts * seconds^2/meters
-		public static final double kS = 0;
-		public static final double kV = 0;
-		public static final double kA = 0;
+		public static final double kS = 0.166;
+		public static final double kV = 0.0315;
+		public static final double kA = 0.00743;
 
 		public static final double MAX_METERS_PER_SECOND = 5.45592;
-		public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 420.420;
+		public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 4.0;
 	}
 
 	// hopper

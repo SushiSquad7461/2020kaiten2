@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +24,9 @@ public class Paths {
 	initToOM, OMToScoring, initToScoring, scoringToMT, throughMTrench, MTToScoring, scoringToMM,
 	throughMMToScoring, initLineThroughMM, initLineThroughMT, scoringToOT, scoringToOM,
 	example = null;
-	public Paths(RobotContainer container) {
+	public Paths(RobotContainer container, DifferentialDriveVoltageConstraint voltageConstraint) {
 		m_container = container;
-		RamseteCommands ramsete = new RamseteCommands(container);
+		//RamseteCommands ramsete = new RamseteCommands(container);
 		// configures trajectories
 		config =
 				new TrajectoryConfig(Constants.RamseteConstants.MAX_METERS_PER_SECOND,
@@ -33,7 +34,7 @@ public class Paths {
 						// Add kinematics to ensure max speed is actually obeyed
 						.setKinematics(container.s_drive.driveKinematics)
 						// Apply the voltage constraint
-						.addConstraint(ramsete.getVoltageConstraint());
+						.addConstraint(voltageConstraint);
 
 		example = TrajectoryGenerator.generateTrajectory(
 				// Start at the origin facing the +X direction
@@ -49,24 +50,24 @@ public class Paths {
 				config
 		);
 
-		String toTrenchJSON = "PathWeaver/Paths/to trench.JSON";
-		String throughTrenchJSON = "PathWeaver/Paths/through trench.JSON";
-		String trenchToMidJSON = "PathWeaver/Paths/to mid.JSON";
-		String throughMidJSON = "PathWeaver/Paths/through mid.JSON";
-		String endMyTrenchJSON = "PathWeaver/Paths/end my trench.JSON";
-		String trenchToScoringJSON = "PathWeaver/Paths/trench to scoring.JSON";
-		String initToOMJSON = "PathWeaver/Paths/init to oM.JSON";
-		String OMToScoringJSON = "PathWeaver/Paths/oM to scoring.JSON";
-		String initToScoringJSON = "PathWeaver/Paths/init to scoring.JSON";
-		String scoringToMTJSON = "PathWeaver/Paths/scoring to trench.JSON";
-		String throughMTTrenchJSON = "PathWeaver/Paths/scoring to trench.JSON";
-		String MTToScoringJSON = "PathWeaver/Paths/own trench to scoring.JSON";
-		String scoringToMMJSON = "PathWeaver/Paths/scoring to own mid.JSON";
-		String throughMMToScoringJSON = "PathWeaver/Paths/through own mid to scoring.JSON";
-		String initLineThroughMMidJSON = "PathWeaver/Paths/init line through mid.JSON";
-		String initLineThroughMTJSON = "PathWeaver/Paths/init line through my trench.JSON";
-		String scoringToOTJSON = "PathWeaver/Paths/scoring to other trench.JSON";
-		String scoringToOMJSON = "PathWeaver/Paths/scoring to other mid.JSON";
+		String toTrenchJSON = "PathWeaver/Paths/to trench.wpilib.json";
+		String throughTrenchJSON = "PathWeaver/Paths/through trench.wpilib.json";
+		String trenchToMidJSON = "PathWeaver/Paths/to mid.wpilib.json";
+		String throughMidJSON = "PathWeaver/Paths/through mid.wpilib.json";
+		String endMyTrenchJSON = "PathWeaver/Paths/end my trench.wpilib.json";
+		String trenchToScoringJSON = "PathWeaver/Paths/trench to scoring.wpilib.json";
+		String initToOMJSON = "PathWeaver/Paths/init to oM.wpilib.json";
+		String OMToScoringJSON = "PathWeaver/Paths/oM to scoring.wpilib.json";
+		String initToScoringJSON = "PathWeaver/Paths/init to scoring.wpilib.json";
+		String scoringToMTJSON = "PathWeaver/Paths/scoring to trench.wpilib.json";
+		String throughMTTrenchJSON = "PathWeaver/Paths/scoring to trench.wpilib.json";
+		String MTToScoringJSON = "PathWeaver/Paths/own trench to scoring.wpilib.json";
+		String scoringToMMJSON = "PathWeaver/Paths/scoring to own mid.wpilib.json";
+		String throughMMToScoringJSON = "PathWeaver/Paths/through own mid to scoring.wpilib.json";
+		String initLineThroughMMidJSON = "PathWeaver/Paths/init line through mid.wpilib.json";
+		String initLineThroughMTJSON = "PathWeaver/Paths/init line through my trench.wpilib.json";
+		String scoringToOTJSON = "PathWeaver/Paths/scoring to other trench.wpilib.json";
+		String scoringToOMJSON = "PathWeaver/Paths/scoring to other mid.wpilib.json";
 
 		try {
 			Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(toTrenchJSON);
@@ -105,6 +106,7 @@ public class Paths {
 			scoringToOT = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
 			trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(scoringToOMJSON);
 			scoringToOM = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-		} catch (IOException ex) {  }
+		} catch (IOException ex) { System.err.println(ex.getMessage());ex.printStackTrace();
+		System.out.println("errorow"); }
 	}
 }

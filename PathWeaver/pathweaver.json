@@ -1,8 +1,9 @@
 {
   "lengthUnit": "Meter",
+  "exportUnit": "Same as Project",
   "maxVelocity": 5.4559,
   "maxAcceleration": 4.0,
   "wheelBase": 0.6604,
   "gameName": "Infinite Recharge",
-  "outputDir": ""
+  "outputDir": "../src/main/deploy/PathWeaver"
 }

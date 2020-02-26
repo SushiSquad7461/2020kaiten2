@@ -41,7 +41,7 @@ public class RobotContainer {
 
 		c_shoot = new Shoot(s_flywheel, s_hopper);
 
-		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.closedCurveDrive(
+		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.curveDrive(
 				OI.getTriggerOutput(driveController),
 				OI.getLeftJoystickAxis(driveController),
 				driveController.getXButton()), s_drive));
