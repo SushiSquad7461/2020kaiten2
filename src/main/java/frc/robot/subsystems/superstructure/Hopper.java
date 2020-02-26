@@ -23,8 +23,6 @@ public class Hopper extends SubsystemBase {
 	private final WPI_TalonSRX hopperFast;
 	private final WPI_VictorSPX hopperSlow;
 
-	public boolean currentSpike;
-
 	public Hopper() {
 
 		//  instantiate motors
@@ -41,18 +39,17 @@ public class Hopper extends SubsystemBase {
 		//  sets the same configs to hopperSlow
 		hopperSlow.follow(hopperFast);
 
-		currentSpike = false;
-
 	}
 
+	// run hopper inward
 	public void startSpit() {
 
-		//  set motor speed
 		hopperFast.set(ControlMode.PercentOutput, Constants.Hopper.MAX_SPEED);
 		hopperSlow.set(ControlMode.PercentOutput, Constants.Hopper.SLOW_SPEED);
 
 	}
 
+	// reverse for anti-jam
 	public void reverseSpit() {
 
 		hopperFast.set(ControlMode.PercentOutput, Constants.Hopper.REVERSE_SPEED);
@@ -60,6 +57,7 @@ public class Hopper extends SubsystemBase {
 
 	}
 
+	// set to zero
 	public void endSpit() {
 
 		//  sets to zero
@@ -68,18 +66,6 @@ public class Hopper extends SubsystemBase {
 
 	}
 
-	public boolean isCurrentSpiked() {
-		/*if (hopperFast.getSupplyCurrent() >= Constants.Hopper.CURRENT_SPIKE) {
-			return true;
-		} else {
-			return false;
-		}*/
-		SmartDashboard.putNumber("hopper current", hopperFast.getSupplyCurrent());
-		return false;
-	}
-
 	@Override
-	public void periodic() {
-		currentSpike = isCurrentSpiked();
-	}
+	public void periodic() {	}
 }

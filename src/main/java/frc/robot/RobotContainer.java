@@ -35,15 +35,8 @@ public class RobotContainer {
 	private void configureButtonBindings() {
 
 		new JoystickButton(driveController, XboxController.Button.kA.value)
-				.whenPressed(new ConditionalCommand(
-						new RunCommand(s_hopper::startSpit),
-						new SequentialCommandGroup(
-								new RunCommand(s_hopper::reverseSpit),
-								new WaitCommand(0.5)
-						),
-						s_hopper::isCurrentSpiked)
-				)
-				.whenReleased(new RunCommand(s_hopper::endSpit));
+				.whenPressed(new RunCommand(s_hopper::startSpit, s_hopper))
+				.whenReleased(new RunCommand(s_hopper::endSpit, s_hopper));
 
 	}
 
