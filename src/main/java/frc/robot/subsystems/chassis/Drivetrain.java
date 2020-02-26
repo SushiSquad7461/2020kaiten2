@@ -5,13 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.Chassis;
+package frc.robot.subsystems.chassis;
 
+import com.ctre.phoenix.sensors.CANCoder;
 import com.kauailabs.navx.frc.AHRS;
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -22,20 +21,17 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 public class Drivetrain extends SubsystemBase {
 
 	// define variables
 	private CANSparkMax frontLeft, frontRight, backLeft, backRight;
-	private Encoder leftEncoder, rightEncoder;
+	private CANCoder leftEncoder, rightEncoder;
 	private AHRS nav;
 
-	private boolean driveInverted;
+	private boolean driveInverted, slowMode;
 	private DifferentialDrive differentialDrive;
 	private DifferentialDriveKinematics driveKinematics;
 	private DifferentialDriveOdometry driveOdometry;
@@ -47,26 +43,20 @@ public class Drivetrain extends SubsystemBase {
 		// configuration
 		CANSparkMaxLowLevel.MotorType brushless = CANSparkMaxLowLevel.MotorType.kBrushless;
 		driveInverted = false;
+		slowMode = false;
 
 		double wheelRadius = Constants.Drivetrain.wheelRadius;
 		double encoderResolution = Constants.Drivetrain.encoderResolution;
 
 		// instantiate objects
+
 		frontLeft = new CANSparkMax(Constants.Drivetrain.FL_ID, brushless);
 		frontRight = new CANSparkMax(Constants.Drivetrain.FR_ID, brushless);
 		backLeft = new CANSparkMax(Constants.Drivetrain.BL_ID, brushless);
 		backRight = new CANSparkMax(Constants.Drivetrain.BR_ID, brushless);
 
-		frontLeft.restoreFactoryDefaults();
-		frontRight.restoreFactoryDefaults();
-		backLeft.restoreFactoryDefaults();
-		backRight.restoreFactoryDefaults();
-
-		leftEncoder = new Encoder(Constants.Drivetrain.ENCODER_LEFT_A, Constants.Drivetrain.ENCODER_LEFT_B);
-		rightEncoder = new Encoder(Constants.Drivetrain.ENCODER_RIGHT_A, Constants.Drivetrain.ENCODER_RIGHT_B);
-
-		leftEncoder.setDistancePerPulse(2 * Math.PI * wheelRadius / encoderResolution);
-		rightEncoder.setDistancePerPulse(2 * Math.PI * wheelRadius / encoderResolution);
+		leftEncoder = new CANCoder(Constants.Drivetrain.ENCODER_LEFT);
+		rightEncoder = new CANCoder(Constants.Drivetrain.ENCODER_RIGHT);
 
 		nav = new AHRS(SPI.Port.kMXP);
 		nav.reset();
@@ -85,10 +75,22 @@ public class Drivetrain extends SubsystemBase {
 		backLeft.follow(frontLeft);
 		backRight.follow(frontRight);
 
+		// open loop inversion configuration
 		frontLeft.setInverted(driveInverted);
 		frontRight.setInverted(driveInverted);
 		backLeft.setInverted(driveInverted);
 		backRight.setInverted(driveInverted);
+
+		// closed loop inversion configuration
+		/*frontLeft.setInverted(driveInverted);
+		frontRight.setInverted(!driveInverted);
+		backLeft.setInverted(driveInverted);
+		backRight.setInverted(!driveInverted);*/
+
+		frontLeft.setOpenLoopRampRate(Constants.Drivetrain.OPEN_LOOP_RAMP);
+		frontRight.setOpenLoopRampRate(Constants.Drivetrain.OPEN_LOOP_RAMP);
+		backLeft.setOpenLoopRampRate(Constants.Drivetrain.OPEN_LOOP_RAMP);
+		backRight.setOpenLoopRampRate(Constants.Drivetrain.OPEN_LOOP_RAMP);
 
 		frontLeft.setSmartCurrentLimit(Constants.Drivetrain.CURRENT_LIMIT);
 		frontRight.setSmartCurrentLimit(Constants.Drivetrain.CURRENT_LIMIT);
@@ -99,7 +101,11 @@ public class Drivetrain extends SubsystemBase {
 
 	// open loop curve drive method
 	public void curveDrive(double linearVelocity, double angularVelocity, boolean isQuickTurn) {
-		differentialDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickTurn);
+		if (slowMode) {
+			differentialDrive.curvatureDrive(linearVelocity * Constants.Drivetrain.SLOW_SPEED, angularVelocity, isQuickTurn);
+		} else {
+			differentialDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickTurn);
+		}
 	}
 
 	// closed loop drive method
@@ -111,17 +117,17 @@ public class Drivetrain extends SubsystemBase {
 		double leftFeedforwardOutput, rightFeedforwardOutput;
 
 		if (!isQuickTurn) {
-			chassisSpeeds = new ChassisSpeeds(linearVelocity, 0, angularVelocity);
+			chassisSpeeds = new ChassisSpeeds(linearVelocity * Constants.Drivetrain.CONTROLLER_LINEAR_SCALING, 0, angularVelocity * Constants.Drivetrain.CONTROLLER_ANGULAR_SCALING);
 			wheelSpeeds = driveKinematics.toWheelSpeeds(chassisSpeeds);
 
 			leftFeedforwardOutput = leftFeedforward.calculate(wheelSpeeds.leftMetersPerSecond);
 			rightFeedforwardOutput = rightFeedforward.calculate(wheelSpeeds.rightMetersPerSecond);
 
-			leftOutput = leftController.calculate(leftEncoder.getRate(), wheelSpeeds.leftMetersPerSecond);
-			rightOutput = rightController.calculate(rightEncoder.getRate(), wheelSpeeds.rightMetersPerSecond);
+			leftOutput = leftController.calculate(leftEncoder.getVelocity(), wheelSpeeds.leftMetersPerSecond);
+			rightOutput = rightController.calculate(rightEncoder.getVelocity(), wheelSpeeds.rightMetersPerSecond);
 
-			frontLeft.set(leftOutput + leftFeedforwardOutput);
-			frontRight.set(rightOutput + rightFeedforwardOutput);
+			frontLeft.setVoltage(leftOutput + leftFeedforwardOutput);
+			frontRight.setVoltage(rightOutput + rightFeedforwardOutput);
 		} else {
 			leftOutput = angularVelocity;
 			rightOutput = -angularVelocity;
@@ -132,23 +138,32 @@ public class Drivetrain extends SubsystemBase {
 
 	}
 
+	// toggle slowmode on open loop drive
+	public void toggleSlow() {
+		slowMode = !slowMode;
+	}
+
 	// get angle from gyro
 	public Rotation2d getAngle() {
-		return Rotation2d.fromDegrees(35);
+		return Rotation2d.fromDegrees(nav.getAngle());
 	}
 
+	// update drive odometry
 	public void updateOdometry() {
-		driveOdometry.update(getAngle(), leftEncoder.getDistance(), rightEncoder.getDistance());
+		driveOdometry.update(getAngle(), leftEncoder.getPosition(), rightEncoder.getPosition());
 	}
 
+	// get pose from odometry
 	public Pose2d getPose() {
 		return driveOdometry.getPoseMeters();
 	}
 
+	// return velocities of respective drive sides
 	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-		return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
+		return new DifferentialDriveWheelSpeeds(leftEncoder.getVelocity(), rightEncoder.getVelocity());
 	}
 
+	// tank drive with voltage input
 	public void tankDriveVolts(double leftVolts, double rightVolts) {
 		frontLeft.setVoltage(leftVolts);
 		frontRight.setVoltage(-rightVolts);
