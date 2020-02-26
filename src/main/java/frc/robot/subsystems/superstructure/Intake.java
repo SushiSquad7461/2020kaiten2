@@ -32,9 +32,9 @@ public class Intake extends SubsystemBase {
 		intakeMotor = new WPI_VictorSPX(Constants.Intake.MOTOR_ID);
 		intakeArm = new WPI_TalonSRX(Constants.Intake.ARM_MOTOR_ID);
 		encoder = new CANCoder(Constants.Intake.ENCODER_ID);
-		intakeFF = new ArmFeedforward(Constants.Intake.kS, Constants.Intake.kV, Constants.Intake.kA);
 
 		// instantiate ProfiledPIDController
+		intakeFF = new ArmFeedforward(Constants.Intake.kS, Constants.Intake.kV, Constants.Intake.kA);
 		controller = new ProfiledPIDController(Constants.Intake.kP, Constants.Intake.kI, Constants.Intake.kD,
 				new TrapezoidProfile.Constraints(Constants.Intake.MAX_VEL, Constants.Intake.MAX_ACCEL));
 
