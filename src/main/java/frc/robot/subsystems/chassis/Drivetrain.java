@@ -154,6 +154,11 @@ public class Drivetrain extends SubsystemBase {
 		return Rotation2d.fromDegrees(nav.getAngle());
 	}
 
+	// zero the navx
+	public void zeroAngle() {
+		nav.reset();
+	}
+
 	// update drive odometry
 	public void updateOdometry() {
 		driveOdometry.update(getAngle(), leftEncoder.getPosition(), rightEncoder.getPosition());
@@ -177,7 +182,11 @@ public class Drivetrain extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-
+		driveOdometry.update(
+				getAngle(),
+				leftEncoder.getVelocity(),
+				rightEncoder.getVelocity()
+		);
 	}
 
 }
