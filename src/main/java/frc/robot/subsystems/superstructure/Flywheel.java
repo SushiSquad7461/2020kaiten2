@@ -23,10 +23,6 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-/*
-   this will be re-written for the 4th time I'm calling it right now
-*/
-
 public class Flywheel extends PIDSubsystem {
 
 	// define variables
@@ -61,12 +57,7 @@ public class Flywheel extends PIDSubsystem {
 
 		flywheelSecondary.follow(flywheelMain);
 
-		// encoder takes 2 ports
-		encoderMain = new CANCoder(
-				Constants.Flywheel.ENCODER_A
-				//Constants.Flywheel.ENCODER_B,
-				//Constants.Flywheel.ENCODER_REVERSE_DIRECTION
-		);
+		encoderMain = new CANCoder(Constants.Flywheel.ENCODER);
 	}
 
 	public void stop() {
@@ -80,28 +71,38 @@ public class Flywheel extends PIDSubsystem {
 		this.getController().setTolerance(0, Constants.Flywheel.ERROR_TOLERANCE);
 		this.getController().setSetpoint(Constants.Flywheel.SPEED);
 
-		RobotContainer.operatorController.setRumble(GenericHID.RumbleType.kRightRumble, Math.pow(encoderMain.getVelocity() / 12000, 3));
+		// put rpm on dashboard
+		SmartDashboard.putNumber("flywheel rpm", encoderMain.getVelocity());
+
+		// put revved up boolean on dashboard
+		SmartDashboard.putBoolean("flywheel at speed", isAtSpeed());
+
+		//RobotContainer.operatorController.setRumble(GenericHID.RumbleType.kRightRumble, Math.pow(encoderMain.getVelocity() / 12000, 3));
 	}
 
 	@Override
-	protected void useOutput(double output, double setpoint) {
-		//flywheelMain.set(ControlMode.PercentOutput, output + flywheelFeedforward.calculate(setpoint));
-	}
+	protected void useOutput(double output, double setpoint) { }
 
 	public void enableController() {
 		double output = m_controller.calculate(encoderMain.getVelocity(), Constants.Flywheel.SPEED);
 		double feedForward = flywheelFeedforward.calculate(Constants.Flywheel.SPEED);
 
 		flywheelMain.setVoltage(output + feedForward);
-
-		SmartDashboard.putNumber("controller output", output + feedForward);
-		SmartDashboard.putNumber("flywheel rpm", encoderMain.getVelocity());
-		SmartDashboard.putNumber("flywheel rpm 2", encoderMain.getVelocity());
 	}
 
+	// return current flywheel speed
 	@Override
 	protected double getMeasurement() {
 		return encoderMain.getVelocity();
+	}
+
+	// check if flywheel is at speed
+	public boolean isAtSpeed() {
+		if (encoderMain.getVelocity() >= Constants.Flywheel.SPEED - Constants.Flywheel.SPEED_TOLERANCE) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
