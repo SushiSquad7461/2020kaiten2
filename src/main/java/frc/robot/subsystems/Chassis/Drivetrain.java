@@ -33,7 +33,7 @@ public class Drivetrain extends SubsystemBase {
 	// define variables
 	private CANSparkMax frontLeft, frontRight, backLeft, backRight;
 	private CANCoder leftEncoder, rightEncoder;
-	//private AHRS nav;
+	private AHRS nav;
 
 	private boolean driveInverted, slowMode;
 	private DifferentialDrive differentialDrive;
@@ -61,8 +61,8 @@ public class Drivetrain extends SubsystemBase {
 		leftEncoder = new CANCoder(Constants.Drivetrain.ENCODER_LEFT_A);
 		rightEncoder = new CANCoder(Constants.Drivetrain.ENCODER_RIGHT_A);
 
-		//nav = new AHRS(SPI.Port.kMXP);
-		//nav.reset();
+		nav = new AHRS(SPI.Port.kMXP);
+		nav.reset();
 
 		differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 		driveKinematics = new DifferentialDriveKinematics(Constants.Drivetrain.trackWidth);
@@ -79,16 +79,16 @@ public class Drivetrain extends SubsystemBase {
 		backRight.follow(frontRight);
 
 		// open loop
-		/*frontLeft.setInverted(driveInverted);
+		frontLeft.setInverted(driveInverted);
 		frontRight.setInverted(driveInverted);
 		backLeft.setInverted(driveInverted);
-		backRight.setInverted(driveInverted);*/
+		backRight.setInverted(driveInverted);
 
 		// closed loop
-		frontLeft.setInverted(driveInverted);
+		/*frontLeft.setInverted(driveInverted);
 		frontRight.setInverted(!driveInverted);
 		backLeft.setInverted(driveInverted);
-		backRight.setInverted(!driveInverted);
+		backRight.setInverted(!driveInverted);*/
 
 		frontLeft.setOpenLoopRampRate(Constants.Drivetrain.OPEN_LOOP_RAMP);
 		frontRight.setOpenLoopRampRate(Constants.Drivetrain.OPEN_LOOP_RAMP);
@@ -124,7 +124,7 @@ public class Drivetrain extends SubsystemBase {
 		double leftFeedforwardOutput, rightFeedforwardOutput;
 
 		if (!isQuickTurn) {
-			chassisSpeeds = new ChassisSpeeds(linearVelocity, 0, angularVelocity);
+			chassisSpeeds = new ChassisSpeeds(linearVelocity * 75, 0, -angularVelocity * 200);
 			wheelSpeeds = driveKinematics.toWheelSpeeds(chassisSpeeds);
 
 			leftFeedforwardOutput = leftFeedforward.calculate(wheelSpeeds.leftMetersPerSecond);
@@ -133,8 +133,8 @@ public class Drivetrain extends SubsystemBase {
 			leftOutput = leftController.calculate(leftEncoder.getVelocity(), wheelSpeeds.leftMetersPerSecond);
 			rightOutput = rightController.calculate(rightEncoder.getVelocity(), wheelSpeeds.rightMetersPerSecond);
 
-			frontLeft.set(leftOutput + leftFeedforwardOutput);
-			frontRight.set(rightOutput + rightFeedforwardOutput);
+			frontLeft.setVoltage(leftOutput + leftFeedforwardOutput);
+			frontRight.setVoltage(rightOutput + rightFeedforwardOutput);
 		} else {
 			leftOutput = angularVelocity;
 			rightOutput = -angularVelocity;
@@ -152,6 +152,8 @@ public class Drivetrain extends SubsystemBase {
 
 	@Override
 	public void periodic() {
+		SmartDashboard.putNumber("left drive", leftEncoder.getPosition());
+		SmartDashboard.putNumber("right drive", rightEncoder.getPosition());
 	}
 
 }

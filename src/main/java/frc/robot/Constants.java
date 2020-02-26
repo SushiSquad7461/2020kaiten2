@@ -27,25 +27,25 @@ public final class Constants {
 		public static final int OPEN_LOOP_RAMP = 0;
 
 		// pid constants
-		public static final double LEFT_kP = 0;
+		public static final double LEFT_kP = 0.356;
 		public static final double LEFT_kI = 0;
 		public static final double LEFT_kD = 0;
 
-		public static final double LEFT_kS = 0.121;
-		public static final double LEFT_kV = 0.112;
-		public static final double LEFT_kA = 0.041;
+		public static final double LEFT_kS = 0.166;
+		public static final double LEFT_kV = 0.0315;
+		public static final double LEFT_kA = 0.00743;
 
-		public static final double RIGHT_kP = 0;
+		public static final double RIGHT_kP = 0.356;
 		public static final double RIGHT_kI = 0;
 		public static final double RIGHT_kD = 0;
 
-		public static final double RIGHT_kS = 0.121;
-		public static final double RIGHT_kV = 0.112;
-		public static final double RIGHT_kA = 0.041;
+		public static final double RIGHT_kS = 0.166;
+		public static final double RIGHT_kV = 0.0315;
+		public static final double RIGHT_kA = 0.00743;
 
 		// closed loop constants
 		public static final double wheelRadius = 3.0;
-		public static final double trackWidth = 0.1761;
+		public static final double trackWidth = 0.6420;
 
 		public static final double encoderResolution = 0;
 
