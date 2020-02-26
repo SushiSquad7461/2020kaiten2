@@ -33,6 +33,7 @@ public class Intake extends SubsystemBase {
 	public void stopVore(){
 		intakeMotor.set(0);
 	}
+	public void unVore() { intakeMotor.set(-Constants.Intake.MAX_SPEED); }
 
 	@Override
 	public void periodic() {

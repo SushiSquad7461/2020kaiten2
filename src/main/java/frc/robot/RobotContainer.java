@@ -36,9 +36,15 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
 
-    new JoystickButton(driveController, XboxController.Button.kA.value)
+    // intake
+    new JoystickButton(operatorController, XboxController.Button.kA.value)
         .whenPressed(new RunCommand(s_intake::startVore, s_intake))
         .whenReleased(new RunCommand(s_intake::stopVore, s_intake));
+
+    // intake unjam
+    new JoystickButton(operatorController, XboxController.Button.kY.value)
+            .whenPressed(new RunCommand(s_intake::unVore, s_intake))
+            .whenReleased(new RunCommand(s_intake::stopVore, s_intake));
 
   }
 
