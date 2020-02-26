@@ -93,7 +93,7 @@ public class RamseteCommands {
 	}
 
 	/*public SequentialCommandGroup Offensive1() {
-		return new SequentialCo            mmandGroup(
+		return new SequentialCommandGroup(
 				initToScoring, m_container.c_shoot.withTimeout(2), scoringToMT,
 				new ParallelCommandGroup(throughMT, new RunCommand(m_container.s_intake::startVore, m_container.s_intake).withTimeout(2)),
 				new RunCommand(m_container.s_intake::stopVore, m_container.s_intake), MTToScoring);*/
