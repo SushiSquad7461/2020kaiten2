@@ -8,20 +8,15 @@
 package frc.robot.subsystems.superstructure;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.CANCoder;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 public class Flywheel extends PIDSubsystem {
 
@@ -29,19 +24,15 @@ public class Flywheel extends PIDSubsystem {
 	private final WPI_TalonSRX flywheelMain;
 	private final WPI_VictorSPX flywheelSecondary;
 	private final SimpleMotorFeedforward flywheelFeedforward;
-	private CANCoder encoderMain;
+	private final CANCoder encoderMain;
 
 	public Flywheel() {
 		super(new PIDController(Constants.Flywheel.kP, Constants.Flywheel.kI, Constants.Flywheel.kD));
 
-		// instantiate motors
+		// instantiate motor and encoders
 		flywheelMain = new WPI_TalonSRX(Constants.Flywheel.MAIN_ID);
 		flywheelSecondary = new WPI_VictorSPX(Constants.Flywheel.SECONDARY_ID);
-
-		flywheelMain.configFactoryDefault();
-
-		flywheelMain.setInverted(Constants.Flywheel.MAIN_INVERTED);
-		flywheelSecondary.setInverted(Constants.Flywheel.SECONDARY_INVERTED);
+		encoderMain = new CANCoder(Constants.Flywheel.ENCODER);
 
 		flywheelFeedforward = new SimpleMotorFeedforward(
 				Constants.Flywheel.kS,
@@ -49,15 +40,21 @@ public class Flywheel extends PIDSubsystem {
 				Constants.Flywheel.kA
 		);
 
+		// configure motor controllers
+		flywheelMain.configFactoryDefault();
+		flywheelMain.setInverted(Constants.Flywheel.MAIN_INVERTED);
+		flywheelSecondary.setInverted(Constants.Flywheel.SECONDARY_INVERTED);
+		flywheelSecondary.follow(flywheelMain);
+
 		// config the peak and nominal outputs ([-1, 1] represents [-100, 100]%)
 		flywheelMain.configNominalOutputForward(0, Constants.Flywheel.CONFIG_TIMEOUT);
 		flywheelMain.configNominalOutputReverse(0, Constants.Flywheel.CONFIG_TIMEOUT);
 		flywheelMain.configPeakOutputForward(1, Constants.Flywheel.CONFIG_TIMEOUT);
 		flywheelMain.configPeakOutputReverse(-1, Constants.Flywheel.CONFIG_TIMEOUT);
 
-		flywheelSecondary.follow(flywheelMain);
-
-		encoderMain = new CANCoder(Constants.Flywheel.ENCODER);
+		// the first number here is a 0 for position tolerance, we want
+		// it to be zero
+		this.getController().setTolerance(0, Constants.Flywheel.ERROR_TOLERANCE);
 	}
 
 	public void stop() {
@@ -66,13 +63,10 @@ public class Flywheel extends PIDSubsystem {
 
 	@Override
 	public void periodic() {
-		// the first number here is a 0 for position tolerance, we want
-		// it to be zero
-		this.getController().setTolerance(0, Constants.Flywheel.ERROR_TOLERANCE);
 		this.getController().setSetpoint(Constants.Flywheel.SPEED);
 
 		// put rpm on dashboard
-		SmartDashboard.putNumber("flywheel rpm", encoderMain.getVelocity());
+		SmartDashboard.putNumber("flywheel rpm", this.getMeasurement());
 
 		// put revved up boolean on dashboard
 		SmartDashboard.putBoolean("flywheel at speed", isAtSpeed());
@@ -83,8 +77,8 @@ public class Flywheel extends PIDSubsystem {
 	@Override
 	protected void useOutput(double output, double setpoint) { }
 
-	public void enableController() {
-		double output = m_controller.calculate(encoderMain.getVelocity(), Constants.Flywheel.SPEED);
+	public void enableFlywheel() {
+		double output = m_controller.calculate(this.getMeasurement(), Constants.Flywheel.SPEED);
 		double feedForward = flywheelFeedforward.calculate(Constants.Flywheel.SPEED);
 
 		flywheelMain.setVoltage(output + feedForward);
@@ -98,11 +92,7 @@ public class Flywheel extends PIDSubsystem {
 
 	// check if flywheel is at speed
 	public boolean isAtSpeed() {
-		if (encoderMain.getVelocity() >= Constants.Flywheel.SPEED - Constants.Flywheel.SPEED_TOLERANCE) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.getMeasurement() >= Constants.Flywheel.SPEED - Constants.Flywheel.SPEED_TOLERANCE;
 	}
 
 }

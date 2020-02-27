@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.superstructure.Flywheel;
 
 public class Shoot extends CommandBase {
@@ -31,7 +30,7 @@ public class Shoot extends CommandBase {
 	public void execute() {
 
 		if (OI.getTriggerBoolean(RobotContainer.operatorController, GenericHID.Hand.kRight)) {
-			s_flywheel.enableController();
+			s_flywheel.enableFlywheel();
 		} else {
 			s_flywheel.stop();
 		}
@@ -40,6 +39,7 @@ public class Shoot extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
+		s_flywheel.stop();
 	}
 
 	@Override
