@@ -31,7 +31,8 @@ public class Drivetrain extends SubsystemBase {
 	private CANCoder leftEncoder, rightEncoder;
 	private AHRS nav;
 
-	private boolean driveInverted, slowMode;
+	private boolean driveInverted = false;
+	private boolean slowMode = false;
 	private DifferentialDrive differentialDrive;
 	private DifferentialDriveKinematics driveKinematics;
 	private DifferentialDriveOdometry driveOdometry;
@@ -42,8 +43,6 @@ public class Drivetrain extends SubsystemBase {
 
 		// configuration
 		CANSparkMaxLowLevel.MotorType brushless = CANSparkMaxLowLevel.MotorType.kBrushless;
-		driveInverted = false;
-		slowMode = false;
 
 		double wheelRadius = Constants.Drivetrain.wheelRadius;
 		double encoderResolution = Constants.Drivetrain.encoderResolution;
@@ -186,11 +185,7 @@ public class Drivetrain extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		driveOdometry.update(
-				getAngle(),
-				leftEncoder.getVelocity(),
-				rightEncoder.getVelocity()
-		);
+		updateOdometry();
 	}
 
 }
