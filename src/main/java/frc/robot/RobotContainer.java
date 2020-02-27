@@ -43,10 +43,10 @@ public class RobotContainer {
     // set default commands
     s_flywheel.setDefaultCommand(c_shoot);
     
-		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.curveDrive(
-				OI.getTriggerOutput(driveController),
-				OI.getLeftJoystickAxis(driveController),
-				driveController.getXButton()), s_drive)
+    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.curveDrive(
+    		OI.getTriggerOutput(driveController),
+			OI.getLeftJoystickAxis(driveController),
+			driveController.getXButton()), s_drive));
 
     // inline bindings                          
     configureButtonBindings();

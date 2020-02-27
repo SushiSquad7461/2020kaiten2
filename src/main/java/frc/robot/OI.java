@@ -15,12 +15,8 @@ public class OI {
 
 	// boolean from trigger input
 	public static boolean getTriggerBoolean(XboxController controller, GenericHID.Hand hand) {
-    return controller.getTriggerAxis(hand) > TRIGGER_TOLERANCE;
+    	return controller.getTriggerAxis(hand) > TRIGGER_TOLERANCE;
 	}
-
-	// joystick left-hand x axis
-	public static double getLeftJoystickAxis(XboxController controller) {
-		return controller.getX(GenericHID.Hand.kLeft);
 
 	// cubed -1 to 1 output from trigger controllers
 	public static double getTriggerOutput(XboxController controller) {
