@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.Shoot;
@@ -17,6 +19,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.chassis.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.superstructure.Hopper;
+import frc.robot.subsystems.superstructure.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -28,6 +31,8 @@ public class RobotContainer {
   private final Drivetrain s_drive;
   public final Flywheel s_flywheel;
 	private final Hopper s_hopper;
+  public static Intake s_intake;
+
 
   // initialize commands
 	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -42,7 +47,8 @@ public class RobotContainer {
  		s_drive = new Drivetrain();
     s_flywheel = new Flywheel();
 		s_hopper = new Hopper();
-        
+    s_intake = new Intake();
+
     // define commands
     c_shoot = new Shoot(s_flywheel);
 
@@ -63,6 +69,16 @@ public class RobotContainer {
 		new JoystickButton(driveController, XboxController.Button.kA.value)
 				.whenPressed(new RunCommand(s_hopper::startSpit, s_hopper))
 				.whenReleased(new RunCommand(s_hopper::endSpit, s_hopper));
+    
+        // intake
+    new JoystickButton(operatorController, XboxController.Button.kA.value)
+        .whenPressed(new RunCommand(s_intake::startVore, s_intake))
+        .whenReleased(new RunCommand(s_intake::stopVore, s_intake));
+
+    // intake unjam
+    new JoystickButton(operatorController, XboxController.Button.kY.value)
+            .whenPressed(new RunCommand(s_intake::unVore, s_intake))
+            .whenReleased(new RunCommand(s_intake::stopVore, s_intake));
 
 	}
 

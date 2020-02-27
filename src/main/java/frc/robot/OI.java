@@ -17,8 +17,8 @@ public class OI {
 	public static boolean getTriggerBoolean(XboxController controller, GenericHID.Hand hand) {
     return controller.getTriggerAxis(hand) > TRIGGER_TOLERANCE;
 	}
-  
-	// cubed -1 to 1 output from trigger controllers
+
+  // cubed -1 to 1 output from trigger controllers
 	public static double getTriggerOutput(XboxController controller) {
 		return Math.pow(controller.getTriggerAxis(GenericHID.Hand.kRight) - controller.getTriggerAxis(GenericHID.Hand.kLeft), 3);
 	}
