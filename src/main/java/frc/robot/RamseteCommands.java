@@ -90,7 +90,11 @@ public class RamseteCommands {
 	// this class is the entire path/sequence
 	public SequentialCommandGroup ExampleAuto() {
 		// returns the SequentialCommandGroup used in auto
-			return new SequentialCommandGroup(exampleCommand);
+			return new SequentialCommandGroup(exampleCommand, m_container.c_shoot);
+	}
+
+	public SequentialCommandGroup manualDriveShoot() {
+		return new SequentialCommandGroup(new RunCommand(() -> m_container.s_drive.curveDrive(0.7, 0, false)).withTimeout(7), m_container.c_shoot);
 	}
 
 	/*public SequentialCommandGroup Offensive1() {
