@@ -30,5 +30,6 @@
     <orderEntry type="library" name="SparkMax-java-1.5.1" level="project" />
     <orderEntry type="library" name="navx-java-3.1.400" level="project" />
     <orderEntry type="library" name="api-java-5.17.3" level="project" />
+    <orderEntry type="library" name="wpiapi-java-5.17.3" level="project" />
   </component>
 </module>

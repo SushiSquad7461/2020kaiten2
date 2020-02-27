@@ -60,29 +60,32 @@ public final class Constants {
 	public static final class Flywheel {
 
 		// motors
-		public static final int MAIN_ID = 2;
-		public static final int SECONDARY_ID = 3;
+		public static final int MAIN_ID = 11;
+		public static final int SECONDARY_ID = 10;
+
+		public static final boolean MAIN_INVERTED = false;
+		public static final boolean SECONDARY_INVERTED = true;
 
 		// encoders
-		public static final int ENCODER_A = 1234;
-		public static final int ENCODER_B = 4321;
-		public static final boolean reverseEncoder = false;
+		public static final int ENCODER = 60;
 
 		// flywheel speed (rotations per minute)
-		public static final double SPEED = 60;
+		public static final double SPEED = 3960.7461;
 
 		// don't tune these--documentation stated constants for entering rpm
 		public static final int TICKS_PER_ROTATION = 4096; // ticks per one encoder rotation
 		public static final double SETPOINT_CONSTANT = 0.001667; // 100 ms / 1 min
 
 		// pid constants
-		public static final double kP = 0;
+		public static final double kP = 0.002;
 		public static final double kI = 0;
 		public static final double kD = 0;
-		public static final double kS = 0;
-		public static final double kV = 0;
-		public static final double kA = 0;
+
+		public static final double kS = 0.466;
+		public static final double kV = 0.00204;
+		public static final double kA = 0.000298;
 		public static final double ERROR_TOLERANCE = 0;
+		public static final double SPEED_TOLERANCE = 100;
 
 		// timeout value for parameter configs
 		public static final int CONFIG_TIMEOUT = 30;
