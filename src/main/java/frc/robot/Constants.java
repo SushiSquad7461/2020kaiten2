@@ -13,13 +13,46 @@ public final class Constants {
 	public static final class Drivetrain {
 
 		// motors
-		public static final int FL_ID = 5;
-		public static final int FR_ID = 1;
-		public static final int BR_ID = 4;
-		public static final int BL_ID = 8;
+		public static final int FL_ID = 21;
+		public static final int FR_ID = 22;
+		public static final int BR_ID = 23;
+		public static final int BL_ID = 24;
 
-		// configuration
-		public static final int	CURRENT_LIMIT = 40;
+		// encoders
+		public static final int ENCODER_LEFT = 3;
+		public static final int ENCODER_RIGHT = 4;
+
+		// open loop configuration
+		public static final int	CURRENT_LIMIT = 35;
+		public static final int	OPEN_LOOP_RAMP = 0;
+		public static final double SLOW_SPEED = 0.1;
+
+		public static final double CONTROLLER_LINEAR_SCALING = 75;
+		public static final double CONTROLLER_ANGULAR_SCALING = 100;
+		public static final double CONTROLLER_QUICKTURN_SCALING = 400;
+
+		// pid constants
+		public static final double LEFT_kP = 0.356;
+		public static final double LEFT_kI = 0;
+		public static final double LEFT_kD = 0;
+
+		public static final double LEFT_kS = 0.166;
+		public static final double LEFT_kV = 0.0315;
+		public static final double LEFT_kA = 0.00743;
+
+		public static final double RIGHT_kP = 0.356;
+		public static final double RIGHT_kI = 0;
+		public static final double RIGHT_kD = 0;
+
+		public static final double RIGHT_kS = 0.166;
+		public static final double RIGHT_kV = 0.0315;
+		public static final double RIGHT_kA = 0.00743;
+		
+		// closed loop constants
+		public static final double wheelRadius = 3.0;
+		public static final double trackWidth = 0.6420;
+
+		public static final double encoderResolution = 0;
 
 	}
 
