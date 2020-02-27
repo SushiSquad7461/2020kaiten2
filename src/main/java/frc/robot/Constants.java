@@ -92,6 +92,12 @@ public final class Constants {
 
 	}
 
+  // intake
+	public static final class Intake {
+		public static final int MOTOR_ID = 2;
+		public static final double MAX_SPEED = -0.85;
+	}
+  
 	// camera
 	public static final class Camera {
 
