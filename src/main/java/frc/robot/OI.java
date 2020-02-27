@@ -18,15 +18,15 @@ public class OI {
     	return controller.getTriggerAxis(hand) > TRIGGER_TOLERANCE;
 	}
 
-	// cubed -1 to 1 output from trigger controllers
+  // cubed -1 to 1 output from trigger controllers
 	public static double getTriggerOutput(XboxController controller) {
 		return Math.pow(controller.getTriggerAxis(GenericHID.Hand.kRight) - controller.getTriggerAxis(GenericHID.Hand.kLeft), 3);
 	}
 
-	// joystick left-hand x axis
+  // joystick left-hand x axis
 	public static double getLeftJoystickAxis(XboxController controller) {
 		return Math.pow(controller.getX(GenericHID.Hand.kLeft), 3);
-	}
+  }
 
 	// joystick right-hand x axis
 	public static double getRightJoystickAxis(XboxController controller) {

@@ -92,6 +92,25 @@ public final class Constants {
 
 	}
 
+	// hopper
+	public static final class Hopper {
+		public static final int FAST_ID = 1;
+		public static final int SLOW_ID = 6;
+
+		public static final double MAX_SPEED = 0.6;
+		public static final double SLOW_SPEED = 0.2;
+		public static final double REVERSE_SPEED = -0.6;
+
+		public static final int CONFIG_TIMEOUT = 30;
+		public static final int CURRENT_SPIKE = 70;
+	}
+
+  // intake
+	public static final class Intake {
+		public static final int MOTOR_ID = 2;
+		public static final double MAX_SPEED = -0.85;
+	}
+  
 	// camera
 	public static final class Camera {
 
