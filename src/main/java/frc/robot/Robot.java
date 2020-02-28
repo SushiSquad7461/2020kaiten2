@@ -32,7 +32,8 @@ public class Robot extends TimedRobot {
     ramsete = new RamseteCommands(m_robotContainer);
     autoChooser.setDefaultOption("Example path", ramsete.ExampleAuto());
     autoChooser.addOption("o, s8, mTr, 8b", ramsete.Offensive1());
-    autoChooser.addOption("drive up and shoot", ramsete.manualDriveShoot()); /*
+    autoChooser.addOption("drive up and shoot", ramsete.manualDriveShoot());
+    /*
     autoChooser.addOption("o, s8, mM, 8b", ramsete.Offensive2());
     autoChooser.addOption("d, s0, oTr/M, 13b", ramsete.Defensive1());
     autoChooser.addOption("d, s5, oTr, 8b", ramsete.Defensive2());
@@ -40,7 +41,8 @@ public class Robot extends TimedRobot {
     autoChooser.addOption("pd, s5, oM, 8b", ramsete.CounterDefensive1());
     autoChooser.addOption("pd, s5, oTr, 8b", ramsete.CounterDefensive2());
     autoChooser.addOption("po, s8, oTr, 8b", ramsete.PseudoOffensive1());
-    autoChooser.addOption("po, s8, oM, 8b", ramsete.PseudoOffensive2()); */
+    autoChooser.addOption("po, s8, oM, 8b", ramsete.PseudoOffensive2());
+    */
     SmartDashboard.putData("Auto path", autoChooser);
   }
 
