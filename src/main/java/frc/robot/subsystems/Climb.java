@@ -20,6 +20,7 @@ public class Climb extends ProfiledPIDSubsystem {
 
 	// initialize the motors
 	private final WPI_TalonSRX climbTalon;
+	private final WPI_TalonSRX climbTalonFollower;
 	private final CANCoder climbArmEncoder;
 	private final ElevatorFeedforward climbArmFeedForward;
 
@@ -30,9 +31,18 @@ public class Climb extends ProfiledPIDSubsystem {
 				, ClimbConstants.BASE_POSE);
 		// define the motor controllers
 		climbTalon = new WPI_TalonSRX(ClimbConstants.DEPLOY_TALON);
+		climbTalonFollower = new WPI_TalonSRX(ClimbConstants.FOLLOWER_TALON);
 
 		// configure motors
+		climbTalon.configFactoryDefault();
+		climbTalonFollower.configFactoryDefault();
+
+		climbTalon.setSafetyEnabled(false);
+		climbTalonFollower.setSafetyEnabled(false);
+
 		climbTalon.setInverted(ClimbConstants.TALON_INVERTED);
+		climbTalonFollower.setInverted(ClimbConstants.TALON_INVERTED);
+		climbTalonFollower.follow(climbTalon);
 
 		// initialize encoder
 		climbArmEncoder = new CANCoder(ClimbConstants.CLIMB_CAN_ID);
@@ -58,6 +68,8 @@ public class Climb extends ProfiledPIDSubsystem {
 	}
 
 	public void climbUp() { climbTalon.set(ClimbConstants.CLIMB_SPEED); }
+
+	public void stopClimb() { climbTalon.set(0); }
 
 	@Override
 	public void periodic() {

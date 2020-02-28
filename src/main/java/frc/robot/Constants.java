@@ -63,7 +63,8 @@ public final class Constants {
 
 	// climb
 	public static final class ClimbConstants {
-		public static final int DEPLOY_TALON = 6;
+		public static final int DEPLOY_TALON = 31;
+		public static final int FOLLOWER_TALON = 32;
 
 		// climb motor inverted
 		public static final boolean TALON_INVERTED = false;
@@ -97,7 +98,7 @@ public final class Constants {
 		// elevator linear speed in inches (please tell me when we know these things)
 		public static final double CLIMB_ELEVATOR_DISTANCE_PER_ROTATION = 0;
 
-		public static final double CLIMB_SPEED = 1;
+		public static final double CLIMB_SPEED = 0.4;
 
 		// climb heights
 		public static final double MAX_SPRING_HEIGHT = 10;

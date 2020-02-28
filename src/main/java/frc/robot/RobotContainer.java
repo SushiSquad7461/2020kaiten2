@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Climb;
@@ -35,7 +37,8 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     new JoystickButton(operatorController, XboxController.Button.kA.value)
-            .whenPressed(() -> s_climb.goToSetpoint(Constants.ClimbConstants.MAX_SPRING_HEIGHT));
+            .whenPressed(new RunCommand(s_climb::climbUp))
+            .whenReleased(new RunCommand(s_climb::stopClimb));
   }
 
   public Command getAutonomousCommand() {
