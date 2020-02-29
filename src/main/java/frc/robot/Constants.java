@@ -115,5 +115,49 @@ public final class Constants {
 	public static final class Camera {
 
 	}
+	// climb
+	public static final class ClimbConstants {
+		public static final int DEPLOY_TALON = 31;
+		public static final int FOLLOWER_TALON = 32;
+
+		// climb motor inverted
+		public static final boolean TALON_INVERTED = false;
+
+		// climb encoder CAN ID
+		public static final int CLIMB_CAN_ID = 42;
+
+		// climb PID constants (need to tune)
+		public static final int ARM_kP = 0;
+		public static final int ARM_kI = 0;
+		public static final int ARM_kD = 0;
+
+		// climb motion profiling constants (need to tune)
+		public static final int MAX_VELOCITY_RAD_PER_SEC = 69;
+		public static final int MAX_ACCEL = 69;
+
+		// Encoder distance per pulse
+		public static final int PULSES_PER_ROTATION = 4096;
+		public static final double DISTANCE_PER_PULSE = (2.0 * Math.PI) / PULSES_PER_ROTATION;
+
+		// starting arm position (need to set)
+		public static final double BASE_POSE = 0;
+
+		// feedforward constants; kS = volts; kG = volts (counteracts gravity); kV = volts * sec / radians; kA = volts * sec^2 / radians
+		// (need to characterize)
+		public static final double kS = 0.0;
+		public static final double kG = 0.0;
+		public static final double kV = 0.0;
+		public static final double kA = 0.0;
+
+		// elevator linear speed in inches (please tell me when we know these things)
+		public static final double CLIMB_ELEVATOR_DISTANCE_PER_ROTATION = 0;
+
+		public static final double CLIMB_SPEED = -1.0;
+		public static final double CLIMB_SLOW_SPEED = -0.2;
+
+		// climb heights
+		public static final double MAX_SPRING_HEIGHT = 10;
+
+	}
 
 }

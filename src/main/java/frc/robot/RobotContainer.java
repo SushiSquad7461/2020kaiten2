@@ -17,6 +17,7 @@ import frc.robot.commands.Shoot;
 import frc.robot.subsystems.superstructure.*;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.chassis.Drivetrain;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.superstructure.Hopper;
 import frc.robot.subsystems.superstructure.Intake;
@@ -25,13 +26,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class RobotContainer {
-
 	// initialize subsystems
 	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain s_drive;
   public final Flywheel s_flywheel;
 	private final Hopper s_hopper;
   public static Intake s_intake;
+  public static Climb s_climb;
 
 
   // initialize commands
@@ -48,10 +49,11 @@ public class RobotContainer {
     s_flywheel = new Flywheel();
 		s_hopper = new Hopper();
     s_intake = new Intake();
-
+    s_climb = new Climb();
+    
     // define commands
     c_shoot = new Shoot(s_flywheel);
-
+    
     // set default commands
     s_flywheel.setDefaultCommand(c_shoot);
     
@@ -60,7 +62,6 @@ public class RobotContainer {
 			OI.getLeftJoystickAxis(driveController),
 			driveController.getXButton()), s_drive));
 
-    // inline bindings                          
     configureButtonBindings();
 	}
 
@@ -79,7 +80,14 @@ public class RobotContainer {
     new JoystickButton(operatorController, XboxController.Button.kY.value)
             .whenPressed(new RunCommand(s_intake::unVore, s_intake))
             .whenReleased(new RunCommand(s_intake::stopVore, s_intake));
+    
+    new JoystickButton(driveController, XboxController.Button.kY.value)
+            .whenPressed(new InstantCommand(s_climb::climbUp))
+            .whenReleased(new InstantCommand(s_climb::stopClimb));
 
+    new JoystickButton(driveController, XboxController.Button.kB.value)
+            .whenPressed(new InstantCommand(s_climb::climbDown))
+            .whenReleased(new InstantCommand(s_climb::stopClimb));
 	}
 
 	public Command getAutonomousCommand() {
