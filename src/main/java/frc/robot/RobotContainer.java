@@ -22,23 +22,28 @@ public class RobotContainer {
   // define subsystems and commands
 
   public static Climb s_climb;
-  public static ExampleSubsystem m_exampleSubsystem;
+  public static ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+
+  // instantiate controllers
+  public static final XboxController driveController = new XboxController(OI.DRIVE_CONTROLLER);
+  public static final XboxController operatorController = new XboxController(OI.OPERATOR_CONTROLLER);
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  // instantiate controllers
-  public static final XboxController operatorController = new XboxController(OI.OPERATOR_CONTROLLER);
-
   public RobotContainer() {
-
-    configureButtonBindings();
     s_climb = new Climb();
+    configureButtonBindings();
   }
 
   private void configureButtonBindings() {
-    new JoystickButton(operatorController, XboxController.Button.kA.value)
-            .whenPressed(new RunCommand(s_climb::climbUp))
-            .whenReleased(new RunCommand(s_climb::stopClimb));
+    new JoystickButton(driveController, XboxController.Button.kY.value)
+            .whenPressed(new InstantCommand(s_climb::climbUp))
+            .whenReleased(new InstantCommand(s_climb::stopClimb));
+
+    new JoystickButton(driveController, XboxController.Button.kB.value)
+            .whenPressed(new InstantCommand(s_climb::climbDown))
+            .whenReleased(new InstantCommand(s_climb::stopClimb));
+
   }
 
   public Command getAutonomousCommand() {

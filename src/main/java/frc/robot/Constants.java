@@ -98,7 +98,8 @@ public final class Constants {
 		// elevator linear speed in inches (please tell me when we know these things)
 		public static final double CLIMB_ELEVATOR_DISTANCE_PER_ROTATION = 0;
 
-		public static final double CLIMB_SPEED = 0.4;
+		public static final double CLIMB_SPEED = -1.0;
+		public static final double CLIMB_SLOW_SPEED = -0.2;
 
 		// climb heights
 		public static final double MAX_SPRING_HEIGHT = 10;

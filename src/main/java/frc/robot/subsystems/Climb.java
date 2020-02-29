@@ -41,7 +41,7 @@ public class Climb extends ProfiledPIDSubsystem {
 		climbTalonFollower.setSafetyEnabled(false);
 
 		climbTalon.setInverted(ClimbConstants.TALON_INVERTED);
-		climbTalonFollower.setInverted(ClimbConstants.TALON_INVERTED);
+		climbTalonFollower.setInverted(!ClimbConstants.TALON_INVERTED);
 		climbTalonFollower.follow(climbTalon);
 
 		// initialize encoder
@@ -67,7 +67,8 @@ public class Climb extends ProfiledPIDSubsystem {
 		return climbArmEncoder.getAbsolutePosition() + ClimbConstants.BASE_POSE;
 	}
 
-	public void climbUp() { climbTalon.set(ClimbConstants.CLIMB_SPEED); }
+	public void climbUp() { climbTalon.set(ClimbConstants.CLIMB_SLOW_SPEED); }
+	public void climbDown() { climbTalon.set(ClimbConstants.CLIMB_SPEED); }
 
 	public void stopClimb() { climbTalon.set(0); }
 
