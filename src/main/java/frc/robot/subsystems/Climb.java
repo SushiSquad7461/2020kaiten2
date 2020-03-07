@@ -7,8 +7,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -23,8 +21,8 @@ public class Climb extends ProfiledPIDSubsystem {
 	// initialize the motors
 	/*private final WPI_TalonSRX climbTalon;
 	private final WPI_TalonSRX climbTalonFollower;*/
-	private final CANSparkMax climbTalon;
-	private final CANSparkMax climbTalonFollower;
+	private final CANSparkMax climbMotor;
+	private final CANSparkMax climbFollower;
 	private final CANCoder climbArmEncoder;
 	private final ElevatorFeedforward climbArmFeedForward;
 
@@ -34,8 +32,8 @@ public class Climb extends ProfiledPIDSubsystem {
 				new TrapezoidProfile.Constraints(ClimbConstants.MAX_VELOCITY_RAD_PER_SEC, ClimbConstants.MAX_ACCEL))
 				, ClimbConstants.BASE_POSE);
 		// define the motor controllers
-		climbTalon = new CANSparkMax(ClimbConstants.DEPLOY_TALON, CANSparkMaxLowLevel.MotorType.kBrushless);
-		climbTalonFollower = new CANSparkMax(ClimbConstants.FOLLOWER_TALON, CANSparkMaxLowLevel.MotorType.kBrushless);
+		climbMotor = new CANSparkMax(ClimbConstants.DEPLOY_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+		climbFollower = new CANSparkMax(ClimbConstants.FOLLOWER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
 		/*climbTalon = new WPI_TalonSRX(ClimbConstants.DEPLOY_TALON);
 		climbTalonFollower = new WPI_TalonSRX(ClimbConstants.FOLLOWER_TALON);*/
 
@@ -43,9 +41,9 @@ public class Climb extends ProfiledPIDSubsystem {
 		/*climbTalon.setSafetyEnabled(false);
 		climbTalonFollower.setSafetyEnabled(false);*/
 
-		climbTalon.setInverted(ClimbConstants.TALON_INVERTED);
-		climbTalonFollower.setInverted(!ClimbConstants.TALON_INVERTED);
-		climbTalonFollower.follow(climbTalon);
+		climbMotor.setInverted(ClimbConstants.TALON_INVERTED);
+		climbFollower.setInverted(!ClimbConstants.TALON_INVERTED);
+		climbFollower.follow(climbMotor);
 
 		// initialize encoder
 		climbArmEncoder = new CANCoder(ClimbConstants.CLIMB_CAN_ID);
@@ -59,7 +57,7 @@ public class Climb extends ProfiledPIDSubsystem {
 		double calculateChange = m_controller.calculate(climbArmEncoder.getAbsolutePosition(), goalPose);
 		double climbFF = climbArmFeedForward.calculate(m_controller.getSetpoint().position,
 				m_controller.getSetpoint().velocity);
-		climbTalon.setVoltage(calculateChange + climbFF);
+		climbMotor.setVoltage(calculateChange + climbFF);
 	}
 
 	@Override
@@ -70,9 +68,9 @@ public class Climb extends ProfiledPIDSubsystem {
 		return climbArmEncoder.getAbsolutePosition() + ClimbConstants.BASE_POSE;
 	}
 
-	public void climbUp() { climbTalon.set(ClimbConstants.CLIMB_SLOW_SPEED); }
-	public void climbDown() { climbTalon.set(ClimbConstants.CLIMB_SPEED); }
-	public void stopClimb() { climbTalon.set(ClimbConstants.CLIMB_STALL_SPEED); }
+	public void climbUp() { climbMotor.set(ClimbConstants.CLIMB_SLOW_SPEED); }
+	public void climbDown() { climbMotor.set(ClimbConstants.CLIMB_SPEED); }
+	public void stopClimb() { climbMotor.set(ClimbConstants.CLIMB_STALL_SPEED); }
 
 	@Override
 	public void periodic() {

@@ -35,8 +35,6 @@ public class AutoShoot extends CommandBase {
   public void execute() {
     if(flywheel.isAtSpeed()) {
       hopper.startSpit();
-    } else {
-      hopper.endSpit();
     }
   }
 

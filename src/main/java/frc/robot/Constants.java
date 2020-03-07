@@ -70,20 +70,20 @@ public final class Constants {
 		public static final int ENCODER = 60;
 
 		// flywheel speed (rotations per minute)
-		public static final double SPEED = 3960.7461;
+		public static final double SPEED = 5100.7461;
 
 		// don't tune these--documentation stated constants for entering rpm
 		public static final int TICKS_PER_ROTATION = 4096; // ticks per one encoder rotation
 		public static final double SETPOINT_CONSTANT = 0.001667; // 100 ms / 1 min
 
 		// pid constants
-		public static final double kP = 0.002;
-		public static final double kI = 0;
+		public static final double kP = 0.00013;
+		public static final double kI = 0.000001;
 		public static final double kD = 0;
 
-		public static final double kS = 0.466;
-		public static final double kV = 0.00204;
-		public static final double kA = 0.000298;
+		public static final double kS = 0.616;
+		public static final double kV = 0.00195;
+		public static final double kA = 0.000291;
 		public static final double ERROR_TOLERANCE = 0;
 		public static final double SPEED_TOLERANCE = 100;
 
@@ -117,8 +117,8 @@ public final class Constants {
 	}
 	// climb
 	public static final class ClimbConstants {
-		public static final int DEPLOY_TALON = 31;
-		public static final int FOLLOWER_TALON = 32;
+		public static final int DEPLOY_MOTOR_ID = 31;
+		public static final int FOLLOWER_MOTOR_ID = 32;
 
 		// climb motor inverted
 		public static final boolean TALON_INVERTED = true;

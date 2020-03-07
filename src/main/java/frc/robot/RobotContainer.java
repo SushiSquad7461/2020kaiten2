@@ -34,7 +34,7 @@ public class RobotContainer {
   public final Flywheel s_flywheel;
 	private final Hopper s_hopper;
   public static Intake s_intake;
-  //public static Climb s_climb;
+  public static Climb s_climb;
 
 
   // initialize commands
@@ -53,7 +53,7 @@ public class RobotContainer {
     s_flywheel = new Flywheel();
 		s_hopper = new Hopper();
     s_intake = new Intake();
-    //s_climb = new Climb();
+    s_climb = new Climb();
     
     // define commands
     c_shoot = new Shoot(s_flywheel);
@@ -75,11 +75,10 @@ public class RobotContainer {
 
 	private void configureButtonBindings() {
 
-
-
-		new JoystickButton(driveController, XboxController.Button.kA.value)
-				.whenPressed(new RunCommand(s_hopper::startSpit, s_hopper))
-				.whenReleased(new RunCommand(s_hopper::endSpit, s_hopper));
+	// run hopper
+	new JoystickButton(driveController, XboxController.Button.kA.value)
+			.whenPressed(new RunCommand(s_hopper::startSpit, s_hopper))
+			.whenReleased(new RunCommand(s_hopper::endSpit, s_hopper));
     
         // intake
     new JoystickButton(operatorController, XboxController.Button.kA.value)
@@ -91,13 +90,13 @@ public class RobotContainer {
             .whenPressed(new RunCommand(s_intake::unVore, s_intake))
             .whenReleased(new RunCommand(s_intake::stopVore, s_intake));
     
-    /*new JoystickButton(driveController, XboxController.Button.kY.value)
+    new JoystickButton(driveController, XboxController.Button.kY.value)
             .whenPressed(new InstantCommand(s_climb::climbUp))
             .whenReleased(new InstantCommand(s_climb::stopClimb));
 
     new JoystickButton(driveController, XboxController.Button.kB.value)
             .whenPressed(new InstantCommand(s_climb::climbDown))
-            .whenReleased(new InstantCommand(s_climb::stopClimb));*/
+            .whenReleased(new InstantCommand(s_climb::stopClimb));
 	}
 
 	public SequentialCommandGroup getAutonomousCommand() {
