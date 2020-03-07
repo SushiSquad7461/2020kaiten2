@@ -97,7 +97,13 @@ public class RobotContainer {
     new JoystickButton(driveController, XboxController.Button.kB.value)
             .whenPressed(new InstantCommand(s_climb::climbDown))
             .whenReleased(new InstantCommand(s_climb::stopClimb));
+
+		new JoystickButton(driveController, XboxController.Button.kX.value)
+				.whenPressed(new InstantCommand(s_climb::resetClimb))
+				.whenReleased(new InstantCommand(s_climb::stopClimb));
 	}
+
+
 
 	public SequentialCommandGroup getAutonomousCommand() {
 		return new SequentialCommandGroup(
