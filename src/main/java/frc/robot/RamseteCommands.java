@@ -95,7 +95,7 @@ public class RamseteCommands {
 
 	public SequentialCommandGroup manualDriveShoot() {
 		return new SequentialCommandGroup(
-				new RunCommand(() -> m_container.s_drive.curveDrive(0.7, 0, false)).withTimeout(7),
+				//new RunCommand(() -> m_container.s_drive.curveDrive(0.7, 0, false), m_container.s_drive).withTimeout(7),
 				m_container.c_shoot);
 	}
 

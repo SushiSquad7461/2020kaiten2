@@ -70,20 +70,20 @@ public final class Constants {
 		public static final int ENCODER_A = 60;
 
 		// flywheel speed (rotations per minute)
-		public static final double SPEED = 4000.7461;
+		public static final double SPEED = 5100.7461; //5026 HITTING RIM OR GOING THROUGH
 
 		// don't tune these--documentation stated constants for entering rpm
 		public static final int TICKS_PER_ROTATION = 4096; // ticks per one encoder rotation
 		public static final double SETPOINT_CONSTANT = 0.001667; // 100 ms / 1 min
 
 		// pid constants
-		public static final double kP = 0;
-		public static final double kI = 0;
+		public static final double kP = 0.00013;
+		public static final double kI = 0.000001;
 		public static final double kD = 0;
 
-		public static final double kS = 0.466;
-		public static final double kV = 0.00204;
-		public static final double kA = 0.000298;
+		public static final double kS = 0.616;
+		public static final double kV = 0.00195;
+		public static final double kA = 0.000291;
 		public static final double ERROR_TOLERANCE = 0;
 
 		// timeout value for parameter configs
@@ -119,10 +119,10 @@ public final class Constants {
 		public static final int FAST_ID = 1;
 		public static final int SLOW_ID = 6;
 
-		public static final double MAX_SPEED = 0.9;
-		public static final double SLOW_SPEED = 0.4;
-		public static final double REVERSE_SPEED = -0.6;
-		public static final double STOP_SPEED = -0.1;
+		public static final double MAX_SPEED = -1;
+		public static final double SLOW_SPEED = -0.7;
+		public static final double REVERSE_SPEED = 0.6;
+		public static final double STOP_SPEED = 0;
 
 		public static final int CONFIG_TIMEOUT = 30;
 		public static final int CURRENT_SPIKE = 70;

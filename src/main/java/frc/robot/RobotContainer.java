@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.AutoShoot;
 import frc.robot.commands.Shoot;
 import frc.robot.subsystems.superstructure.*;
 import frc.robot.commands.ExampleCommand;
@@ -26,6 +27,7 @@ public class RobotContainer {
 	public final Drivetrain s_drive;
 
 	public final Shoot c_shoot;
+	public final AutoShoot c_autoShoot;
 
 	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -40,6 +42,7 @@ public class RobotContainer {
 		s_flywheel = new Flywheel();
 
 		c_shoot = new Shoot(s_flywheel, s_hopper);
+		c_autoShoot = new AutoShoot(s_flywheel, s_hopper);
 
 		s_drive.setDefaultCommand(new RunCommand(() -> s_drive.curveDrive(
 				OI.getTriggerOutput(driveController),
@@ -55,9 +58,9 @@ public class RobotContainer {
 				.whenPressed(new RunCommand(s_intake::startVore, s_intake))
 				.whenReleased(new RunCommand(s_intake::stopVore, s_intake));
 
-		new JoystickButton(operatorController, XboxController.Button.kX.value)
-				.whenPressed(new RunCommand(s_intake::startVore, s_intake))
-				.whenReleased(new RunCommand(s_intake::stopVore, s_intake));
+		//new JoystickButton(operatorController, XboxController.Button.kX.value)
+		//		.whenPressed(new RunCommand(s_intake::startVore, s_intake))
+		//		.whenReleased(new RunCommand(s_intake::stopVore, s_intake));
 
 		new JoystickButton(operatorController, XboxController.Button.kY.value)
 				.whenPressed(new RunCommand(s_intake::unVore, s_intake))
@@ -84,7 +87,7 @@ public class RobotContainer {
 				)
 				.whenReleased(new RunCommand(s_hopper::endSpit, s_hopper));*/
 
-		new JoystickButton(driveController, XboxController.Button.kA.value)
+		new JoystickButton(operatorController, XboxController.Button.kX.value)
 				.whenPressed(new RunCommand(s_hopper::startSpit, s_hopper))
 				.whenReleased(new RunCommand(s_hopper::endSpit, s_hopper));
 
@@ -95,6 +98,6 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		return null;
+		return c_autoShoot;
 	}
 }

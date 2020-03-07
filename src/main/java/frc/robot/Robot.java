@@ -20,19 +20,20 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.Flywheel;
 
 public class Robot extends TimedRobot {
-  private RamseteCommands ramsete;
+	public RobotContainer m_robotContainer;
+  //private RamseteCommands ramsete;
   private Command m_autonomousCommand;
-  public RobotContainer m_robotContainer;
+
   private SendableChooser<SequentialCommandGroup> autoChooser;
 
   @Override
   public void robotInit() {
     autoChooser = new SendableChooser<>();
     m_robotContainer = new RobotContainer();
-    ramsete = new RamseteCommands(m_robotContainer);
-    autoChooser.setDefaultOption("Example path", ramsete.ExampleAuto());
-    autoChooser.addOption("o, s8, mTr, 8b", ramsete.Offensive1());
-    autoChooser.addOption("drive up and shoot", ramsete.manualDriveShoot());
+    //ramsete = new RamseteCommands(m_robotContainer);
+    //autoChooser.setDefaultOption("Example path", ramsete.ExampleAuto());
+    //autoChooser.addOption("o, s8, mTr, 8b", ramsete.Offensive1());
+    //autoChooser.addOption("test shoot", ramsete.manualDriveShoot());
     /*
     autoChooser.addOption("o, s8, mM, 8b", ramsete.Offensive2());
     autoChooser.addOption("d, s0, oTr/M, 13b", ramsete.Defensive1());
@@ -62,7 +63,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = autoChooser.getSelected();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }

@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -8,15 +9,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.superstructure.Flywheel;
 import frc.robot.subsystems.superstructure.Hopper;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class Shoot extends CommandBase {
+public class AutoShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Flywheel flywheel;
   private final Hopper hopper;
@@ -27,7 +26,7 @@ public class Shoot extends CommandBase {
    * @param flywheel The subsystem used by this command.
    * @param hopper The subsystem used by this command.
    */
-  public Shoot(Flywheel flywheel, Hopper hopper) {
+  public AutoShoot(Flywheel flywheel, Hopper hopper) {
     this.flywheel = flywheel;
     this.hopper = hopper;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -43,19 +42,16 @@ public class Shoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  	/*
     if(flywheel.isAtSpeed()) {
       hopper.startSpit();
-    } else {
-      hopper.endSpit();
-    } */
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     flywheel.stop();
-    // hopper.endSpit();
+    hopper.endSpit();
   }
 
   // Returns true when the command should end.
