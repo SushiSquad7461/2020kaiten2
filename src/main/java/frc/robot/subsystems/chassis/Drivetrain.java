@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -28,13 +29,13 @@ public class Drivetrain extends SubsystemBase {
 
 	// define variables
 	private CANSparkMax frontLeft, frontRight, backLeft, backRight;
-	private CANCoder leftEncoder, rightEncoder;
+	//private CANCoder leftEncoder, rightEncoder;
 	private AHRS nav;
 
 	private boolean driveInverted = false;
 	private boolean slowMode = false;
 	private DifferentialDrive differentialDrive;
-	private DifferentialDriveKinematics driveKinematics;
+	public DifferentialDriveKinematics driveKinematics;
 	private DifferentialDriveOdometry driveOdometry;
 	private SimpleMotorFeedforward leftFeedforward, rightFeedforward;
 	private PIDController leftController, rightController;
@@ -54,8 +55,8 @@ public class Drivetrain extends SubsystemBase {
 		backLeft = new CANSparkMax(Constants.Drivetrain.BL_ID, brushless);
 		backRight = new CANSparkMax(Constants.Drivetrain.BR_ID, brushless);
 
-		leftEncoder = new CANCoder(Constants.Drivetrain.ENCODER_LEFT);
-		rightEncoder = new CANCoder(Constants.Drivetrain.ENCODER_RIGHT);
+		//leftEncoder = new CANCoder(Constants.Drivetrain.ENCODER_LEFT);
+		//rightEncoder = new CANCoder(Constants.Drivetrain.ENCODER_RIGHT);
 
 		resetEncoders();
 		nav = new AHRS(SPI.Port.kMXP);
@@ -104,6 +105,7 @@ public class Drivetrain extends SubsystemBase {
 		if (slowMode) {
 			differentialDrive.curvatureDrive(linearVelocity * Constants.Drivetrain.SLOW_SPEED, angularVelocity, isQuickTurn);
 		} else {
+			SmartDashboard.putNumber("auto velo", 5);
 			differentialDrive.curvatureDrive(linearVelocity, angularVelocity, isQuickTurn);
 		}
 	}
@@ -127,11 +129,11 @@ public class Drivetrain extends SubsystemBase {
 		leftFeedforwardOutput = leftFeedforward.calculate(wheelSpeeds.leftMetersPerSecond);
 		rightFeedforwardOutput = rightFeedforward.calculate(wheelSpeeds.rightMetersPerSecond);
 
-		leftOutput = leftController.calculate(leftEncoder.getVelocity(), wheelSpeeds.leftMetersPerSecond);
-		rightOutput = rightController.calculate(rightEncoder.getVelocity(), wheelSpeeds.rightMetersPerSecond);
+		//leftOutput = leftController.calculate(leftEncoder.getVelocity(), wheelSpeeds.leftMetersPerSecond);
+		//rightOutput = rightController.calculate(rightEncoder.getVelocity(), wheelSpeeds.rightMetersPerSecond);
 
-		frontLeft.setVoltage(leftOutput + leftFeedforwardOutput);
-		frontRight.setVoltage(rightOutput + rightFeedforwardOutput);
+		//frontLeft.setVoltage(leftOutput + leftFeedforwardOutput);
+		//frontRight.setVoltage(rightOutput + rightFeedforwardOutput);
 
 	}
 
@@ -152,13 +154,13 @@ public class Drivetrain extends SubsystemBase {
 
 	// reset the encoders
 	public void resetEncoders() {
-		leftEncoder.setPosition(0);
-		rightEncoder.setPosition(0);
+		//leftEncoder.setPosition(0);
+		//rightEncoder.setPosition(0);
 	}
 
 	// update drive odometry
 	public void updateOdometry() {
-		driveOdometry.update(getAngle(), leftEncoder.getPosition(), rightEncoder.getPosition());
+		//driveOdometry.update(getAngle(), leftEncoder.getPosition(), rightEncoder.getPosition());
 	}
 
 	// reset odometry
@@ -174,7 +176,8 @@ public class Drivetrain extends SubsystemBase {
 
 	// return velocities of respective drive sides
 	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-		return new DifferentialDriveWheelSpeeds(leftEncoder.getVelocity(), rightEncoder.getVelocity());
+		//return new DifferentialDriveWheelSpeeds(leftEncoder.getVelocity(), rightEncoder.getVelocity());
+		return null;
 	}
 
 	// tank drive with voltage input

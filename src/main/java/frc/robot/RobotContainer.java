@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.AutoDrive;
+import frc.robot.commands.AutoShoot;
 import frc.robot.commands.Shoot;
 import frc.robot.subsystems.superstructure.*;
 import frc.robot.commands.ExampleCommand;
@@ -28,16 +30,18 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
 	// initialize subsystems
 	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Drivetrain s_drive;
+  public final Drivetrain s_drive;
   public final Flywheel s_flywheel;
 	private final Hopper s_hopper;
   public static Intake s_intake;
-  public static Climb s_climb;
+  //public static Climb s_climb;
 
 
   // initialize commands
 	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   public final Shoot c_shoot;
+  public final AutoShoot c_autoShoot;
+  public final AutoDrive c_autoDrive;
 
 	// create joysticks
 	public static final XboxController driveController = new XboxController(OI.DRIVE_CONTROLLER);
@@ -49,10 +53,12 @@ public class RobotContainer {
     s_flywheel = new Flywheel();
 		s_hopper = new Hopper();
     s_intake = new Intake();
-    s_climb = new Climb();
+    //s_climb = new Climb();
     
     // define commands
     c_shoot = new Shoot(s_flywheel);
+    c_autoShoot = new AutoShoot(s_flywheel, s_hopper);
+    c_autoDrive = new AutoDrive(s_drive);
     
     // set default commands
     s_flywheel.setDefaultCommand(c_shoot);
@@ -62,10 +68,14 @@ public class RobotContainer {
 			OI.getLeftJoystickAxis(driveController),
 			driveController.getXButton()), s_drive));
 
+    //new InstantCommand(() -> s_climb.stopClimb());
+
     configureButtonBindings();
 	}
 
 	private void configureButtonBindings() {
+
+
 
 		new JoystickButton(driveController, XboxController.Button.kA.value)
 				.whenPressed(new RunCommand(s_hopper::startSpit, s_hopper))
@@ -81,17 +91,26 @@ public class RobotContainer {
             .whenPressed(new RunCommand(s_intake::unVore, s_intake))
             .whenReleased(new RunCommand(s_intake::stopVore, s_intake));
     
-    new JoystickButton(driveController, XboxController.Button.kY.value)
+    /*new JoystickButton(driveController, XboxController.Button.kY.value)
             .whenPressed(new InstantCommand(s_climb::climbUp))
             .whenReleased(new InstantCommand(s_climb::stopClimb));
 
     new JoystickButton(driveController, XboxController.Button.kB.value)
             .whenPressed(new InstantCommand(s_climb::climbDown))
-            .whenReleased(new InstantCommand(s_climb::stopClimb));
+            .whenReleased(new InstantCommand(s_climb::stopClimb));*/
 	}
 
-	public Command getAutonomousCommand() {
-		return m_autoCommand;
+	public SequentialCommandGroup getAutonomousCommand() {
+		return new SequentialCommandGroup(
+				new RunCommand(() -> s_drive.curveDrive(0.7, 0, false),
+						s_drive).withTimeout(4),
+				c_autoShoot);
+	}
+
+	public SequentialCommandGroup getSecondAutoCommand() {
+		return new SequentialCommandGroup(
+				new RunCommand(() -> s_drive.curveDrive(0.7, 0, false),
+						s_drive).withTimeout(4));
 	}
 
 }

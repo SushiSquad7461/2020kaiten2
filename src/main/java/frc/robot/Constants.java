@@ -97,9 +97,9 @@ public final class Constants {
 		public static final int FAST_ID = 1;
 		public static final int SLOW_ID = 6;
 
-		public static final double MAX_SPEED = 0.6;
-		public static final double SLOW_SPEED = 0.2;
-		public static final double REVERSE_SPEED = -0.6;
+		public static final double MAX_SPEED = -0.6;
+		public static final double SLOW_SPEED = -0.2;
+		public static final double REVERSE_SPEED = 0.6;
 
 		public static final int CONFIG_TIMEOUT = 30;
 		public static final int CURRENT_SPIKE = 70;
@@ -108,7 +108,7 @@ public final class Constants {
   // intake
 	public static final class Intake {
 		public static final int MOTOR_ID = 2;
-		public static final double MAX_SPEED = -0.85;
+		public static final double MAX_SPEED = -0.65;
 	}
   
 	// camera
@@ -121,7 +121,7 @@ public final class Constants {
 		public static final int FOLLOWER_TALON = 32;
 
 		// climb motor inverted
-		public static final boolean TALON_INVERTED = false;
+		public static final boolean TALON_INVERTED = true;
 
 		// climb encoder CAN ID
 		public static final int CLIMB_CAN_ID = 42;
@@ -154,10 +154,24 @@ public final class Constants {
 
 		public static final double CLIMB_SPEED = -1.0;
 		public static final double CLIMB_SLOW_SPEED = -0.2;
+		public static final double CLIMB_STALL_SPEED = 0.15;
 
 		// climb heights
 		public static final double MAX_SPRING_HEIGHT = 10;
 
+	}
+
+	public static final class Ramsete {
+		public static final double RAMSETE_B = 2;
+		public static final double RAMSETE_ZETA = 0.7;
+		public static final double kP_VEL_LEFT = 0.001;
+		public static final double kP_VEL_RIGHT = 0.001;
+		public static final double MAX_VOLTAGE_CONSTRAINT = 40;
+		public static final double kS = 0.166;
+		public static final double kV = 0.0315;
+		public static final double kA = 0.00743;
+		public static final double MAX_METERS_PER_SECOND = 5.45592;
+		public static final double MAX_ACCEL_METERS_PER_SECOND_SQUARED = 4.0;
 	}
 
 }

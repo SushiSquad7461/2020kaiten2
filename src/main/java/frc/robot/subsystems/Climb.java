@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
@@ -19,8 +21,10 @@ import frc.robot.Constants.ClimbConstants;
 public class Climb extends ProfiledPIDSubsystem {
 
 	// initialize the motors
-	private final WPI_TalonSRX climbTalon;
-	private final WPI_TalonSRX climbTalonFollower;
+	/*private final WPI_TalonSRX climbTalon;
+	private final WPI_TalonSRX climbTalonFollower;*/
+	private final CANSparkMax climbTalon;
+	private final CANSparkMax climbTalonFollower;
 	private final CANCoder climbArmEncoder;
 	private final ElevatorFeedforward climbArmFeedForward;
 
@@ -30,15 +34,14 @@ public class Climb extends ProfiledPIDSubsystem {
 				new TrapezoidProfile.Constraints(ClimbConstants.MAX_VELOCITY_RAD_PER_SEC, ClimbConstants.MAX_ACCEL))
 				, ClimbConstants.BASE_POSE);
 		// define the motor controllers
-		climbTalon = new WPI_TalonSRX(ClimbConstants.DEPLOY_TALON);
-		climbTalonFollower = new WPI_TalonSRX(ClimbConstants.FOLLOWER_TALON);
+		climbTalon = new CANSparkMax(ClimbConstants.DEPLOY_TALON, CANSparkMaxLowLevel.MotorType.kBrushless);
+		climbTalonFollower = new CANSparkMax(ClimbConstants.FOLLOWER_TALON, CANSparkMaxLowLevel.MotorType.kBrushless);
+		/*climbTalon = new WPI_TalonSRX(ClimbConstants.DEPLOY_TALON);
+		climbTalonFollower = new WPI_TalonSRX(ClimbConstants.FOLLOWER_TALON);*/
 
 		// configure motors
-		climbTalon.configFactoryDefault();
-		climbTalonFollower.configFactoryDefault();
-
-		climbTalon.setSafetyEnabled(false);
-		climbTalonFollower.setSafetyEnabled(false);
+		/*climbTalon.setSafetyEnabled(false);
+		climbTalonFollower.setSafetyEnabled(false);*/
 
 		climbTalon.setInverted(ClimbConstants.TALON_INVERTED);
 		climbTalonFollower.setInverted(!ClimbConstants.TALON_INVERTED);
@@ -69,8 +72,7 @@ public class Climb extends ProfiledPIDSubsystem {
 
 	public void climbUp() { climbTalon.set(ClimbConstants.CLIMB_SLOW_SPEED); }
 	public void climbDown() { climbTalon.set(ClimbConstants.CLIMB_SPEED); }
-
-	public void stopClimb() { climbTalon.set(0); }
+	public void stopClimb() { climbTalon.set(ClimbConstants.CLIMB_STALL_SPEED); }
 
 	@Override
 	public void periodic() {
