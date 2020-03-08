@@ -76,7 +76,7 @@ public class RobotContainer {
 	private void configureButtonBindings() {
 
 	// run hopper
-	new JoystickButton(driveController, XboxController.Button.kA.value)
+	new JoystickButton(operatorController, XboxController.Button.kA.value)
 			.whenPressed(new RunCommand(s_hopper::startSpit, s_hopper))
 			.whenReleased(new RunCommand(s_hopper::endSpit, s_hopper));
     
@@ -98,7 +98,7 @@ public class RobotContainer {
             .whenPressed(new InstantCommand(s_climb::climbDown))
             .whenReleased(new InstantCommand(s_climb::stopClimb));
 
-		new JoystickButton(driveController, XboxController.Button.kX.value)
+		new JoystickButton(driveController, XboxController.Button.kStart.value)
 				.whenPressed(new InstantCommand(s_climb::resetClimb))
 				.whenReleased(new InstantCommand(s_climb::stopClimb));
 	}

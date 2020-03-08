@@ -42,8 +42,15 @@ public class Climb extends ProfiledPIDSubsystem {
 		/*climbTalon.setSafetyEnabled(false);
 		climbTalonFollower.setSafetyEnabled(false);*/
 
-		climbMotor.setInverted(ClimbConstants.TALON_INVERTED);
-		climbFollower.setInverted(!ClimbConstants.TALON_INVERTED);
+		// climbMotor.restoreFactoryDefaults();
+		// climbFollower.restoreFactoryDefaults();
+
+		// climbMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+		// climbFollower.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+		// climbMotor.setInverted(ClimbConstants.TALON_INVERTED);
+		//
+		// climbFollower.setInverted(ClimbConstants.TALON_INVERTED);
 		// climbFollower.follow(climbMotor);
 
 		// initialize encoder
@@ -71,19 +78,19 @@ public class Climb extends ProfiledPIDSubsystem {
 
 	public void climbUp() {
 		climbMotor.set(ClimbConstants.CLIMB_SLOW_SPEED);
-		climbFollower.set(-ClimbConstants.CLIMB_SLOW_SPEED);
+		climbFollower.set(ClimbConstants.CLIMB_SLOW_SPEED);
 	}
 	public void climbDown() {
 		climbMotor.set(ClimbConstants.CLIMB_SPEED);
-		climbFollower.set(-ClimbConstants.CLIMB_SPEED);
+		climbFollower.set(ClimbConstants.CLIMB_SPEED);
 	}
 	public void stopClimb() {
 		climbMotor.set(0); // ClimbConstants.CLIMB_STALL_SPEED
 		climbFollower.set(0);
 	}
 	public void resetClimb() {
-		climbMotor.set(-ClimbConstants.CLIMB_SPEED);
-		climbFollower.set(-ClimbConstants.CLIMB_SPEED);
+		climbMotor.set(-ClimbConstants.CLIMB_SLOW_SPEED);
+		climbFollower.set(-ClimbConstants.CLIMB_SLOW_SPEED);
 	}
 
 	@Override
