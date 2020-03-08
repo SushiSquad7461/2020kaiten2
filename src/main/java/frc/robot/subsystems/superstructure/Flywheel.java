@@ -71,6 +71,8 @@ public class Flywheel extends PIDSubsystem {
 		// put revved up boolean on dashboard
 		SmartDashboard.putBoolean("flywheel at speed", isAtSpeed());
 
+		SmartDashboard.putNumber("flywheel rpm 2", this.getMeasurement());
+
 		//RobotContainer.operatorController.setRumble(GenericHID.RumbleType.kRightRumble, Math.pow(encoderMain.getVelocity() / 12000, 3));
 	}
 

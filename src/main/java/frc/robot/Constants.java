@@ -77,13 +77,13 @@ public final class Constants {
 		public static final double SETPOINT_CONSTANT = 0.001667; // 100 ms / 1 min
 
 		// pid constants
-		public static final double kP = 0.00013;
-		public static final double kI = 0.000001;
+		public static final double kP = 0.0002;
+		public static final double kI = 0.000000;
 		public static final double kD = 0;
 
-		public static final double kS = 0.616;
-		public static final double kV = 0.00195;
-		public static final double kA = 0.000291;
+		public static final double kS = 0.633;
+		public static final double kV = 0.00201;
+		public static final double kA = 0.000405;
 		public static final double ERROR_TOLERANCE = 0;
 		public static final double SPEED_TOLERANCE = 100;
 
